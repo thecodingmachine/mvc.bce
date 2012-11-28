@@ -34,8 +34,8 @@
 	     "mouf": {
 			"install": [
 			{
-				"type": "url",
-	    		"url": "src/bceInstall.php"
+				"type": "file",
+	    		"file": "src/bceInstall.php"
 			}
 			]
 		}
