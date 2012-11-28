@@ -17,7 +17,7 @@
     	"mouf/utils.common.validators": ">=3.0-dev,<4.0",
     	"mouf/utils.common.getvars": ">=2.0-dev,<3.0",
 		"mouf/utils.common.formatters": ">=3.0-dev,<4.0",
-		"mouf/database.daointerface": ">=2.0-dev,<3.0",
+		"mouf/database.dao-interface": ">=2.0-dev,<3.0",
 		"mouf/html.utils.weblibrarymanager": ">=2.0-dev,<3.0",
 		"mouf/database.tdbm": ">=3.0-dev,<4.0",
 		"mouf/javascript.jquery.jquery": ">=1.8.2,<2.0",
