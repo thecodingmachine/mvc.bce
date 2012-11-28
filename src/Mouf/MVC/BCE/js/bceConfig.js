@@ -128,7 +128,7 @@ function refershValues(element, instanceName){
 	isNewform = true;
 	
 	jQuery.ajax({
-		url: bceSettings.rootUrl + "mouf/bceadmin/setDao",
+		url: bceSettings.rootUrl + "bceadmin/setDao",
 		data: "dao=" + jQuery(element).val() + "&instance=" + instanceName,
 		success: function(data){
 			if (data == "1"){
@@ -151,7 +151,7 @@ function refershValues(element, instanceName){
  */
 function initInstance(instanceName){
 	jQuery.ajax({
-	  url: bceSettings.rootUrl + "plugins/mvc/bce/1.0-alpha/direct/bce_utils.php",
+	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
 	  data: "q=instanceData&n="+instanceName,
 	  success: completeInstanceData,
 	  error: function(error){jQuery("#data").html();alert('error')},
@@ -732,7 +732,7 @@ function refreshBeanMethods(settings, fieldName, newDaoName){
 	 * Get the DAO data for the new DAO (ie DAO methods and related bean's getters and setters) 
 	 */
 	jQuery.ajax({
-	  url: bceSettings.rootUrl + "plugins/mvc/bce/1.0-alpha/direct/bce_utils.php",
+	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
 	  data: "q=daoData&n="+newDaoName,
 	  success: function (data){
 		  /*
