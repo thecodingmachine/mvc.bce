@@ -22,7 +22,7 @@
 		"mouf/database.tdbm": ">=3.0-dev,<4.0",
 		"mouf/javascript.jquery.jquery": ">=1.8.2,<2.0",
 		"mouf/javascript.jquery.jquery-ui": ">=1.8.23,<2.0",
-		"mouf/javascript.jquery.jquery-validate": ">=1.*,<2.0"
+		"mouf/javascript.jquery.jquery-validate": "~1.10"
     },
     "autoload": {
         "psr-0": {
