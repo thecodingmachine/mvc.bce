@@ -1,0 +1,137 @@
+@CHARSET "ISO-8859-1";
+
+div.field-bloc{
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid gray;
+	background-color: #E6E6E6;
+	width: 790px;
+}
+div.field-value-bloc{
+	float: left;
+	min-height: 25px;
+}
+div.field-value-bloc{
+	margin-left: 10px;
+}
+div.field-value-bloc label{
+	display: block;
+	width: 120px;
+}
+div.field-title{
+	padding: 5px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+select.multiselect{
+	width: 400px;
+	min-height: 200px;
+}
+div.field-title{
+	background-color: white;
+}
+#tabs{
+	padding: 10px;
+}
+#data .new div.field-title{
+	background-color: #6DE26D;
+}
+#tabs ul .ui-widget-header .ui-state-active{
+	background: none;
+	background-color: #FFF;
+	border: none;
+}
+#tabs ul .ui-state-default.ui-state-active a{
+	color: black;
+}
+#tabs ul .ui-state-hover a:HOVER{
+	color: black;
+}
+#tabs ul .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited{
+	color: #D51034;
+}
+#tabs ul .ui-state-default.ui-tabs-selected{
+	background-color: white;
+}
+#tabs ul .ui-state-default{
+	background: none;
+	background-color: #AAAAAA;
+	border: none;
+}
+#tabs ul.ui-widget-header{
+	background: none;
+	background-color: #AAAAAA;
+	border: none;
+	margin-top: 20px;
+}
+
+#tabs.ui-widget-content{
+	background: none;
+	background-color: #AAA;
+}
+#tabs{
+	padding-right: 5px;
+}
+.naked{
+	border: none;
+	color: #D51034;
+	background: none;
+	padding: 0;
+}
+.naked.set-fk,
+.naked.set-pk,
+.naked.unset-fk{
+	width: 20px;
+	height: 20px;
+}
+.naked.set-fk{
+	background: url(../icons/fk.png);
+}
+.naked.set-pk{
+	background: url(../icons/pk.png);
+}
+.naked.unset-fk{
+	background: url(../icons/fk-stop.png);
+}
+button{
+	cursor: pointer;
+}
+#descriptors-tab, #config-tab{
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+#descriptors-tab{
+	padding: 0;
+}
+div.addm2m{
+	background: url(../icons/add.png) 4px center no-repeat #424242;
+	height: 20;
+	padding-left: 20px;
+	text-align: right;
+	width: 50px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	padding: 7px;
+	float: right;
+	cursor: pointer;
+	color: #7AB627;
+}
+#tabs .ui-multiselect li{
+	background: url("images/ui-bg_glass_100_f6f6f6_1x400.png") repeat-x scroll 50% 50% #F6F6F6;
+}
+div.expand.expanded{
+	background-position: bottom center;
+}
+div.expand{
+	float: left;
+	height: 20px;
+	width: 20px;
+	background: url("../icons/expand.png") top center no-repeat transparent;
+	margin-right: 15px;
+}
+div.field-title div div.name-val{
+	float: left;
+	margin-left: 20px;
+	font-variant: small-caps;
+}

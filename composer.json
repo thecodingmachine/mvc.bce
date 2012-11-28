@@ -1,0 +1,43 @@
+{
+    "name": "mouf/mvc.bce",
+    "description": "BCE is made to make your live easy. It will help you in building forms very quickly, handles form rendering, both client and server-side validation, and persistance.",
+    "keywords": ["form", "crud", "form builder", "bean"],
+    "homepage": "https://github.com/thecodingmachine/mvc.bce",
+    "type": "mouf-library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Négrier",
+            "email": "d.negrier@thecodingmachine.com",
+            "homepage": "http://mouf-php.com"
+        }
+    ],
+    "require": {
+    	"php": ">=5.3.0",
+    	"mouf/utils.common.validators": ">=3.0-dev,<4.0",
+    	"mouf/utils.common.getvars": ">=2.0-dev,<3.0",
+		"mouf/database.datasource.formatters": ">=3.0-dev,<4.0",
+		"mouf/database.daointerface": ">=2.0-dev,<3.0",
+		"mouf/html.utils.weblibrarymanager": ">=2.0-dev,<3.0",
+		"mouf/database.tdbm": ">=3.0-dev,<4.0",
+		"mouf/javascript.jquery.jquery": ">=1.8.2,<2.0",
+		"mouf/javascript.jquery.jquery-ui": ">=1.8.23,<2.0",
+		"mouf/javascript.jquery.jquery-validate": ">=1.*,<2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Mouf": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+	     "mouf": {
+			"install": [
+			{
+				"type": "url",
+	    		"url": "src/bceInstall.php"
+			}
+			]
+		}
+    }
+}
