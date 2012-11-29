@@ -1,6 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\classes;
 
+use Mouf\MoufManager;
+use Mouf;
+
 /**
  * This renderer handles date / timestamp input fields with the jQuery DatePicker
  * @ApplyTo { "php" :[ "timestamp", "datetime", "date" ] }

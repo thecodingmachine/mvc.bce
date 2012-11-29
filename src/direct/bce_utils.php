@@ -1,4 +1,6 @@
 <?php
+use Mouf\Database\DAOInterface;
+
 use Mouf\Moufspector;
 
 use Mouf\Reflection\MoufReflectionClass;
@@ -561,11 +563,11 @@ class BCEUtils{
 		$instance = MoufManager::getMoufManager()->getInstanceDescriptor($descriptor->getName());
 		
 		//Instanciate the bean with a class that matches the descriptor instance's class
-		if ($descriptor->getClassName() == 'ForeignKeyFieldDescriptor'){
+		if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor'){
 			$fieldData = new ForeignKeyFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'BaseFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor'){
 			$fieldData = new BaseFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'Many2ManyFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
 			$fieldData = new Many2ManyFieldDescriptorBean();
 		}else{
 			$isCustom = true;
@@ -586,17 +588,17 @@ class BCEUtils{
 			 * Load BaseFieldDescriptor data
 			 * TODO : find a better way than comparing class names, use instance of, is_a or is_subclass... but one that works :( 
 			 */
-			if ($descriptor->getClassName() != 'Many2ManyFieldDescriptor'){
+			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
 				$fieldData->getter = $instance->getProperty('getter')->getValue();
 				$fieldData->setter = $instance->getProperty('setter')->getValue();
 			}
 			
 			/* load FK descriptor specific attributes */
-			if ($descriptor->getClassName() == 'ForeignKeyFieldDescriptor'){
+			if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor'){
 				$this->loadFKDescriptorValues($fieldData, $instance);
 			}
 			/* load M2M descriptor specific attributes */
-			else if ($descriptor->getClassName() == 'Many2ManyFieldDescriptor'){
+			else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
 				$this->loadM2MDescriptorValues($fieldData, $instance);
 			}
 		}

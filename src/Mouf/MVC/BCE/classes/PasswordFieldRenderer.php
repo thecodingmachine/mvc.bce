@@ -5,7 +5,6 @@ namespace Mouf\MVC\BCE\classes;
 /**
  * Base class for rendering simple text fields
  * @Component
- * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
 class PasswordFieldRenderer implements SingleFieldRendererInterface {
 	

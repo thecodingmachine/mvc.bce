@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE;
+use Mouf\MVC\BCE\classes\FieldDescriptor;
 use Mouf\Database\DAOInterface;
+use Mouf;
 
 /**
  * 

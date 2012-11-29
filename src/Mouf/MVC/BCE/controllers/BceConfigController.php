@@ -1,10 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\controllers;
 
+use Mouf\MoufInstanceDescriptor;
+use Mouf\MoufManager;
 use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
-
 use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
-
 use Mouf\Reflection\MoufReflectionProxy;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Controllers\AbstractMoufInstanceController;
@@ -193,7 +193,7 @@ class BceConfigController extends AbstractMoufInstanceController {
 		
 		$this->moufManager->rewriteMouf();
 		
-		header("Location: " . ROOT_URL . "mouf/bceadmin/?name=" . $_POST['formInstanceName'] . "&success=1");
+		header("Location: " . ROOT_URL . "bceadmin/?name=" . $_POST['formInstanceName'] . "&success=1");
 	}
 	
 	/**
