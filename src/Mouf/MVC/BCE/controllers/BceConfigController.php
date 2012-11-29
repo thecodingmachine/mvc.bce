@@ -205,13 +205,13 @@ class BceConfigController extends AbstractMoufInstanceController {
 		if ($fieldData['new'] != "false"){
 			switch ($fieldData['type']) {
 				case "base":
-					$className = "BaseFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor";
 				break;
 				case "fk":
-					$className = "ForeignKeyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor";
 				break;
 				case "m2m":
-					$className = "Many2ManyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor";
 				break;
 				default:
 					throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
