@@ -1,6 +1,11 @@
 <?php
 namespace Mouf\MVC\BCE\controllers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
+
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+
+use Mouf\Reflection\MoufReflectionProxy;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Controllers\AbstractMoufInstanceController;
 /**
@@ -56,6 +61,12 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @var HtmlBlock
 	 */
 	public $content;
+	
+	/**
+	 *
+	 * @var WebLibraryManager
+	 */
+	public $libraryManager;
 
 	/**
 	 * Admin page used to display the DAO generation form.
@@ -83,24 +94,30 @@ class BceConfigController extends AbstractMoufInstanceController {
 			$this->mainDAOName = null;
 			$this->mainDAOClass = null;
 		}
-		
 		//Initialize descriptor's attributes possible values
-		$this->daoInstances = MoufReflectionProxy::getInstances("DAOInterface", false);
-		$this->singleRenderers = MoufReflectionProxy::getInstances("SingleFieldRendererInterface", false);
-		$this->multiRenderers = MoufReflectionProxy::getInstances("MultiFieldRendererInterface", false);
-		$this->formatters = MoufReflectionProxy::getInstances("FormatterInterface", false);
-		$this->validators = MoufReflectionProxy::getInstances("ValidatorInterface", false);
+		$this->daoInstances = MoufReflectionProxy::getInstances("Mouf\\Database\\DAOInterface", false);
+		$this->singleRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\SingleFieldRendererInterface", false);
+		$this->multiRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\MultiFieldRendererInterface", false);
+		$this->formatters = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Formatters\\FormatterInterface", false);
+		$this->validators = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Validators\\ValidatorInterface", false);
 
 		//Initialize form's attributes possible values
-		$this->formRenderers = MoufReflectionProxy::getInstances("BCERendererInterface", false);
-		$this->validationHandlers = MoufReflectionProxy::getInstances("JsValidationHandlerInterface", false);
-		$this->validationHandlers = MoufReflectionProxy::getInstances("JsValidationHandlerInterface", false);
+		$this->formRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderer\\BCERendererInterface", false);
+		$this->validationHandlers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\validators\\JsValidationHandlerInterface", false);
 		
-		$this->template->addJsFile(ROOT_URL."plugins/mvc/bce/1.0-alpha/js/bceConfig.js");
-		$this->template->addJsFile(ROOT_URL."plugins/mvc/bce/1.0-alpha/js/ui.multiselect.js");
-		$this->template->addCssFile("plugins/mvc/bce/1.0-alpha/views/adminbce.css");
-		$this->template->addCssFile("plugins/mvc/bce/1.0-alpha/js/ui.multiselect.css");
-		$this->content->addFile(dirname(__FILE__)."/../views/bceConfig.php", $this);
+		$this->libraryManager->addLibrary(
+			new WebLibrary(
+				array(
+					"../mvc.bce/js/bceConfig.js",
+					"../mvc.bce/js/ui.multiselect.js"
+				),
+				array(
+					"../mvc.bce/src/views/adminbce.css",
+					"../mvc.bce/js/ui.multiselect.css"
+				)
+			)
+		);
+		$this->content->addFile(dirname(__FILE__)."/../../../../views/bceConfig.php", $this);
 		$this->template->toHtml();
 	}
 	

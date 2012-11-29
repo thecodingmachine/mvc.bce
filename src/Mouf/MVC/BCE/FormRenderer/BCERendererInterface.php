@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\form_renderer;
+namespace Mouf\MVC\BCE\FormRenderer;
 
 use Mouf\MVC\BCE\BCEForm;
 

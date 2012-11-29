@@ -1,4 +1,8 @@
 <?php
+use Mouf\Moufspector;
+
+use Mouf\Reflection\MoufReflectionClass;
+use Mouf\MoufManager;
 use Mouf\MVC\BCE\admin\CustomFieldDescriptorBean;
 use Mouf\MVC\BCE\admin\Many2ManyFieldDescriptorBean;
 use Mouf\MVC\BCE\admin\BaseFieldDescriptorBean;
@@ -92,7 +96,7 @@ class BCEUtils{
 	 * @return array
 	 */
 	private function initDaos(){
-		$daos = Moufspector::getComponentsList("DAOInterface");
+		$daos = Moufspector::getComponentsList("Mouf\\Database\\DAOInterface");
 		foreach ($daos as $className) {
 			$descriptor = new MoufReflectionClass($className);
 			$table = $descriptor->getAnnotations("dbTable");
@@ -133,15 +137,15 @@ class BCEUtils{
 	}
 	
 	private function initValidators(){
-		$this->validators = $this->initHandler('ValidatorInterface');
+		$this->validators = $this->initHandler('Mouf\\Utils\\Common\\Validators\\ValidatorInterface');
 	}
 	
 	private function initRenderers(){
-		$this->renderers = $this->initHandler('FieldRendererInterface');
+		$this->renderers = $this->initHandler('Mouf\\MVC\\BCE\\classes\\FieldRendererInterface');
 	}
 	
 	private function initFormatters(){
-		$this->formatters = $this->initHandler('FormatterInterface');
+		$this->formatters = $this->initHandler('Mouf\\Utils\\Common\\Formatters\\FormatterInterface');
 	}
 	
 	/**

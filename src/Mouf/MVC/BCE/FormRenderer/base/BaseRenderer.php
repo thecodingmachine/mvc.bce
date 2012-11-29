@@ -1,8 +1,9 @@
 <?php
-namespace Mouf\MVC\BCE\form_renderer\base;
+namespace Mouf\MVC\BCE\FormRenderer\base;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
 use Mouf\MVC\BCE\BCEForm;
-use Mouf\MVC\BCE\form_renderer\BCERendererInterface;
+use Mouf\MVC\BCE\FormRenderer\BCERendererInterface;
 
 /**
  * This is a simple form rendering class, using a simple field layout :
@@ -10,7 +11,7 @@ use Mouf\MVC\BCE\form_renderer\BCERendererInterface;
  * @Component
  *
  */
-class BaseRenderer implements BCERendererInterface {
+class BaseRenderer implements \Mouf\MVC\BCE\FormRenderer\BCERendererInterface {
 	
 	/**
 	 * @Property
