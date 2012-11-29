@@ -1,12 +1,13 @@
 <?php
 namespace Mouf\MVC\BCE\classes;
+use Mouf\MVC\BCE\BCEForm;
 
 /**
  * Interface to be implemented by all Descriptors of a BCE form
  * @author Kevin
  *
  */
-interface BCEFieldDescriptorInterface{
+interface BCEFieldDescriptorInterface {
 	
 	/**
 	 * Returns the name of the field as a unique identifier of that field

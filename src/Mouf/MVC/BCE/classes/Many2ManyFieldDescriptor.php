@@ -22,7 +22,7 @@ namespace Mouf\MVC\BCE\classes;
  * 
  * @Component
  */
-class Many2ManyFieldDescriptor extends FieldDescriptor{
+class Many2ManyFieldDescriptor extends FieldDescriptor {
 	
 	/**
 	 * @Property

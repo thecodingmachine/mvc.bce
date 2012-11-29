@@ -7,7 +7,7 @@ namespace Mouf\MVC\BCE\classes;
  * @Component
  * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
-class PasswordFieldRenderer implements SingleFieldRendererInterface{
+class PasswordFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * Autocomplete the field in the form.

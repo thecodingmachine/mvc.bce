@@ -3,7 +3,7 @@
 namespace Mouf\MVC\BCE\classes;
 
 
-interface SingleFieldRendererInterface extends FieldRendererInterface{
+interface SingleFieldRendererInterface extends FieldRendererInterface {
 
 	/**
 	 * (non-PHPdoc)

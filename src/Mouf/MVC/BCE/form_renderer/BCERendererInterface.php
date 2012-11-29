@@ -7,7 +7,7 @@ use Mouf\MVC\BCE\BCEForm;
  * This interface is implemented by all form renderers
  * @Component
  */
-interface BCERendererInterface{
+interface BCERendererInterface {
 	
 	/**
 	 * Main function of the Renderer: output the form's HTML

@@ -5,7 +5,7 @@ namespace Mouf\MVC\BCE\classes;
  * This interface is implemented by any field renderer
  *
  */
-interface FieldRendererInterface{
+interface FieldRendererInterface {
 	
 	/**
 	 * Main function of the FieldRenderer : return field's HTML code

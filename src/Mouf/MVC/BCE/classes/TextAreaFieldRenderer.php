@@ -7,7 +7,7 @@ namespace Mouf\MVC\BCE\classes;
  * @Component
  * @ApplyTo { "php" :[ "string" ] }
  */
-class TextAreaFieldRenderer implements SingleFieldRendererInterface{
+class TextAreaFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

@@ -1,5 +1,6 @@
 <?php
 namespace Mouf\MVC\BCE;
+use Mouf\Database\DAOInterface;
 
 /**
  * 
@@ -13,11 +14,11 @@ namespace Mouf\MVC\BCE;
  *   <li>a javascript validation handler that will generate the client side validation script</li>
  * </ul>
  * @Component
- * @ExtendedAction {"name":"Configure Form", "url":"mouf/bceadmin/", "default":true}
+ * @ExtendedAction {"name":"Configure Form", "url":"bceadmin/", "default":true}
  * @author Kevin
  *
  */
-class BCEForm{
+class BCEForm {
 	
 	/**
 	 * The main bean of the form, i.e. the object that define the edited data in the form

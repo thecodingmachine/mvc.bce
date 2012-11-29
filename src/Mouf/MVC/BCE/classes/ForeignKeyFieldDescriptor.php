@@ -12,7 +12,7 @@ namespace Mouf\MVC\BCE\classes;
  * 		  In our example, this would be the role labels the user might be affected
  * @Component
  */
-class ForeignKeyFieldDescriptor extends BaseFieldDescriptor{
+class ForeignKeyFieldDescriptor extends BaseFieldDescriptor {
 	
 	/**
 	 * 

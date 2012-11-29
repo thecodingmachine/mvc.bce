@@ -1,13 +1,16 @@
 <?php
 namespace Mouf\MVC\BCE\classes;
 
+use Mouf\MVC\BCE\BCEForm;
+use Mouf\Utils\Common\Formatters\FormatterInterface;
+
 /**
  * This class is the simpliest FieldDescriptor:
  * it handles a field that has no "connections" to other objects (
  * as user name or login for example)
  * @Component
  */
-abstract class FieldDescriptor implements BCEFieldDescriptorInterface{
+abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 
 	/**
 	 * Name of the field. This value must remain unique inside a form,

@@ -10,7 +10,7 @@ use Mouf\MVC\BCE\form_renderer\BCERendererInterface;
  * @Component
  *
  */
-class BaseRenderer implements BCERendererInterface{
+class BaseRenderer implements BCERendererInterface {
 	
 	/**
 	 * @Property

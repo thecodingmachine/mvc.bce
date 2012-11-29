@@ -3,7 +3,7 @@ namespace Mouf\MVC\BCE\classes\validators;
 
 use Mouf\MVC\BCE\classes\FieldDescriptor;
 
-interface JsValidationHandlerInterface{
+interface JsValidationHandlerInterface {
 	
 	/**
 	 * Builds the validation script of a form depending on it's field descriptors and their validators

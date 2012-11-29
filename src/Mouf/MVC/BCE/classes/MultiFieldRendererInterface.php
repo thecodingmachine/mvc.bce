@@ -1,7 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\classes;
 
-interface MultiFieldRendererInterface extends FieldRendererInterface{
+interface MultiFieldRendererInterface extends FieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

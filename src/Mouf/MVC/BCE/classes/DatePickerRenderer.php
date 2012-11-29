@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\classes;
  * @ApplyTo { "php" :[ "timestamp", "datetime", "date" ] }
  * @Component
  */
-class DatePickerRenderer implements SingleFieldRendererInterface{
+class DatePickerRenderer implements SingleFieldRendererInterface {
 
 	/**
 	 * @Property

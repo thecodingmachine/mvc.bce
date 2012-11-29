@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\controllers;
 
+use Mouf\Html\HtmlElement\HtmlBlock;
+use Mouf\Controllers\AbstractMoufInstanceController;
 /**
  * The controller to generate automatically the Beans, Daos, etc...
  * Sweet!
@@ -49,6 +51,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 	
 	public $success = 0;
 	
+	/**
+	 *
+	 * @var HtmlBlock
+	 */
+	public $content;
 
 	/**
 	 * Admin page used to display the DAO generation form.
@@ -93,8 +100,8 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$this->template->addJsFile(ROOT_URL."plugins/mvc/bce/1.0-alpha/js/ui.multiselect.js");
 		$this->template->addCssFile("plugins/mvc/bce/1.0-alpha/views/adminbce.css");
 		$this->template->addCssFile("plugins/mvc/bce/1.0-alpha/js/ui.multiselect.css");
-		$this->template->addContentFile(dirname(__FILE__)."/../views/bceConfig.php", $this);
-		$this->template->draw();
+		$this->content->addFile(dirname(__FILE__)."/../views/bceConfig.php", $this);
+		$this->template->toHtml();
 	}
 	
 	/**

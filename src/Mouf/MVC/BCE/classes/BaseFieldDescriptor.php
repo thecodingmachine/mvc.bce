@@ -7,7 +7,7 @@ namespace Mouf\MVC\BCE\classes;
  * as user name or login for example)
  * @Component
  */
-class BaseFieldDescriptor extends FieldDescriptor{
+class BaseFieldDescriptor extends FieldDescriptor {
 
 	/**
 	 * The name of the function that retruns the value of the field from the bean.

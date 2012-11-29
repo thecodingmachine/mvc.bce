@@ -37,7 +37,10 @@
 				"type": "file",
 	    		"file": "src/bceInstall.php"
 			}
-			]
+			],
+			"require-admin": [
+    			"src/BCEAdmin.php"
+    		]
 		}
     }
 }

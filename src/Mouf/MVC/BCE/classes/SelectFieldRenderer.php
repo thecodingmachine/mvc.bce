@@ -7,7 +7,7 @@ namespace Mouf\MVC\BCE\classes;
  * @Component
  * @ApplyTo {"type": ["fk"]}
  */
-class SelectFieldRenderer implements SingleFieldRendererInterface{
+class SelectFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * Tells if the field should display a select box or a radio button group

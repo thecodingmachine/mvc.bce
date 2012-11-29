@@ -1,5 +1,13 @@
 <?php
-namespace Mouf\MVC\BCE;
+use Mouf\MVC\BCE\admin\CustomFieldDescriptorBean;
+use Mouf\MVC\BCE\admin\Many2ManyFieldDescriptorBean;
+use Mouf\MVC\BCE\admin\BaseFieldDescriptorBean;
+use Mouf\MVC\BCE\admin\ForeignKeyFieldDescriptorBean;
+use Mouf\MVC\BCE\admin\ForeignKeyDataBean;
+use Mouf\MVC\BCE\admin\BeanFieldHelper;
+use Mouf\MVC\BCE\admin\BeanMethodHelper;
+use Mouf\MVC\BCE\admin\DaoDescriptorBean;
+use Mouf\MVC\BCE\admin\BCEFormInstanceBean;
 
 /**
  * ----------------------------------------------------------------

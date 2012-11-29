@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\classes;
  * @Component
  * @ApplyTo { "php" :[ "boolean" ] }
  */
-class BooleanFieldRenderer implements SingleFieldRendererInterface{
+class BooleanFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
