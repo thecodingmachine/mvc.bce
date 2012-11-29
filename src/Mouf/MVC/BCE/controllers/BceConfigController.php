@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\controllers;
 
 /**
  * The controller to generate automatically the Beans, Daos, etc...

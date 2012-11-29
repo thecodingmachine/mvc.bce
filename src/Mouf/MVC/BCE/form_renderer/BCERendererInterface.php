@@ -1,5 +1,7 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\form_renderer;
+
+use Mouf\MVC\BCE\BCEForm;
 
 /**
  * This interface is implemented by all form renderers

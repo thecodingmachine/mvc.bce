@@ -1,5 +1,9 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\classes\validators;
+
+use Mouf\MVC\BCE\classes\Many2ManyFieldDescriptor;
+use Mouf\Utils\Common\Validators\JsValidatorInterface;
+use Mouf\MVC\BCE\classes\FieldDescriptor;
 
 /**
  * Builds the validation script of a form depending on it's field descriptors and their validators using the jQuery Validate syntax and library

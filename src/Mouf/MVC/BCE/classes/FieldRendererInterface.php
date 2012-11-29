@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\classes;
 
 /**
  * This interface is implemented by any field renderer

@@ -1,5 +1,8 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\form_renderer\base;
+
+use Mouf\MVC\BCE\BCEForm;
+use Mouf\MVC\BCE\form_renderer\BCERendererInterface;
 
 /**
  * This is a simple form rendering class, using a simple field layout :

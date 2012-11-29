@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\classes;
 
 /**
  * This renderer handles date / timestamp input fields with the jQuery DatePicker

@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\classes;
 
 /**
  * This class is the simpliest FieldDescriptor:

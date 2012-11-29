@@ -1,4 +1,4 @@
 <?php
-namespace Mouf\MVC\BCE;
+namespace Mouf\MVC\BCE\classes;
 
 class BCEException extends \Exception{}
