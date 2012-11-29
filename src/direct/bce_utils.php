@@ -561,11 +561,11 @@ class BCEUtils{
 		$instance = MoufManager::getMoufManager()->getInstanceDescriptor($descriptor->getName());
 		
 		//Instanciate the bean with a class that matches the descriptor instance's class
-		if ($descriptor->getClassName() == 'ForeignKeyFieldDescriptor'){
+		if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor'){
 			$fieldData = new ForeignKeyFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'BaseFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor'){
 			$fieldData = new BaseFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'Many2ManyFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
 			$fieldData = new Many2ManyFieldDescriptorBean();
 		}else{
 			$isCustom = true;

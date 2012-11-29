@@ -1,10 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\controllers;
 
+use Mouf\MoufInstanceDescriptor;
+use Mouf\MoufManager;
 use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
-
 use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
-
 use Mouf\Reflection\MoufReflectionProxy;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Controllers\AbstractMoufInstanceController;
@@ -193,7 +193,7 @@ class BceConfigController extends AbstractMoufInstanceController {
 		
 		$this->moufManager->rewriteMouf();
 		
-		header("Location: " . ROOT_URL . "mouf/bceadmin/?name=" . $_POST['formInstanceName'] . "&success=1");
+		header("Location: " . ROOT_URL . "bceadmin/?name=" . $_POST['formInstanceName'] . "&success=1");
 	}
 	
 	/**
@@ -205,13 +205,13 @@ class BceConfigController extends AbstractMoufInstanceController {
 		if ($fieldData['new'] != "false"){
 			switch ($fieldData['type']) {
 				case "base":
-					$className = "BaseFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor";
 				break;
 				case "fk":
-					$className = "ForeignKeyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor";
 				break;
 				case "m2m":
-					$className = "Many2ManyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor";
 				break;
 				default:
 					throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
