@@ -222,6 +222,31 @@ class BceConfigController extends AbstractMoufInstanceController {
 			$fieldDescriptor->setName($instanceName);
 		}else{
 			$fieldDescriptor = $this->moufManager->getInstanceDescriptor($fieldData['instanceName']);
+			
+			if (
+				(($fieldData['type']=='base') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor")) ||
+				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor")) ||
+				(($fieldData['type']=='m2m') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor"))
+			){
+				switch ($fieldData['type']) {
+					case "base":
+						$className = "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor";
+						break;
+					case "fk":
+						$className = "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor";
+						break;
+					case "m2m":
+						$className = "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor";
+						break;
+					default:
+						throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
+				}
+				$instanceName = $fieldDescriptor->getName();
+				$this->moufManager->removeComponent($instanceName);
+				
+				$fieldDescriptor = $this->moufManager->createInstance($className);
+				$fieldDescriptor->setName($instanceName);
+			}
 		}
 		
 		
