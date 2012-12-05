@@ -359,7 +359,7 @@ function _fieldHtml(field, addClass, fieldType, editName){
 							"<div style='margin-left: 30px; display: block; float: left'>&nbsp</div>" +
 							"<div style='float: left'><input type='checkbox' checked='checked' name='fields["+ field.name +"][active]'></div>"+
 							"<input type='hidden' name='fields["+ field.name +"][new]' value='false'/>"+
-							"<input type='hidden' name='fields["+ field.name +"][type]' value='"+ field.type +"' />"+
+							"<input type='hidden' name='fields["+ field.name +"][type]' value='"+ field.type +"' class='field_type' />"+
 							"<input type='hidden' name='fields["+ field.name +"][instanceName]' value='"+ field.name +"'/>"+
 							"<div class='name-val'>"+ field.name +"</div>" +
 							"<div style='float: left'>&nbsp;&nbsp;[custom]</div>" +
@@ -451,7 +451,7 @@ function _getFieldElements(field, fieldType){
 	var br = jQuery("<div/>").append(jQuery("<br/>").css('clear', 'both'));
 	var br2 = br.clone();
 	
-	var typeElemWrap = _getHiddenElemWrapper(fieldType, "type", field.name, field.type);
+	var typeElemWrap = _getHiddenElemWrapper(fieldType, "type", field.name, field.type, 'field_type');
 	var isNewElemWrap = _getHiddenElemWrapper(fieldType, "new", field.name, field.is_new);
 	var instanceNameWrap = _getHiddenElemWrapper(fieldType, "instanceName", field.name, field.name); 
 	
@@ -466,7 +466,7 @@ function _getFieldElements(field, fieldType){
  * @param value the value of the attribute.
  * @returns jQuery Object
  */
-function _getHiddenElemWrapper(fieldType, attr, name, value){
+function _getHiddenElemWrapper(fieldType, attr, name, value, fieldClass){
 	var nameAttr = _getFieldNames(fieldType, attr, name);
 	
 	//console.log(nameAttr);
@@ -476,6 +476,9 @@ function _getHiddenElemWrapper(fieldType, attr, name, value){
 	}
 	
 	var typeElem = jQuery('<input/>').attr('type', "hidden").attr('name', nameAttr);
+	if (fieldClass){
+		typeElem.addClass(fieldClass);
+	}
 	typeElem.val(value);
 	var typeElemWrap = jQuery("<div/>").append(typeElem);
 	return typeElemWrap;
@@ -990,6 +993,8 @@ function setFK(fieldName){
 	 * Update field's type
 	 */
 	field.type = "fk";
+	jQuery("#wrapper-"+fieldName+" .field-data input.field_type").attr('value','fk');
+	jQuery("#wrapper-"+fieldName+" .field-data input.field_type").val('fk');
 	
 	/*
 	 * unset "setFK" behavior and icon and replace it with the "unsetFK" one

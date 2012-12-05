@@ -33,7 +33,7 @@ $baseSkinLib->getProperty("cssFiles")->setValue(array(
 ));
 $baseSkinLib->getProperty("renderer")->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryRenderer"));
 
-$baseRendererInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\form_renderer\\base\\BaseRenderer");
+$baseRendererInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\FormRenderer\\base\\BaseRenderer");
 $baseRendererInstanceName = InstallUtils::getInstanceName("BaseRenderer", $moufManager);
 $baseRendererInstance->setName($baseRendererInstanceName);
 $baseRendererInstance->getProperty("skin")->setValue($moufManager->getInstanceDescriptor($baseSkinLibName));
