@@ -256,6 +256,7 @@ function completeInstanceData(data){
 	 */
 	for (var fieldName in newFieldElements){
 		var field = newFieldElements[fieldName];
+		field.name = _instanceName + field.name;
 		if (field.type != null ){
 			jQuery("#data").append(_fieldHtml(field, "new"));
 		}

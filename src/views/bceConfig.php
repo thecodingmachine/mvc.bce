@@ -15,7 +15,7 @@
 <script type="text/javascript">
 <!--
 var daos = ['<?php echo implode("', '", $this->daoInstances); ?>']
-
+var _instanceName = '<?php echo $this->instanceName; ?>';
 var singleRenderers = ['<?php echo implode("', '", $this->singleRenderers); ?>'];
 var multiRenderers = ['<?php echo implode("', '", $this->multiRenderers); ?>'];
 var formatters = ['<?php echo implode("', '", $this->formatters); ?>'];
