@@ -223,6 +223,7 @@ function completeInstanceData(data){
 		/* If the form has no idDescriptor set, then suggest the new field descriptor that has isPk = true*/ 
 		else if(!data.idFieldDescriptor){
 			idDesc = newField.asDescriptor;
+			idDesc.name = _instanceName + idDesc.name;
 		}
 	}
 	
