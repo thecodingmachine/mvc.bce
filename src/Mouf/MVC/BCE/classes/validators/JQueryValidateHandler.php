@@ -74,6 +74,11 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 		if(empty($formId)) {
 			throw new \Exception('Error while generating JS validation rules, the id of the form ($formId) must be set.');
 		}
+                
+                if (empty($this->validationRules)){
+                    return "";
+                }
+                
 		$rulesJson = json_encode($this->validationRules->rules);
 		
 		$rulesJson = "
@@ -138,14 +143,17 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 				"function": function(param, element) {
 					return param(element);
 				}
-			},
+			};
 		';
 		
-		foreach ($this->validationMethods as $method) {
+                if (isset($this->validationMethods)){
+                   foreach ($this->validationMethods as $method) {
 			$js.="
 				$method			
 			";
-		}
+                    } 
+                }
+		
 		$js.= "
 			var validateHandler = $('#$formId').validate(
 				$rulesJson
