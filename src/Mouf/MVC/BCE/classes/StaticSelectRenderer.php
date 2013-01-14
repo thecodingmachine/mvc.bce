@@ -5,7 +5,7 @@ namespace Mouf\MVC\BCE\classes;
  * This renderer create a select with static values
  * @Component
  */
-class StaticSelectRenderer implements FieldRendererInterface {
+class StaticSelectRenderer implements SingleFieldRendererInterface {
 
 	/**
 	 * @Property
