@@ -3,6 +3,7 @@ namespace Mouf\MVC\BCE;
 use Mouf\MVC\BCE\classes\FieldDescriptor;
 use Mouf\Database\DAOInterface;
 use Mouf;
+use Mouf\MVC\BCE\classes\BCEFieldDescriptorInterface;
 
 /**
  * 
