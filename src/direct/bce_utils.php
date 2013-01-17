@@ -154,10 +154,10 @@ class BCEUtils{
 	 * Shortcut for getting daoData from dao instancename, rather then from className
 	 * @param string $daoInstanceName
 	 */
-	public function getDaoDataFromInstance($daoInstanceName){
+	public function getDaoDataFromInstance($daoInstanceName, $goDeeper = true){
 		$desc = MoufManager::getMoufManager()->getInstanceDescriptor($daoInstanceName);
 		$daoClass = $desc->getClassName();
-		return $this->getDaoData($daoClass);
+		return $this->getDaoData($daoClass, $goDeeper);
 	}
 	
 	/**
@@ -173,14 +173,14 @@ class BCEUtils{
 	 * 
 	 * @param string $daoClass
 	 */
-	private function getDaoData($daoClass){
+	private function getDaoData($daoClass, $goDeeper = true){
 		$daoDescripror = new DaoDescriptorBean();
 		
 		$class = new MoufReflectionClass($daoClass);
 		$method = $class->getMethod("getById");
 		$returnClass = $method->getAnnotations('return');
 		
-		list($fields, $table) = $this->getBeanMethods($returnClass[0]);
+		list($fields, $table) = $this->getBeanMethods($returnClass[0], $goDeeper);
 		$daoDescripror->beanClassFields = $fields;
 		$daoDescripror->beanTableName = $table;
 		$daoDescripror->daoMethods = $this->getDaoMethods($daoClass);
@@ -209,7 +209,7 @@ class BCEUtils{
 	 * @param string $beanClassName
 	 * @return array<BeanFieldHelper>
 	 */
-	private function getBeanMethods($beanClassName){
+	private function getBeanMethods($beanClassName, $goDeeper = true){
 		$beanClass = new MoufReflectionClass($beanClassName);
 		
 		//The table name will be used to the DB model data as primary key or foreign keys
@@ -300,7 +300,7 @@ class BCEUtils{
 		/* each  beanFieldHelper have to be converted to a FieldDeescriptorBean 
 		 * in order to have same properties than the existing descriptors */
 		foreach ($finalMethods as $columnName => $fieldData) {
-			$fieldData->asDescriptor = $this->beanHelperConvert2Descriptor($fieldData);
+			$fieldData->asDescriptor = $this->beanHelperConvert2Descriptor($fieldData, $goDeeper);
 		}
 		
 		return array($finalMethods, $tableName[0]);
@@ -310,7 +310,7 @@ class BCEUtils{
 	 * Quite simple function that returns a FieldDecriptorBean from a BeanFieldHelper
 	 * @param BeanFieldHelper $beanField
 	 */
-	private function beanHelperConvert2Descriptor(BeanFieldHelper $beanField){
+	private function beanHelperConvert2Descriptor(BeanFieldHelper $beanField, $goDeeper = true){
 		$descriptorBean = null;
 		if (isset($beanField->getter->fkData)){//if getter is related to a foreign key, then instanciate a FK field decriptor
 			$convertBean = new ForeignKeyFieldDescriptorBean();
@@ -328,12 +328,12 @@ class BCEUtils{
 		$convertBean->active = true;
 		$convertBean->is_new = true;
 		
-		if (isset($beanField->getter->fkData)){
+		if ($goDeeper && isset($beanField->getter->fkData)){
 			/* @var $convertBean ForeignKeyFieldDescriptorBean */
 			
 			//Just find the dao that is handling the referenced table, then load the dao's data
 			$convertBean->daoName = $this->_fitDaoByTableName($beanField->getter->fkData->refTable);
-			$convertBean->daoData = $this->getDaoDataFromInstance($convertBean->daoName);
+			$convertBean->daoData = $this->getDaoDataFromInstance($convertBean->daoName, false);
 			
 			//By default, we are looking for a "getList" method for the dataMethod attribute. If none exists, no preselection is made clientside
 			$convertBean->dataMethod = array_search("getList", $convertBean->daoData->daoMethods) !== false ? "getList" : $convertBean->daoData->daoMethods[0];
