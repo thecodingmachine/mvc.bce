@@ -5,7 +5,6 @@ namespace Mouf\MVC\BCE\classes;
 /**
  * Base class for rendering simple text area fields
  * @Component
- * @ApplyTo { "php" :[ "string" ] }
  */
 class TextAreaFieldRenderer implements SingleFieldRendererInterface {
 	
