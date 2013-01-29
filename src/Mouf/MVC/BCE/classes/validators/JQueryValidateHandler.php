@@ -60,8 +60,10 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 		
 		$realFieldName = $descriptor instanceof Many2ManyFieldDescriptor ? $fieldName."[]" : $fieldName;
 		
-		$this->validationRules = new \stdClass();
-		$this->validationRules->rules = new \stdClass();
+		if ($this->validationRules === null){
+			$this->validationRules = new \stdClass();
+			$this->validationRules->rules = new \stdClass();
+		}
 		
 		foreach ($validators as $validator) {
 			if ($validator instanceof JsValidatorInterface) {
