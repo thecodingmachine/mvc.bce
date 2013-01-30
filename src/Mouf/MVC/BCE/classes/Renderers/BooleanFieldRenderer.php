@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Renderers;
 
 /**
  * Base class for rendering simple boolean fields

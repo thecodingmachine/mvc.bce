@@ -1,7 +1,7 @@
 <?php
-namespace Mouf\MVC\BCE\classes\validators;
+namespace Mouf\MVC\BCE\Classes\ValidationHandlers;
 
-use Mouf\MVC\BCE\classes\FieldDescriptor;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 
 interface JsValidationHandlerInterface {
 	

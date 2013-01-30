@@ -1,8 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\admin;
 
-use Mouf\MVC\BCE\FormRenderer\BCERendererInterface;
-use Mouf\MVC\BCE\classes\validators\JsValidationHandlerInterface;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
+use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
 /**
  * These classes are simple stringifyed representations of the BCE elements.
  * 

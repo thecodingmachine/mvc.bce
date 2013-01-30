@@ -1,10 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE;
-use Mouf\MVC\BCE\classes\FieldDescriptor;
+
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\Database\DAOInterface;
 use Mouf;
-use Mouf\MVC\BCE\classes\BCEFieldDescriptorInterface;
-
 /**
  * 
  * Root Object of the BCE package.<br/>

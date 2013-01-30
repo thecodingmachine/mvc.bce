@@ -1,17 +1,17 @@
 <?php
-namespace Mouf\MVC\BCE\FormRenderer\base;
+namespace Mouf\MVC\BCE\FormRenderers\Bootstrap;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
+use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
 use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
 use Mouf\MVC\BCE\BCEForm;
-use Mouf\MVC\BCE\FormRenderer\BCERendererInterface;
-
 /**
  * This is a simple form rendering class, using a simple field layout :
  *
  * @Component
  *
  */
-class BaseRenderer implements \Mouf\MVC\BCE\FormRenderer\BCERendererInterface {
+class BootstrapFormRenderer implements BCERendererInterface {
 	
 	/**
 	 * @Property
@@ -29,26 +29,7 @@ class BaseRenderer implements \Mouf\MVC\BCE\FormRenderer\BCERendererInterface {
 		echo $idRenderer->render($idDescriptor);
 		foreach ($form->fieldDescriptors as $descriptor) {
 			/* @var $descriptor BCEFieldDescriptorInterface */
-			?>	
-			<div class="control-group">
-				<label for="<?php echo $descriptor->getFieldName() ?>" class="control-label">
-					<?php 
-					echo $descriptor->getFieldLabel();
-					if($descriptor instanceof FieldDescriptor && $descriptor->getValidators()) {
-						foreach ($descriptor->getValidators() as $value) {
-							if(get_class($value) == 'RequiredValidator') {
-								echo '<span class="required-field">*</span>';
-								break;
-							}
-						}
-					}
-					?>
-				</label>
-				<div class="controls">
-					<?php echo $descriptor->toHtml(); ?>
-				</div>
-			</div>
-			<?php
+			$descriptor->toHtml();
 		}
 		?>
 		<div class="form-actions">

@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Renderers;
 
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations

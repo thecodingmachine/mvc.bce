@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Renderers;
 
 /**
  * This renderer handles text input fields with the jQuery MiniColor

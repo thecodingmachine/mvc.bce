@@ -1,12 +1,12 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Renderers;
+
 
 /**
- * Base class for rendering simple text fields
+ * Base class for rendering simple text area fields
  * @Component
- * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
-class TextFieldRenderer implements SingleFieldRendererInterface {
+class TextAreaFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
@@ -16,7 +16,7 @@ class TextFieldRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
+		return '<textarea name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
 	}
 	
 	/**

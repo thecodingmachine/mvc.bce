@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Renderers;
 
 /**
  * A renderer class that ouputs a simple select box: it doesn't handle multiple selection

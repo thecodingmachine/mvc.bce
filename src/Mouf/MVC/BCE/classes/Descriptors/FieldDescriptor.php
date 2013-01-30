@@ -1,6 +1,9 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
+use Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface;
+use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 use Mouf\MVC\BCE\BCEForm;
 use Mouf\Utils\Common\Formatters\FormatterInterface;
 
@@ -34,6 +37,13 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @var string
 	 */
 	public $label;
+	
+	/**
+	 * The description of the field as displayed in the form
+	 * @Property
+	 * @var string
+	 */
+	public $description;
 
 	/**
 	 * The renderer that will be responsible for delivering the HTML for that field
@@ -41,6 +51,13 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @var FieldRendererInterface
 	 */
 	public $renderer;
+	
+	/**
+	 * The renderer that will display the whole DOM associated to the field (label included)
+	 * @Property
+	 * @var FieldWrapperRendererInterface
+	 */
+	public $fieldWrapperRenderer;
 
 	/**
 	 * The validator of the field. Returns true/false
@@ -50,13 +67,25 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	public $validators;
 	
 	/**
+	 * The Condition to respect in order to be allowed to edit the field
+	 * @var ConditionInterface
+	 */
+	public $editCondition;
+	
+	/**
+	 * The Condition to respect in order to be allowed to view the field
+	 * @var ConditionInterface
+	 */
+	public $viewCondition;
+	
+	/**
 	 * The javascript functions and calls of the form
 	 * @var array<string, string>
 	 */
 	public $script = array();
 	
 	public function toHtml(){
-		echo $this->getRenderer()->render($this);
+		echo $this->getFieldWrapperRenderer()->render($this);
 	}
 	
 	/**
@@ -117,12 +146,35 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	public abstract function setValue($baseBean, $value);
 
 	/**
+	 * Tells if the field is editable
+	 * @return boolean
+	 */
+	public function canEdit(){
+		return $this->editCondition->isOk();
+	}
+	
+	/**
+	 * Tells if the field's value can be viewed
+	 * @return boolean
+	 */
+	public function canView(){
+		return $this->viewCondition->isOk();
+	}
+	
+	/**
 	 * Get's the field's name (unique Id of the field inside a form (or name attribute)
 	 */
 	public function getFieldName(){
 		return $this->fieldName;
 	}
 
+	/**
+	 * Returns the label of the field
+	 */
+	public function getLabel(){
+		return $this->label;
+	}
+	
 	/**
 	 * Set the label of the descriptor.
 	 * 
@@ -133,10 +185,33 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	}
 
 	/**
+	 * Returns the description of the field
+	 */
+	public function getDescription(){
+		return $this->description;
+	}
+	
+	/**
+	 * Sets the description of the field
+	 */
+	public function setDescription($description){
+		$this->description = $description;
+	}
+	
+	/**
 	 * Returns the Renderer for that bean
+	 * return FieldRendererInterface
 	 */
 	public function getRenderer(){
 		return $this->renderer;
+	}
+	
+	/**
+	 * Returns the WrapperRenderer for that bean
+	 * @return FieldWrapperRendererInterface
+	 */
+	public function getFieldWrapperRenderer(){
+		return $this->fieldWrapperRenderer;
 	}
 
 	/**
@@ -147,16 +222,10 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	}
 
 	/**
-	 * Returns the label of the field
-	 */
-	public function getFieldLabel(){
-		return $this->label;
-	}
-
-	/**
 	 * Returns the Formatter of the field
 	 */
-	function getFormatter(){
+	public function getFormatter(){
 		return $this->formatter;
 	}
+	
 }

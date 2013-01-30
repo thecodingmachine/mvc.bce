@@ -1,12 +1,12 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
-
+namespace Mouf\MVC\BCE\Classes\Renderers;
 
 /**
- * Base class for rendering simple text area fields
+ * This renderer handles hidden input fields
+ * @ApplyTo { "pk" : [ "pk" ] }
  * @Component
  */
-class TextAreaFieldRenderer implements SingleFieldRendererInterface {
+class HiddenRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
@@ -16,7 +16,7 @@ class TextAreaFieldRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return '<textarea name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
+		return "<input type='hidden' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**

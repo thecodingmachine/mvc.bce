@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\classes;
+namespace Mouf\MVC\BCE\Classes\Descriptors;
 
 /**
  * This field descriptor can be used in order to handle many to may urelations of the Form's main bean.
