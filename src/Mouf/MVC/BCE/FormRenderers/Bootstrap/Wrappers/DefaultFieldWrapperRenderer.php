@@ -5,7 +5,7 @@ use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 
 class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	
-	public function render(FieldDescriptor $descriptor) {
+	public function render(FieldDescriptor $descriptor, $fromEditMode) {
 		?>
 		<div class="control-group">
 			<label for="<?php echo $descriptor->getFieldName() ?>" class="control-label">

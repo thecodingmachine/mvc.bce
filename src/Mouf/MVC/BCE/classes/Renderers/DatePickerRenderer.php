@@ -9,7 +9,7 @@ use Mouf;
  * @ApplyTo { "php" :[ "timestamp", "datetime", "date" ] }
  * @Component
  */
-class DatePickerRenderer implements SingleFieldRendererInterface {
+class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 
 	/**
 	 * @Property
@@ -22,7 +22,7 @@ class DatePickerRenderer implements SingleFieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function render($descriptor){
+	public function renderEdit($descriptor){
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();

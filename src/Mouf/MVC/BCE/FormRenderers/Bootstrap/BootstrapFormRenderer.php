@@ -29,7 +29,7 @@ class BootstrapFormRenderer implements BCERendererInterface {
 		echo $idRenderer->render($idDescriptor);
 		foreach ($form->fieldDescriptors as $descriptor) {
 			/* @var $descriptor BCEFieldDescriptorInterface */
-			$descriptor->toHtml();
+			$descriptor->toHtml($form->getMode() == "edit");
 		}
 		?>
 		<div class="form-actions">

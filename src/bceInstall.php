@@ -13,33 +13,25 @@ $moufManager = MoufManager::getMoufManager();
 
 //Let's automatically create validators for the components that are not parametized (eg : don't create a MinMaxRangeValidator)...
 $classes = array(
-		"Mouf\\MVC\\BCE\\classes\\HiddenRenderer",
-		"Mouf\\MVC\\BCE\\classes\\MultipleSelectFieldRenderer{\"mode\":\"chbx\"}",
-		"Mouf\\MVC\\BCE\\classes\\DatePickerRenderer",
-		"Mouf\\MVC\\BCE\\classes\\ColorPickerRenderer",
-		"Mouf\\MVC\\BCE\\classes\\SelectFieldRenderer",
-		"Mouf\\MVC\\BCE\\classes\\BooleanFieldRenderer",
-		"Mouf\\MVC\\BCE\\classes\\TextFieldRenderer",
-		"Mouf\\MVC\\BCE\\classes\\TextAreaFieldRenderer",
-		"Mouf\\MVC\\BCE\\classes\\PasswordFieldRenderer"
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\HiddenRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\MultipleSelectFieldRenderer{\"mode\":\"chbx\"}",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\DatePickerRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\ColorPickerRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\BooleanFieldRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextFieldRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextAreaFieldRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\PasswordFieldRenderer"
 );
 InstallUtils::massCreate($classes, $moufManager);
-//now create default renderer skin
-$baseSkinLib = $moufManager->createInstance("Mouf\\Html\\Utils\\WebLibraryManager\\WebLibrary");
-$baseSkinLibName = InstallUtils::getInstanceName("bceBaseSkin", $moufManager);
-$baseSkinLib->setName($baseSkinLibName);
-$baseSkinLib->getProperty("cssFiles")->setValue(array(
-	"plugins/mvc/bce/1.0-alpha/form_renderer/base/basic/css/basic.css"
-));
-$baseSkinLib->getProperty("renderer")->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryRenderer"));
 
-$baseRendererInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\FormRenderer\\base\\BaseRenderer");
+$baseRendererInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\BootstrapFormRenderer");
 $baseRendererInstanceName = InstallUtils::getInstanceName("BaseRenderer", $moufManager);
 $baseRendererInstance->setName($baseRendererInstanceName);
-$baseRendererInstance->getProperty("skin")->setValue($moufManager->getInstanceDescriptor($baseSkinLibName));
+$baseRendererInstance->getProperty("skin")->setValue($moufManager->getInstanceDescriptor("javascript.bootstrap"));
 
 /* JQueryValidateHandler */
-$jQValidateInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\classes\\validators\\JQueryValidateHandler");
+$jQValidateInstance = $moufManager->createInstance("Mouf\\MVC\\BCE\\Classes\\ValidationHandlers\\JQueryValidateHandler");
 $jQValidateInstanceName = InstallUtils::getInstanceName("JQueryValidateHandler", $moufManager);
 $jQValidateInstance->setName($jQValidateInstanceName);
 $jQValidateInstance->getProperty('jsLib')->setValue($moufManager->getInstanceDescriptor("jQueryValidateLibrary"));

@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * @ApplyTo { "pk" : [ "pk" ] }
  * @Component
  */
-class FixedSelectFieldRenderer implements SingleFieldRendererInterface {
+class FixedSelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 
     /**
      * Tells if the field should display a select box or a radio button group
@@ -19,7 +19,7 @@ class FixedSelectFieldRenderer implements SingleFieldRendererInterface {
      * (non-PHPdoc)
      * @see FieldRendererInterface::render()
      */
-    public function render($descriptor) {
+    public function renderEdit($descriptor) {
         /* @var $descriptor ForeignKeyFieldDescriptor */
         $fieldName = $descriptor->getFieldName();
         $data = $descriptor->getData();

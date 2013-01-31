@@ -2,4 +2,4 @@
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
 
-interface SingleFieldRendererInterface extends FieldRendererInterface {}
+interface SingleFieldRendererInterface extends EditFieldRendererInterface {}

@@ -5,7 +5,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * This renderer create a select with static values
  * @Component
  */
-class StaticSelectRenderer implements SingleFieldRendererInterface {
+class StaticSelectRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 
 	/**
 	 * @Property
@@ -18,7 +18,7 @@ class StaticSelectRenderer implements SingleFieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function render($descriptor){
+	public function renderEdit($descriptor){
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();

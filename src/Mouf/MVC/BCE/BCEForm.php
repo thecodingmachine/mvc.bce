@@ -135,7 +135,17 @@ class BCEForm {
 	 */
 	public $scripts = array();
 	
-	
+	/**
+	 * The mode (edit or view) of the form.
+	 * <ul>
+	 * 	<li><b>Edit mode<b></li> will allow user to modify the bean handled by the Form (if fields' edit conditions are satisfied)
+	 * 	<li><b>View mode<b></li> is simply a mode for reading form's bean fields.
+	 * <ul> 
+	 * 
+	 * @OneOf "edit","view"
+	 * @var string
+	 */
+	public $mode = "edit";
 	
 	/**
 	 * Load the main bean of the Form, and then the linked descriptors to display bean values
@@ -148,6 +158,10 @@ class BCEForm {
 		$this->idFieldDescriptor->load($this->baseBean, $id, $this);
 		foreach ($this->fieldDescriptors as $descriptor) {
 			/* @var $descriptor FieldDescriptor */
+			if (!$descriptor->canEdit() && !$descriptor->canView()){
+				continue;
+			}
+			
 			$descriptor->load($this->baseBean, $id, $this);
 			if ($descriptor instanceof FieldDescriptor) {
 				$this->validationHandler->buildValidationScript($descriptor, $this->attributes['id']);
@@ -243,6 +257,9 @@ class BCEForm {
 		$this->baseBean = empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id);
 		
 		foreach ($this->fieldDescriptors as $descriptor) {
+			if (!$descriptor->canEdit()){
+				continue;
+			}
 			$descriptor->preSave($postValues, $this);
 		}
 		if (!count($this->errorMessages)){
@@ -252,6 +269,9 @@ class BCEForm {
 			$id = $this->getMainBeanId();//Get bean Id after save if it's an add
 			//Now call the postSave scripts (important for M2M descs for example)
 			foreach ($this->fieldDescriptors as $descriptor){ 
+				if (!$descriptor->canEdit()){
+					continue;
+				}
 				$descriptor->postSave($this->baseBean, $id);
 			}
 			

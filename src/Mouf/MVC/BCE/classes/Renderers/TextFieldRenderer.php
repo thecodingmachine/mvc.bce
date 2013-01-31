@@ -6,13 +6,13 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * @Component
  * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
-class TextFieldRenderer implements SingleFieldRendererInterface {
+class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function render($descriptor){
+	public function renderEdit($descriptor){
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();

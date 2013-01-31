@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface;
+
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 use Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface;
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
@@ -84,8 +86,8 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 */
 	public $script = array();
 	
-	public function toHtml(){
-		echo $this->getFieldWrapperRenderer()->render($this);
+	public function toHtml($formModeEdit){
+		echo  $this->getFieldWrapperRenderer()->render($this, $formModeEdit);
 	}
 	
 	/**

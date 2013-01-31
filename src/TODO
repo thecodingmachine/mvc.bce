@@ -1,0 +1,9 @@
+Terminer la cylce de rendering -->wrapper renderer -> renderer
+
+Bizare de tester dans le rendering du wrapper comment doit se faire le rendering du wrapper ?
+
+??
+Sortir du genre :
+fieldHTML = renderer->render(mode, droits,...);
+wrapperHTML = wrapper->render(fieldHTML);
+??

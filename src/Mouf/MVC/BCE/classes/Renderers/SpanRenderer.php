@@ -6,13 +6,13 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * @ApplyTo { "pk" : [ "pk" ] }
  * @Component
  */
-class SpanRenderer implements SingleFieldRendererInterface {
+class SpanRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function render($descriptor){
+	public function renderEdit($descriptor){
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
