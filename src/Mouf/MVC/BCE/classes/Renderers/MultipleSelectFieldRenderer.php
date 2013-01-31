@@ -1,11 +1,11 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
-
+use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
  * @Component
  */
-class MultipleSelectFieldRenderer extends DefaultViewFieldRenderer implements MultiFieldRendererInterface {
+class MultipleSelectFieldRenderer implements MultiFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * Tells if the field should display 
@@ -24,9 +24,9 @@ class MultipleSelectFieldRenderer extends DefaultViewFieldRenderer implements Mu
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see FieldRendererInterface::render()
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::renderEdit()
 	 */
-	public function render($descriptor){
+	public function renderEdit($descriptor){
 		/* @var $descriptor Many2ManyFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$values = $descriptor->getBeanValues();
@@ -70,9 +70,31 @@ class MultipleSelectFieldRenderer extends DefaultViewFieldRenderer implements Mu
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see FieldRendererInterface::getJS()
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
+		return array();
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\DefaultViewFieldRenderer::renderView()
+	 */
+	public function renderView($descriptor){
+		/* @var $descriptor Many2ManyFieldDescriptor */
+		$values = $descriptor->getBeanValues();
+		foreach ($values as $bean){
+			$label = $descriptor->getRelatedBeanLabel($bean);
+			$labels[] = $label;
+		}
+		return count($labels) ? "<ul id='".$descriptor->getFieldName()."-view-field'><li>" . implode("</li><li>", $labels) . "</li><ul>" : "";
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\DefaultViewFieldRenderer::getJSView()
+	 */
+	public function getJSView($descriptor){
 		return array();
 	}
 	

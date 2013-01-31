@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * Base class for rendering simple text fields
  * @Component
  */
-class PasswordFieldRenderer implements SingleFieldRendererInterface {
+class PasswordFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * Autocomplete the field in the form.
@@ -31,7 +31,15 @@ class PasswordFieldRenderer implements SingleFieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
+		return array();
+	}
+	
+	public function renderView($descriptor){
+		return false;
+	}
+	
+	public function getJSView($descriptor){
 		return array();
 	}
 	

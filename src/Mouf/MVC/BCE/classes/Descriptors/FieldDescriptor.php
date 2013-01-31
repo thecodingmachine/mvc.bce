@@ -86,8 +86,9 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 */
 	public $script = array();
 	
-	public function toHtml($formModeEdit){
-		echo  $this->getFieldWrapperRenderer()->render($this, $formModeEdit);
+	public function toHtml($formMode){
+		$fieldHtml = $this->getRenderer()->render($this, $formMode);
+		echo $fieldHtml !== false ? $this->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
 	}
 	
 	/**

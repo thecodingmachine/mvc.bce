@@ -23,7 +23,7 @@ class HiddenRenderer implements SingleFieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
 		return array();
 	}
 	

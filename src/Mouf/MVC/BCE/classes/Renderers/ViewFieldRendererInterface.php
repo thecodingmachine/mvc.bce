@@ -11,4 +11,11 @@ interface ViewFieldRendererInterface {
 	 */
 	public function renderView($descriptor);
 	
+	/**
+	 * Function that may return some JS script for 'View' mode
+	 * @param FieldDescriptor $descriptor
+	 * @return array<string>
+	 */
+	public function getJSView($descriptor);
+	
 }

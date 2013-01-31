@@ -14,11 +14,13 @@ interface EditFieldRendererInterface {
 	 */
 	public function renderEdit($descriptor);
 	
+	
 	/**
-	 * Function that may return some JS script (eg. datepicker, slider, etc...) related to this renderer
+	 * Function that may return some JS script for Edit mode
 	 * @param FieldDescriptor $descriptor
 	 * @return array<string>
 	 */
-	public function getJS($descriptor);
+	public function getJSEdit($descriptor);
+	
 	
 }

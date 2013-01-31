@@ -22,9 +22,9 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 				?>
 			</label>
 			<div class="controls">
-				<?php echo $descriptor->getRenderer()->render($descriptor); ?>
+				<?php echo $descriptor->getRenderer()->render($descriptor, $fromEditMode); ?>
 			</div>
-			<?php if ($descriptor->getDescription()){ ?>
+			<?php if ($fromEditMode == 'edit' && $descriptor->getDescription()){ ?>
 			<div class="description">
 				<?php echo $descriptor->getDescription(); ?>
 			</div>
