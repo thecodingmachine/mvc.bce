@@ -16,4 +16,4 @@ BCE is a form builder for the Mouf framework. Its main goal is making your life 
 <li><b>Customizing is simple</b> Because specific needs will always come up, you may code your custom field and use it in your form quite simply. Of course, you are very welcome to contribute and provide BCE with new field types. For instance, we are looking for a color picker field, anyone interested ?</li>
 </ul>
 
-<p>Ready to dive in? <a href="quickstart.html">Let's get started!</a></p>
+<p>Ready to dive in? <a href="doc/quickstart.html">Let's get started!</a></p>
