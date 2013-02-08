@@ -17,17 +17,21 @@ Create the basic user form
 --------------------------
 
 First thing you have to do is creating a BCEForm instance. The BCEForm class represents a form. This is done, as usual, by hiting the "create a new instance" link of the ribbon menu. For example, we create a userForm instance :
+
 ![create instance](images/create_instance.jpg)
 
 Once you've done this, you reach the dedicated configuration interface of BCE that embeds a lot of helpfull functionnalities. A "view properties" link in the left menu will get you back to the classic instance page).
+
 ![select dao](images/configure_page_1.jpg)
 
 The first thing to do is to select a DAO. We will select the "userDao". As soon as you have chosen your DAO, the interface will suggest the detected field descriptors.
-***Notes:***
-	* *The detected fields are the ones that map getters and setters of the bean handled by the dao you selected, which means basically all columns that are located IN the (user) table. If we have a look back to the Data Model defined previously, all fields will be detected. The role_id field will be automatically set as a "ForeignKey" Field Descriptor (see PHP Documentation for a detailed description of the ForeignKeyFieldDescriptor Class). The only thing that BCE cannot guess is the "hobbies" many to many relationship.*
-	* Any time you will access the form configuration interface, you will be suggested a FieldDescriptor for each field that doesn't seem to be handled already. These fields will appear with a green outline, whereas existing ones have a white one. By default, when you create the form, all "suggested" fields are checked to be created.
 
-![itab fields](images/configure_page_2.jpg)
+***Notes:***
+
+- The detected fields are the ones that map getters and setters of the bean handled by the dao you selected, which means basically all columns that are located IN the (user) table. If we have a look back to the Data Model defined previously, all fields will be detected. The role_id field will be automatically set as a "ForeignKey" Field Descriptor (see PHP Documentation for a detailed description of the ForeignKeyFieldDescriptor Class). The only thing that BCE cannot guess is the "hobbies" many to many relationship.
+- Any time you will access the form configuration interface, you will be suggested a FieldDescriptor for each field that doesn't seem to be handled already. These fields will appear with a green outline, whereas existing ones have a white one. By default, when you create the form, all "suggested" fields are checked to be created.
+
+![tab fields](images/configure_page_2.jpg)
 
 Save and use the user form
 ---------------------------
@@ -82,12 +86,15 @@ $this->userForm->toHtml();
 ```
 
 Last thing to do is binding your userController to the userForm instance using Mouf administration interface, and you're done! Visit the /editUser URL, and you get... a beautifull form!
+
 ![first form](images/simple_form.jpg)
 
 As you can see, the form is not completely adapted to the data model (the newsletter field should be a checkbox for instance). BUT, the role field has been detected as a foreign key field and displays data from the role table, validation has automatically been applied to numeric fields, and a datepicket widget is also handling the BirthDate field... not that bad, don't you think?
 
 That was to show you how simple you can get a form using BCE. But, of course, BCE has a lot of features that will help you get a fully integrated form in a few clicks...
-Want more ?
 
-	* For a better understanding of the BCE configuration interface, and of the main BCE Objects, you may continue with the [detailed description](advanced.html)
-	* To see how to get a fully integrated userForm without coding one more line, please have a look at the [configuring your forms](advanced_example.html) section
+Want more ?
+-----------
+
+- For a better understanding of the BCE configuration interface, and of the main BCE Objects, you may continue with the [detailed description](advanced.html)
+- To see how to get a fully integrated userForm without coding one more line, please have a look at the [configuring your forms](advanced_example.html) section
