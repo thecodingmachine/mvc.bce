@@ -1,21 +1,5 @@
-<style>
-<!--
-img {
-    border: 0 none;
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-	-moz-box-shadow: 0 0 5px 5px #888;
-	-webkit-box-shadow: 0 0 5px 5px#888;
-	box-shadow: 0 0 5px 5px #888;
-}
-ul li span.entry{
-	font-weight: bold;
-}
--->
-</style>
-<h1>About BCE</h1>
-<h2>Purpose</h2>
+#About BCE
+##Purpose
 
 <p>
 BCE is a form builder for the Mouf framework. Its main goal is making your life easier. It will handle the main aspects of an HTML form:
