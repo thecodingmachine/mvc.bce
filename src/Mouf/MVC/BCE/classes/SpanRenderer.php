@@ -16,7 +16,7 @@ class SpanRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return "<span>".$value."</span><input type='hidden' name='" . $fieldName . "' value='" . $value . "' />";
+		return "<span id='" .$fieldName. "'>".$value."</span><input type='hidden' name='" . $fieldName . "' value='" . $value . "' />";
 	}
 	
 	/**
