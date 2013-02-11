@@ -60,7 +60,7 @@ There is always a tiny specific functionnality you have to integrate. When using
 
 The first thing to do is creating a class that implements the BCEFieldDescriptorInterace:
 
-'''php
+```php
 /**
  * Returns the name of the field as a unique identifier of that field
  */
@@ -115,7 +115,7 @@ public function postSave($bean, $beanId);
 
 Let's say we want a file upload fiel for our user's image path field.
 
-'''php
+```php
 class ImageUploadCustomDescriptor implements BCEFieldDescriptorInterface{
 	
 	
