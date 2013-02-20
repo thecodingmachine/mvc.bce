@@ -1,7 +1,7 @@
 Detailed presentation and configuration of BCE
 ===============================================
 
-*We will start over from the last step of the ["quickstart" presentation](quickstart.html), and see how to get a nice userForm. But before you need to get a quick description of BCEForm's structure, and the main objects that it contains.*
+*We will start over from the last step of the ["quickstart" presentation](quickstart.md), and see how to get a nice userForm. But before you need to get a quick description of BCEForm's structure, and the main objects that it contains.*
 
 Detailed description
 ---------------------
@@ -16,8 +16,8 @@ The main object representing a form: it embedds two categories of objects/values
 - **The FieldDescriptors**
 These instances describe how a field should be loaded, displayed, validated and persisted. Depending on the field's data, and relations, there may be different Types of Field Descriptors:
 - Base Field Descriptor
-This type is made for handdling simple fields of a table, that are written directly into the table without any relationship. In our example (as defined in the [quickstart](quickstart.html)) this corresponds to user's name, email, birtdate, etc...
-```php Properties'''
+This type is made for handdling simple fields of a table, that are written directly into the table without any relationship. In our example (as defined in the [quickstart](quickstart.md)) this corresponds to user's name, email, birtdate, etc...
+```php Properties```
 - Field Name: the name of the field as it will appear in the POST values. Therefore, it is a unique idenfier of the field inside the Form
 - Label: the label of the field in the form
 - Renderer: handles the display of the field
@@ -27,14 +27,14 @@ This type is made for handdling simple fields of a table, that are written direc
 - Setter: the function of the bean that will set the value into the field
 -ForeignKey Field Descriptor
 As the name tells it, this type is dedicated for handling one-to-many relationships, as our user's role_id foreign key.
-```php Specific Properties (in addition to the Base Field Descriptor)'''
+```php Specific Properties (in addition to the Base Field Descriptor)```
 - Linked DAO: the DAO that will be used to retrieve the linked beans (in our example, the Role DAO that will get the role beans to feed the Role SelectBox)
 - Linked Id Getter: the function of the linked bean (ex/ RoleBean) that will return the id of the linked bean, that will be the value of the option
 - Linked Label Getter: the function of the linked bean (ex/ RoleBean) that will return the label of the linked bean, that will be the text of the option
 - Data Method: the function of the linked DAO that will return a list of beans
 - ManyToMany Field Descriptor
 This third type of descriptor handles, of course, many-to-many relationships, as our user's hobbies
-```php Specific Properties (Many To Many descriptor do not have "getter" nor "setter" properties because no field is involved in the main table / bean)'''
+```php Specific Properties (Many To Many descriptor do not have "getter" nor "setter" properties because no field is involved in the main table / bean)```
 - Mapping DAO The DAO that handles the mapping table (the relation table, in our example, the UserHobby DAO)
 - Mapping Id Getter The function that will get the primary key of the mapping table (ex: user_hobby.id)
 - Mapping Left Key Setter The function that will set the left key (ex: user_hobby.user_id)

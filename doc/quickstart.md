@@ -6,7 +6,7 @@ In this quick start guide, we will see how you can use BCE to build a user form
 Our playground data model
 -------------------------
 
-The first thing you have to know, is that BCE directy relies on your application's ORM system. For now, Mouf's ORM system is TDBM, but when others will be available, we will do our best to provide multi-ORM support. You will find a detailed description of BCE's architecture in the [dedicated chapter](advanced.html).
+The first thing you have to know, is that BCE directy relies on your application's ORM system. For now, Mouf's ORM system is TDBM, but when others will be available, we will do our best to provide multi-ORM support. You will find a detailed description of BCE's architecture in the [dedicated chapter](advanced.md).
 
 For this tutorial, we assume you have Mouf setup, with TDBM and BCE packages installed. We will work on a very classic database schema for handling users.<br/>
 We have users. Users have some basic attributes as name, email, etc..., and they have a role defined by a foreign key named role_id. Finally, a user may have some Hobbies, which is represented by a many to many relation using a pivot table.
@@ -96,5 +96,5 @@ That was to show you how simple you can get a form using BCE. But, of course, BC
 Want more ?
 -----------
 
-- For a better understanding of the BCE configuration interface, and of the main BCE Objects, you may continue with the [detailed description](advanced.html)
-- To see how to get a fully integrated userForm without coding one more line, please have a look at the [configuring your forms](advanced_example.html) section
+- For a better understanding of the BCE configuration interface, and of the main BCE Objects, you may continue with the [detailed description](advanced.md)
+- To see how to get a fully integrated userForm without coding one more line, please have a look at the [configuring your forms](advanced_example.md) section
