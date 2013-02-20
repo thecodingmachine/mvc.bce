@@ -311,7 +311,8 @@ function completeInstanceData(data){
 	jQuery( ".sortable" ).sortable({handle: ".field-title"});
 	
 	/* Set up "accordion" behavior */
-	jQuery(".expand" ).live('click', function(event){
+	//$(document).on("click", "a.foo", fn)
+	jQuery(document).on("click", ".expand", function(event){
 		jQuery(".field-data").each(function(){
 			jQuery(this).slideUp();
 		});
