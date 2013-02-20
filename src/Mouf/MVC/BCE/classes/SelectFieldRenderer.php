@@ -17,6 +17,13 @@ class SelectFieldRenderer implements SingleFieldRendererInterface {
 	public $radioMode = false;
 	
 	/**
+	 * Add title attribute to option in select  
+	 * @Property
+	 * @var bool
+	 */
+	public $addTitleAttribute = false;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
@@ -33,7 +40,13 @@ class SelectFieldRenderer implements SingleFieldRendererInterface {
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
 				if ($beanId == $value) $selectStr = "selected = 'selected'";
 				else $selectStr = "";
-				$html .= "<option value='$beanId' $selectStr>$beanLabel</option>";
+				$html .= "<option ";
+				
+				if ($this->addTitleAttribute) {
+					$html .= 'title="'.$beanLabel.'" ';				
+				}
+				
+				$html .= "value='$beanId' $selectStr>$beanLabel</option>";
 			}
 			$html .= "</select>";
 		}else{
