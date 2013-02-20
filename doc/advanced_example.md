@@ -9,7 +9,7 @@ In this section, we will see:
 Finalize configuration of the user Form
 ---------------------------------------
 
-[In the previous chapter](quickstart.html), we left the user form in a simple state:
+[In the previous chapter](quickstart.md), we left the user form in a simple state:
 - almost all fields are rendered as text fields,
 - numeric columns are validated as numeric fields,
 - role_id column is a dropdown list of roles
@@ -42,7 +42,7 @@ Set the user - hobby field descriptor
 
 As user - hobby is a Many 2 Many relationship, there is no field involved in the user table. Therefore, when you first created the form, no field descriptor was detected and therefore suggested to handle user's hobbies. You can add a Many2ManyField Descriptor by hiting the "+ m2m" button under the "Configuration tab".
 
-Once you do this, a new field descriptor appears at the end of the list. For a better understanding of the Field Descriptors attributes, you should refer to the [detailed description](advanced.html).
+Once you do this, a new field descriptor appears at the end of the list. For a better understanding of the Field Descriptors attributes, you should refer to the [detailed description](advanced.md).
 
 After having filled out the descriptor (as you see, the configuration interface assists you in finding DAO's and Bean's methods), you may want to have your "Hobbies" field displayed before ImagePath and Newsletter fields. To do so, just drag the field up.
 
@@ -111,7 +111,7 @@ public function preSave($post, BCEForm &$form);
  * @param mixed $beanId the id of the saved bean
  */
 public function postSave($bean, $beanId);
-'''
+```
 
 Let's say we want a file upload fiel for our user's image path field.
 
@@ -223,7 +223,7 @@ class ImageUploadCustomDescriptor implements BCEFieldDescriptorInterface{
 	}
 	
 }
-'''
+```
 
 Now, the next thing to do is :
 ![upload file](images/add_custom_uploader.jpg)
