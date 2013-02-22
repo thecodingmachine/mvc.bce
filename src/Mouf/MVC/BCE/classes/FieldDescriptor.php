@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\classes;
 
+use Mouf\Utils\Common\Formatters\BijectiveFormatterInterface;
 use Mouf\MVC\BCE\BCEForm;
 use Mouf\Utils\Common\Formatters\FormatterInterface;
 
