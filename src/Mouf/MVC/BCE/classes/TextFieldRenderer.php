@@ -16,7 +16,7 @@ class TextFieldRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
+		return "<input type='text' value=\"".$value."\" name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**
