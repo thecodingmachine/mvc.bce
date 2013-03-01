@@ -16,7 +16,7 @@ class TextAreaFieldRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return '<textarea name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
+		return '<textarea name="'.$fieldName.'" id="'.$fieldName.'">'.userinput_to_htmlprotected($value).'</textarea>';
 	}
 	
 	/**

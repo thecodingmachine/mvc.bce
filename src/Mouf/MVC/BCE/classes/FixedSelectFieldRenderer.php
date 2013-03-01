@@ -35,7 +35,7 @@ class FixedSelectFieldRenderer implements SingleFieldRendererInterface {
                 $selected = $beanLabel;
         }
 
-        $html .= "<span style='padding-top:5px;display:block;'>" . $selected . "</span><input type='hidden' name='" . $fieldName . "' value='" . $value . "' />";
+        $html .= "<span style='padding-top:5px;display:block;'>" . $selected . "</span><input type='hidden' name='" . $fieldName . "' value='" . userinput_to_htmlprotected($value) . "' />";
         return $html;
     }
 

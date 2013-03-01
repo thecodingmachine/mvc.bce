@@ -16,7 +16,7 @@ class HiddenRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return "<input type='hidden' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
+		return "<input type='hidden' value='".userinput_to_htmlprotected($value)."' name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**

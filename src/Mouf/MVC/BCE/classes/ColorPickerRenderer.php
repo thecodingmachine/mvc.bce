@@ -15,7 +15,7 @@ class ColorPickerRenderer implements SingleFieldRendererInterface {
 		/* @var $descriptor BaseFieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$value = $descriptor->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."' class='color-picker'/>";
+		return "<input type='text' value='".userinput_to_htmlprotected($value)."' name='".$fieldName."' id='".$fieldName."' class='color-picker'/>";
 	}
 	
 	/**
