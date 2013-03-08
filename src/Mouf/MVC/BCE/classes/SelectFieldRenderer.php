@@ -24,6 +24,27 @@ class SelectFieldRenderer implements SingleFieldRendererInterface {
 	public $addTitleAttribute = false;
 	
 	/**
+	 * Tells if there should ba a default option  
+	 * @Property
+	 * @var bool
+	 */
+	public $addNullOption = false;
+	
+	/**
+	 * The value of the default option (only works if $addNullOption is true)
+	 * @Property
+	 * @var string
+	 */
+	public $nullOptValue = "";
+	
+	/**
+	 * The label of the default option (only works if $addNullOption is true)
+	 * @Property
+	 * @var string
+	 */
+	public $nullOptLabel = " - Select - ";
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
@@ -35,6 +56,11 @@ class SelectFieldRenderer implements SingleFieldRendererInterface {
 		$html = "";
 		if (!$this->radioMode){
 			$html = "<select name='$fieldName' id='$fieldName'>";
+			
+			if ($this->addNullOption){
+				$html .= "<option value='$this->nullOptValue'>$this->nullOptLabel</option>";
+			}
+			
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
