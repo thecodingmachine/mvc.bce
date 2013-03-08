@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\admin;
+namespace Mouf\MVC\BCE\Admin;
 
 use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
 use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;

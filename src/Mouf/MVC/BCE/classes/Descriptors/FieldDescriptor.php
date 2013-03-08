@@ -95,8 +95,8 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * (non-PHPdoc)
 	 * @see BCEFieldDescriptorInterface::getJS()
 	 */
-	public function getJS(){
-		foreach ($this->renderer->getJS($this) as $scope => $script){
+	public function getJS($formMode){
+			foreach ($this->renderer->getJS($this, $formMode) as $scope => $script){
 			$this->script[$scope][] = $script;
 		}
 		return $this->script;
@@ -153,7 +153,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @return boolean
 	 */
 	public function canEdit(){
-		return $this->editCondition->isOk();
+		return $this->editCondition === null || $this->editCondition->isOk();
 	}
 	
 	/**
@@ -161,7 +161,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @return boolean
 	 */
 	public function canView(){
-		return $this->viewCondition->isOk();
+		return $this->viewCondition === null || $this->viewCondition->isOk();
 	}
 	
 	/**

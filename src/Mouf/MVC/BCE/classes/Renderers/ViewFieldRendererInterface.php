@@ -1,4 +1,4 @@
-é<?php
+<?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
 

@@ -5,7 +5,7 @@ use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
  * @Component
  */
-class MultipleSelectFieldRenderer implements MultiFieldRendererInterface, ViewFieldRendererInterface {
+class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * Tells if the field should display 

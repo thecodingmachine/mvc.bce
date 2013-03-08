@@ -446,17 +446,22 @@ function _getFieldElements(field, fieldType){
 	var name = _getSimpleValueWrapper("Field Name", "fieldname", field.name, field.fieldName, fieldType); 
 	var label =_getSimpleValueWrapper("Label", "label", field.name, field.label, fieldType);
 	var renderer =_getListValueWrapper("Renderer", "renderer", field.name, field.renderer, field.type == 'm2m' ? multiRenderers : singleRenderers, null, fieldType);
+	var wrapperRenderer =_getListValueWrapper("Wrapper Renderer", "wrapper_renderer", field.name, field.wrapperRenderer, wrapperRenderers, null, fieldType);
 	var formatter =_getListValueWrapper("formatter", "formatter", field.name, field.formatter, formatters, null, fieldType);
 	var validatorsElem =_getMultiListValueWrapper("Validators", "validators", field.name, field.validators, validators, fieldType);
 	
 	var br = jQuery("<div/>").append(jQuery("<br/>").css('clear', 'both'));
 	var br2 = br.clone();
 	
+	var description = _getSimpleValueWrapper("Description", "description", field.name, field.description, fieldType, true);
+	
+	var br3 = br.clone();
+	
 	var typeElemWrap = _getHiddenElemWrapper(fieldType, "type", field.name, field.type, 'field_type');
 	var isNewElemWrap = _getHiddenElemWrapper(fieldType, "new", field.name, field.is_new);
 	var instanceNameWrap = _getHiddenElemWrapper(fieldType, "instanceName", field.name, field.name); 
 	
-	return [name, label, renderer, formatter, br, validatorsElem, br2, typeElemWrap, isNewElemWrap, instanceNameWrap];
+	return [name, label, renderer, wrapperRenderer, formatter, br, validatorsElem, br2, description, br3, typeElemWrap, isNewElemWrap, instanceNameWrap];
 }
 
 /**
@@ -615,12 +620,12 @@ function _getFieldNames(fieldType, prop, name){
  * @param fieldType:	the type of the field (1: idDesc, 2: config, 0 or null: fieldDescriptor
  * @returns jQuery Object
  */
-function _getSimpleValueWrapper(label, prop, name, value, fieldType){
+function _getSimpleValueWrapper(label, prop, name, value, fieldType, isTextArea){
 	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
 	var divElem = jQuery("<div/>").addClass('field-value-bloc');
 	divElem.append(jQuery("<label>").html(label));
-	var input = jQuery("<input/>").attr('type', 'text').attr('id', name+"_"+prop).attr('name', fieldNameAttr);
-	input.attr('value',value);
+	var input = !isTextArea ? jQuery("<input/>").attr('type', 'text').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value)
+			: jQuery('<textarea/>').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value);
 	divElem.append(input);
 	return jQuery("<div/>").append(divElem);
 }
@@ -1034,8 +1039,8 @@ function unSetFK(event){
  */
 function callFkDaoSelectRefresh(){
 	jQuery.each(fkRefreshCalls, function(i, fieldName) {
-		var linkedIdGetterElem = jQuery("#" + fieldName + "_linkedIdGetter");
-		var linkedLabelGetterElem = jQuery("#" + fieldName + "_linkedLabelGetter");
+		var linkedIdGetterElem = jQuery("#" + _instanceName + fieldName + "_linkedIdGetter");
+		var linkedLabelGetterElem = jQuery("#" + _instanceName + fieldName + "_linkedLabelGetter");
 		
 		_selectFromSettings(linkedIdGetterElem, refreshFKDaoSettings.id_getter);
 		_selectFromSettings(linkedLabelGetterElem, refreshFKDaoSettings.label_getter);

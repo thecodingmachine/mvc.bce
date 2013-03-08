@@ -23,7 +23,7 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
 		return array();
 	}
 	

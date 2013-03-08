@@ -5,7 +5,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * This renderer handles text input fields with the jQuery MiniColor
  * @Component
  */
-class ColorPickerRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface  {
+class ColorPickerRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface  {
 	
 	/**
 	 * (non-PHPdoc)

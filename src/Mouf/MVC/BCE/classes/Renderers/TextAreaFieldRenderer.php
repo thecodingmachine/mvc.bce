@@ -7,7 +7,7 @@ use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
  * Base class for rendering simple text area fields
  * @Component
  */
-class TextAreaFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
+class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

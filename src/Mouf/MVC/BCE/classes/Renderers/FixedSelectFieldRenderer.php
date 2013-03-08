@@ -42,7 +42,7 @@ class FixedSelectFieldRenderer extends DefaultViewFieldRenderer implements Singl
      * (non-PHPdoc)
      * @see FieldRendererInterface::getJS()
      */
-    public function getJS($descriptor) {
+    public function getJSEdit($descriptor) {
         return array();
     }
 

@@ -41,6 +41,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 	/**
 	 * @var array<string>
 	 */
+	protected $wrapperRenderers;
+	
+	/**
+	 * @var array<string>
+	 */
 	protected $formRenderers;
 	
 	/**
@@ -96,14 +101,15 @@ class BceConfigController extends AbstractMoufInstanceController {
 		}
 		//Initialize descriptor's attributes possible values
 		$this->daoInstances = MoufReflectionProxy::getInstances("Mouf\\Database\\DAOInterface", false);
-		$this->singleRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\SingleFieldRendererInterface", false);
-		$this->multiRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\MultiFieldRendererInterface", false);
+		$this->singleRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\Classes\\Renderers\\SingleFieldRendererInterface", false);
+		$this->multiRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\Classes\\Renderers\\MultiFieldRendererInterface", false);
 		$this->formatters = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Formatters\\FormatterInterface", false);
 		$this->validators = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Validators\\ValidatorInterface", false);
+		$this->wrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\FieldWrapperRendererInterface", false);
 
 		//Initialize form's attributes possible values
-		$this->formRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderer\\BCERendererInterface", false);
-		$this->validationHandlers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\classes\\validators\\JsValidationHandlerInterface", false);
+		$this->formRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderers\\BCERendererInterface", false);
+		$this->validationHandlers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\Classes\\ValidationHandlers\\JsValidationHandlerInterface", false);
 		
 		$this->libraryManager->addLibrary(
 			new WebLibrary(
@@ -150,7 +156,6 @@ class BceConfigController extends AbstractMoufInstanceController {
 		//Get the form instance
 		$this->moufManager = MoufManager::getMoufManagerHiddenInstance();
 		$formInstance = $this->moufManager->getInstanceDescriptor($_POST['formInstanceName']);
-		
 		//Set idfieldDesc 
 		if (isset($_POST["idField"]['active'])) {
 			$idFieldDesc = $this->updateFieldDescriptor($_POST["idField"]);
@@ -205,13 +210,13 @@ class BceConfigController extends AbstractMoufInstanceController {
 		if ($fieldData['new'] != "false"){
 			switch ($fieldData['type']) {
 				case "base":
-					$className = "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor";
 				break;
 				case "fk":
-					$className = "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor";
 				break;
 				case "m2m":
-					$className = "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor";
+					$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor";
 				break;
 				default:
 					throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
@@ -224,19 +229,19 @@ class BceConfigController extends AbstractMoufInstanceController {
 			$fieldDescriptor = $this->moufManager->getInstanceDescriptor($fieldData['instanceName']);
 			
 			if (
-				(($fieldData['type']=='base') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor")) ||
-				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor")) ||
-				(($fieldData['type']=='m2m') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor"))
+				(($fieldData['type']=='base') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor")) ||
+				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor")) ||
+				(($fieldData['type']=='m2m') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor"))
 			){
 				switch ($fieldData['type']) {
 					case "base":
-						$className = "Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor";
+						$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor";
 						break;
 					case "fk":
-						$className = "Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor";
+						$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor";
 						break;
 					case "m2m":
-						$className = "Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor";
+						$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor";
 						break;
 					default:
 						throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
@@ -285,6 +290,12 @@ class BceConfigController extends AbstractMoufInstanceController {
 			$fieldDescriptor->getProperty('renderer')->setValue($renderer);
 		} elseif(isset($fieldData['renderer']) && empty($fieldData['renderer'])) {
 			$fieldDescriptor->getProperty('renderer')->setValue(null);
+		}
+		if (isset($fieldData['wrapper_renderer']) && !empty($fieldData['wrapper_renderer'])){
+			$wrapperRenderer = $this->moufManager->getInstanceDescriptor($fieldData['wrapper_renderer']);
+			$fieldDescriptor->getProperty('fieldWrapperRenderer')->setValue($wrapperRenderer);
+		} elseif(isset($fieldData['wrapper_renderer']) && empty($fieldData['wrapper_renderer'])) {
+			$fieldDescriptor->getProperty('fieldWrapperRenderer')->setValue(null);
 		}
 		
 		

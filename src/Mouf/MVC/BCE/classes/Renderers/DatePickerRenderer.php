@@ -34,7 +34,7 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 	 * The datepicker depends on jQueryUI's datepicker widget, therefore load the library into the WebLibrary manager, and call the datepicker initialization on dom ready
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
 		/* @var $libManager WebLibraryManager */
 		$jQueryUI = MoufManager::getMoufManager()->getInstance('jQueryUiLibrary');
 		Mouf::getDefaultWebLibraryManager()->addLibrary($jQueryUI);

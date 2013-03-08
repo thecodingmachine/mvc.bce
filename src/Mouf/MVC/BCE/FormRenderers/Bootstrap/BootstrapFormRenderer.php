@@ -25,8 +25,7 @@ class BootstrapFormRenderer implements BCERendererInterface {
 	<fieldset>
 		<?php
 		$idDescriptor = $form->idFieldDescriptor;
-		$idRenderer = $idDescriptor->getRenderer();
-		echo $idRenderer->render($idDescriptor);
+		echo $idDescriptor->toHtml($form->getMode());
 		foreach ($form->fieldDescriptors as $descriptor) {
 			/* @var $descriptor BCEFieldDescriptorInterface */
 			$descriptor->toHtml($form->getMode());

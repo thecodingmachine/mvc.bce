@@ -20,6 +20,13 @@ var singleRenderers = ['<?php echo implode("', '", $this->singleRenderers); ?>']
 var multiRenderers = ['<?php echo implode("', '", $this->multiRenderers); ?>'];
 var formatters = ['<?php echo implode("', '", $this->formatters); ?>'];
 var validators = ['<?php echo implode("', '", $this->validators); ?>'];
+<?php 
+if (count($this->wrapperRenderers)){
+?>
+var wrapperRenderers = ['<?php echo implode("', '", $this->wrapperRenderers); ?>'];
+<?php
+}else echo "wrapperRenderers = []";
+?>
 
 var formRenderers = ['<?php echo implode("', '", $this->formRenderers); ?>'];
 var validationHandlers = ['<?php echo implode("', '", $this->validationHandlers); ?>'];
@@ -83,5 +90,5 @@ jQuery(document).ready(function() {
 			</div>
 		</div>		
 	</div>
-	<button type="submit" onclick="getNewM2MInstancesNames()">Save</button>
+	<button type="submit">Save</button>
 	</form>

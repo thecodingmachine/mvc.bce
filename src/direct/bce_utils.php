@@ -1,20 +1,20 @@
 <?php
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
+
+use Mouf\MVC\BCE\Admin\FieldDescriptorBean;
 use Mouf\Database\DAOInterface;
-
 use Mouf\Moufspector;
-
 use Mouf\Reflection\MoufReflectionClass;
 use Mouf\MoufManager;
-use Mouf\MVC\BCE\admin\CustomFieldDescriptorBean;
-use Mouf\MVC\BCE\admin\Many2ManyFieldDescriptorBean;
-use Mouf\MVC\BCE\admin\BaseFieldDescriptorBean;
-use Mouf\MVC\BCE\admin\ForeignKeyFieldDescriptorBean;
-use Mouf\MVC\BCE\admin\ForeignKeyDataBean;
-use Mouf\MVC\BCE\admin\BeanFieldHelper;
-use Mouf\MVC\BCE\admin\BeanMethodHelper;
-use Mouf\MVC\BCE\admin\DaoDescriptorBean;
-use Mouf\MVC\BCE\admin\BCEFormInstanceBean;
-
+use Mouf\MVC\BCE\Admin\CustomFieldDescriptorBean;
+use Mouf\MVC\BCE\Admin\Many2ManyFieldDescriptorBean;
+use Mouf\MVC\BCE\Admin\BaseFieldDescriptorBean;
+use Mouf\MVC\BCE\Admin\ForeignKeyFieldDescriptorBean;
+use Mouf\MVC\BCE\Admin\ForeignKeyDataBean;
+use Mouf\MVC\BCE\Admin\BeanFieldHelper;
+use Mouf\MVC\BCE\Admin\BeanMethodHelper;
+use Mouf\MVC\BCE\Admin\DaoDescriptorBean;
+use Mouf\MVC\BCE\Admin\BCEFormInstanceBean;
 /**
  * ----------------------------------------------------------------
  * ------------------------- Head's UP!!!--------------------------
@@ -70,6 +70,7 @@ class BCEUtils{
 	 */
 	private $validators = array();
 	private $renderers = array();
+	private $wrapperRenderers = array();
 	private $formatters = array();
 	private $daos = array();
 	
@@ -88,6 +89,7 @@ class BCEUtils{
 		//Simply initialize collections (used for drop downs)
 		$this->initValidators();
 		$this->initRenderers();
+		$this->initWrapperRenderers();
 		$this->initFormatters();
 		$this->initDaos();
 	}
@@ -143,11 +145,15 @@ class BCEUtils{
 	}
 	
 	private function initRenderers(){
-		$this->renderers = $this->initHandler('Mouf\\MVC\\BCE\\classes\\FieldRendererInterface');
+		$this->renderers = $this->initHandler('Mouf\\MVC\\BCE\\Classes\\Renderers\\FieldRendererInterface');
 	}
 	
 	private function initFormatters(){
 		$this->formatters = $this->initHandler('Mouf\\Utils\\Common\\Formatters\\FormatterInterface');
+	}
+
+	private function initWrapperRenderers(){
+		$this->wrapperRenderers = $this->initHandler('Mouf\\MVC\\BCE\\FormRenderers\\FieldWrapperRendererInterface');
 	}
 	
 	/**
@@ -345,6 +351,7 @@ class BCEUtils{
 		
 		/* Find the best matching instances to apply... */
 		$convertBean->renderer = $this->_match($beanField, $this->renderers);
+		$convertBean->wrapperRenderer = $this->_match($beanField, $this->wrapperRenderers);
 		$convertBean->formatter = $this->_match($beanField, $this->formatters);
 		$convertBean->validators = $this->_match($beanField, $this->validators, true);
 		
@@ -563,11 +570,11 @@ class BCEUtils{
 		$instance = MoufManager::getMoufManager()->getInstanceDescriptor($descriptor->getName());
 		
 		//Instanciate the bean with a class that matches the descriptor instance's class
-		if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor'){
+		if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor'){
 			$fieldData = new ForeignKeyFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\BaseFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor'){
 			$fieldData = new BaseFieldDescriptorBean();
-		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'){
 			$fieldData = new Many2ManyFieldDescriptorBean();
 		}else{
 			$isCustom = true;
@@ -588,17 +595,17 @@ class BCEUtils{
 			 * Load BaseFieldDescriptor data
 			 * TODO : find a better way than comparing class names, use instance of, is_a or is_subclass... but one that works :( 
 			 */
-			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
+			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'){
 				$fieldData->getter = $instance->getProperty('getter')->getValue();
 				$fieldData->setter = $instance->getProperty('setter')->getValue();
 			}
 			
 			/* load FK descriptor specific attributes */
-			if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\ForeignKeyFieldDescriptor'){
+			if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor'){
 				$this->loadFKDescriptorValues($fieldData, $instance);
 			}
 			/* load M2M descriptor specific attributes */
-			else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\classes\\Many2ManyFieldDescriptor'){
+			else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'){
 				$this->loadM2MDescriptorValues($fieldData, $instance);
 			}
 		}
@@ -619,8 +626,14 @@ class BCEUtils{
 	private function loadBaseValues(&$bean, $descriptor, $instance){
 		/* @var $bean FieldDescriptorBean */
 		$bean->name = $descriptor->getName();
-		if ($instance->getProperty('renderer')->getValue()) 
+		$bean->description = $instance->getProperty('description')->getValue();
+		if ($instance->getProperty('renderer')->getValue()){
 			$bean->renderer = $instance->getProperty('renderer')->getValue()->getName();
+		}
+		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
+			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+		}
+		 
 		$formatterDesc = $instance->getProperty('formatter')->getValue();
 		$bean->formatter = $formatterDesc ? $formatterDesc->getName() : null;
 		$bean->fieldName = $instance->getProperty('fieldName')->getValue();

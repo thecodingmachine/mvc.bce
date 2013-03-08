@@ -1,11 +1,23 @@
 <?php
+namespace Mouf\MVC\BCE\FormRenderers\Bootstrap\Wrappers;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 
+/**
+ * Base class for wrapping simple fields
+ * 
+ * @ApplyTo { "php" :[ "string", "int", "number"] }
+ */
+
 class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	
-	public function render(FieldDescriptor $descriptor, $fromEditMode) {
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface::render()
+	 */
+	public function render(FieldDescriptor $descriptor, $fieldHtml, $formMode) {
 		?>
 		<div class="control-group">
 			<label for="<?php echo $descriptor->getFieldName() ?>" class="control-label">
@@ -22,9 +34,9 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 				?>
 			</label>
 			<div class="controls">
-				<?php echo $descriptor->getRenderer()->render($descriptor, $fromEditMode); ?>
+				<?php echo $descriptor->getRenderer()->render($descriptor, $formMode); ?>
 			</div>
-			<?php if ($fromEditMode == 'edit' && $descriptor->getDescription()){ ?>
+			<?php if ($formMode == 'edit' && $descriptor->getDescription()){ ?>
 			<div class="description">
 				<?php echo $descriptor->getDescription(); ?>
 			</div>

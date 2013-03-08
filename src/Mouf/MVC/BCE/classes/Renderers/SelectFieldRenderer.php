@@ -57,7 +57,7 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor){
+	public function getJSEdit($descriptor){
 		return array();
 	}
 	

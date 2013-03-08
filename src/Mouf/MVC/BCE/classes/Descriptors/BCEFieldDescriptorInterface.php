@@ -29,16 +29,19 @@ interface BCEFieldDescriptorInterface {
 	
 	/**
 	 * Function called when rendering the whole Form
+	 * @param bool $formMode the mode (edit ot view) of the form
 	 */
-	public function toHtml();
+	public function toHtml($formMode);
 	
 	/**
 	 * returns the specific JS for the field. 
 	 * 	- This JS may come from the renderer if any (eg datepicker or slider, multiselect, etc..)
 	 *  - Or also from the descriptor itself : eg a file upload callback function
 	 *  - In case of a custom field, this may also be some validation script
+	 *  
+	 * @param bool $formMode the mode (edit ot view) of the form
 	 */
-	public function getJS();
+	public function getJS($formMode);
 	
 	/**
 	 * Does all the operations before the main bean is saved. E.G:

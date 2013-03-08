@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\admin;
+namespace Mouf\MVC\BCE\Admin;
 
 class BaseFieldDescriptorBean extends FieldDescriptorBean {
 	/**

@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE;
 
+use Mouf\Html\Utils\WebLibraryManager\InlineWebLibrary;
+
 use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\Database\DAOInterface;
@@ -180,20 +182,28 @@ class BCEForm {
 		//Load required libraries
 		Mouf::getDefaultWebLibraryManager()->addLibrary($this->renderer->getSkin());
 		Mouf::getDefaultWebLibraryManager()->addLibrary($this->validationHandler->getJsLibrary());
+		$lib = new InlineWebLibrary();
+		$lib->setJSFromText($this->getValidationJS());
+		Mouf::getDefaultWebLibraryManager()->addLibrary($lib);
 	}
 	
 	/**
 	 * Returns the JS validation strings of the form in HTML
 	 * @return string
 	 */
-	public function getValidationJS(){
+	private function getValidationJS(){
 		$js = $this->validationHandler->getValidationJs($this->attributes['id']);
 		$js .= $this->renderScripts();
-		
-		return $js;
+		return '
+		<script type="text/javascript">
+		<!--
+		'.$js.'
+		//-->
+		</script>		
+		';
 	}
 	
-	public function renderScripts(){
+	private function renderScripts(){
 		$jsPrefix = $jsSuffix = $js = "";
 		
 		foreach ($this->scripts as $scope => $values){
@@ -235,8 +245,8 @@ class BCEForm {
 		$this->renderer->render($this);
 	}
 	
-	public function loadScripts($descriptor){
-		foreach ($descriptor->getJs($descriptor) as $scope => $scripts){
+	private function loadScripts($descriptor){
+		foreach ($descriptor->getJs($this->mode) as $scope => $scripts){
 			foreach ($scripts as $script){
 				$this->scripts[$scope][] = $script;
 			}
@@ -314,5 +324,9 @@ class BCEForm {
 			return $this->fieldDescriptorsByName[$name];
 		else
 			return null;
+	}
+	
+	public function getMode(){
+		return $this->mode; 
 	}
 }

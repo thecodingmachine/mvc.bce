@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * @ApplyTo { "pk" : [ "pk" ] }
  * @Component
  */
-class HiddenRenderer implements SingleFieldRendererInterface {
+class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

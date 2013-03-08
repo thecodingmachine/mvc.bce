@@ -1,13 +1,12 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
-use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
 
 /**
  * Base class for rendering simple boolean fields
  * @Component
  * @ApplyTo { "php" :[ "boolean" ] }
  */
-class BooleanFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
+class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
 
 	/**
 	 * Fine key to the text to be displayed in 'view' mode when value is 'true'

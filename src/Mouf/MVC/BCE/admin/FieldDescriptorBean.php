@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\admin;
+namespace Mouf\MVC\BCE\Admin;
 /**
  * These classes are simple stringifyed representations of the BCE elements.
  * 
@@ -22,6 +22,12 @@ class FieldDescriptorBean {
 	 * @var string
 	 */
 	public $name;
+	
+	/**
+	 * The name of the wrapper renderer instance of the descriptor
+	 * @var string
+	 */
+	public $wrapperRenderer;
 	
 	/**
 	 * The name of the renderer instance of the descriptor
@@ -77,4 +83,10 @@ class FieldDescriptorBean {
 	 * @var string
 	 */
 	public $db_column;
+	
+	/**
+	 * The description of the field descriptor
+	 * @var string
+	 */
+	public $description;
 }

@@ -4,7 +4,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
 use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
 use Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface;
 
-class DefaultViewFieldRenderer implements ViewFieldRendererInterface {
+abstract class DefaultViewFieldRenderer extends BaseFieldRenderer implements ViewFieldRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

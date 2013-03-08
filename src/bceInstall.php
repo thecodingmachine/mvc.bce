@@ -21,7 +21,9 @@ $classes = array(
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\BooleanFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextAreaFieldRenderer",
-		"Mouf\\MVC\\BCE\\Classes\\Renderers\\PasswordFieldRenderer"
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\PasswordFieldRenderer",
+		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\DefaultFieldWrapperRenderer",
+		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\NoWrapFieldWrapperRenderer"
 );
 InstallUtils::massCreate($classes, $moufManager);
 

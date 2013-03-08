@@ -6,7 +6,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
  * Base class for rendering simple text fields
  * @Component
  */
-class PasswordFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
+class PasswordFieldRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * Autocomplete the field in the form.

@@ -135,3 +135,6 @@ div.field-title div div.name-val{
 	margin-left: 20px;
 	font-variant: small-caps;
 }
+textarea{
+	width: 660px
+}

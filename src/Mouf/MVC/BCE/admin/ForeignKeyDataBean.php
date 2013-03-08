@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\admin;
+namespace Mouf\MVC\BCE\Admin;
 /**
  * These classes are simple stringifyed representations of the BCE elements.
  * 
