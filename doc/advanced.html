@@ -41,7 +41,7 @@ This type is made for handdling simple fields of a table, that are written direc
 <li><span class="entry">Validators:</span> a list of instances that are responsible of validating the values in the Form. They always implement a server side validation method, and often a client side (JS) validation script (the validator has to implement the JSValidatorInterface)</li>
 <li><span class="entry">Getter:</span> the function of the bean that will return the value for the field</li>
 <li><span class="entry">Setter:</span> the function of the bean that will set the value into the field</li>
-
+</ul>
 </li>
 <li><span class="entry">ForeignKey Field Descriptor</span>
 As the name tells it, this type is dedicated for handling one-to-many relationships, as our user's role_id foreign key.<br/>
@@ -51,7 +51,7 @@ As the name tells it, this type is dedicated for handling one-to-many relationsh
 <li><span class="entry">Linked Id Getter:</span> the function of the linked bean (ex/ RoleBean) that will return the id of the linked bean, that will be the value of the option</li>
 <li><span class="entry">Linked Label Getter:</span> the function of the linked bean (ex/ RoleBean) that will return the label of the linked bean, that will be the text of the option</li>
 <li><span class="entry">Data Method:</span> the function of the linked DAO that will return a list of beans</li>
-
+</ul>
 </li>
 <li><span class="entry">ManyToMany Field Descriptor</span>
 This third type of descriptor handles, of course, many-to-many relationships, as our user's hobbies<br/>
@@ -64,12 +64,12 @@ This third type of descriptor handles, of course, many-to-many relationships, as
 <li><span class="entry">Mapping Right Key Getter</span> The function that will get the right key</li>
 <li><span class="entry">Bean Values Method</span> The function that will load the beans of the mapping table that correspond to the main bean (ex: all UserHobby beans where userId is the current edited UserBean)</li>
 <li><span class="entry">Linked DAO, Linked Id Getter, Linked Label Getter, Data Method</span> see above, ForeingKey Field Descriptor's fields</li>
-
+</ul>
 </li>
 <li><span class="entry">Custom Field Descriptor</span>
 Because there is always some specific needs that need to be implemented, you may code any Field Descriptor you want by implementing the BCEFieldDescriptor Interface.
 </li>
-
+</ul>
 </li>
 <li><span class="entry"><u>The Configuration</u></span>
 <ul>
@@ -85,16 +85,16 @@ The JS library that will handle the client side validation : the validation func
 <li><span class="entry">Renderer</span>
 Instance that will import the CSS files, and build the Form's DOM, by taking the Form as input.
 </li>
-
+</ul>
 </li>
-
+</ul>
 <h2>Using the configuration interface</h2>
 <h3>Global Overview</h3>
 <p>Let's follow our example case: we just saved our form. The configuration interface is composed of 2 main tabs that allow the user to:
 <ul>
 <li>configure all existing or suggested field descriptors</li>
 <li>configure the form itself</li>
-
+</ul>
 <img src="images/configuration details.jpg" alt="tab fields" />
 <h4>The Field Descriptor widget</h4>
 <img src="images/fied_descriptor_widget.jpg" alt="tab fields" />
