@@ -36,7 +36,7 @@ We have users. Users have some basic attributes as name, email, etc..., and they
 <ul style="margin-top: 0;">
 <li><i>The detected fields are the ones that map getters and setters of the bean handled by the dao you selected, which means basically all columns that are located IN the (user) table. If we have a look back to the Data Model defined previously, all fields will be detected. The role_id field will be automatically set as a "ForeignKey" Field Descriptor (see PHP Documentation for a detailed description of the ForeignKeyFieldDescriptor Class). The only thing that BCE cannot guess is the "hobbies" many to many relationship.</i></li>
 <li><i>Any time you will access the form configuration interface, you will be suggested a FieldDescriptor for each field that doesn't seem to be handled already. These fields will appear with a green outline, whereas existing ones have a white one. By default, when you create the form, all "suggested" fields are checked to be created.</i></li>
-</ul>
+
 <img src="images/configure_page_2.jpg" alt="itab fields" />
 <h2>Save and use the user form</h2>
 <p>For this quickstart, we will not go further, just so you know how quick it is to get a basic user form. So, in fact, you just created a BCEform instance, selected the DAO that handles your main object, and have written about 0 lines of code... Now please click the save button.</p>
