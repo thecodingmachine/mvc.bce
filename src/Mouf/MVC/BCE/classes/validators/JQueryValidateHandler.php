@@ -107,7 +107,8 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 					element.closest('.control-group').addClass('error');
 				},
 				errorClass: 'help-inline',
-				errorElement: 'span'
+				errorElement: 'span',
+				onkeyup:false
 			}
 		";
 		
