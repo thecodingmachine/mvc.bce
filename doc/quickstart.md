@@ -38,7 +38,7 @@ Save and use the user form
 For this quickstart, we will not go further, just so you know how quick it is to get a basic user form. So, in fact, you just created a BCEform instance, selected the DAO that handles your main object, and have written about 0 lines of code... Now please click the save button.
 
 ###Write a simple controller
-We will assume, you already now about splash and its MVC implementation. I not, please refer to [Splash documentation](https://raw.github.com/thecodingmachine/mcv.splash/4.0/README.md) to understand what comes next. BCE is MVC framework agnostic, so you might as well use Symfony or Zend as a MVC framework if you like.
+We will assume, you already now about splash and its MVC implementation. I not, please refer to [Splash documentation](http://mouf-php.com/packages/mouf/mvc.splash/index.md) to understand what comes next. BCE is MVC framework agnostic, so you might as well use Symfony or Zend as a MVC framework if you like.
 
 Create a controller (let's say UserController), that has 2 actions: edit and save, and also is bound to a userForm property of type BCEForm:
 ```php

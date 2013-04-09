@@ -40,7 +40,20 @@
 			],
 			"require-admin": [
     			"src/BCEAdmin.php"
-    		]
+    		],
+			"doc": [
+                {
+                    "title": "Quick Start",
+                    "url": "doc/quickstart.md"
+                },
+                {
+                    "title": "Advanced Forms",
+                    "url": "doc/advanced.md"
+                }, {
+                    "title": "Advanced Example",
+                    "url": "doc/advanced_example.md"
+                }
+            ]
 		}
     }
 }
