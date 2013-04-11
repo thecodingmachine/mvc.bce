@@ -21,7 +21,7 @@
 		"mouf/html.utils.weblibrarymanager": ">=2.0-dev,<3.0",
 		"mouf/database.tdbm": ">=3.0-dev,<4.0",
 		"mouf/javascript.jquery.jquery": "~1.7.2",
-		"mouf/javascript.jquery.jquery-ui": "~1.8.22",
+		"mouf/javascript.jquery.jquery-ui": "~1",
 		"mouf/javascript.jquery.jquery-validate": "~1.10"
     },
     "autoload": {
