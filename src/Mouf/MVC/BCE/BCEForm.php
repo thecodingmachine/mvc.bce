@@ -1,5 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE;
+use Mouf\Html\HtmlElement\HtmlElementInterface;
+
 use Mouf\MVC\BCE\classes\FieldDescriptor;
 use Mouf\Database\DAOInterface;
 use Mouf;
@@ -21,7 +23,7 @@ use Mouf\MVC\BCE\classes\BCEFieldDescriptorInterface;
  * @author Kevin
  *
  */
-class BCEForm {
+class BCEForm implements HtmlElementInterface {
 	
 	/**
 	 * The main bean of the form, i.e. the object that define the edited data in the form
