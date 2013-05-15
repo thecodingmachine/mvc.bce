@@ -55,8 +55,10 @@ class ForeignKeyFieldDescriptor extends BaseFieldDescriptor {
 	 * @see BaseFieldDescriptor::load()
 	 */
 	public function load($mainBean, $id = null, &$form = null){
-		parent::load($mainBean, $id, $form);
+		$descriptorInstance = parent::load($mainBean, $id, $form);
 		$this->data = call_user_func(array($this->dao, $this->dataMethod));
+		
+		return $descriptorInstance;
 	}
 	
 	/**

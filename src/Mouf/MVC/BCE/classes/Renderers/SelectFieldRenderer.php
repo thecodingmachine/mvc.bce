@@ -1,6 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
+
 /**
  * A renderer class that ouputs a simple select box: it doesn't handle multiple selection
  * 
@@ -20,14 +23,16 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$descriptor = $descriptorInstance->fieldDescriptor;
 		/* @var $descriptor ForeignKeyFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
+		$fieldName = $descriptorInstance->getFieldName();
 		$data = $descriptor->getData();
-		$value = $descriptor->getFieldValue();
+		$value = $descriptorInstance->getFieldValue();
 		$html = "";
 		if (!$this->radioMode){
-			$html = "<select name='$fieldName' id='$fieldName'>";
+			$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName'>";
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
@@ -57,7 +62,8 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	

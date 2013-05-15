@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
 /**
  * This interface is implemented by any field renderer
  *
@@ -9,18 +10,18 @@ interface EditFieldRendererInterface {
 	
 	/**
 	 * Main function of the FieldRenderer : return field's HTML code
-	 * @param FieldDescriptor $descriptor
+	 * @param FieldDescriptorInstance $descriptor
 	 * @return string
 	 */
-	public function renderEdit($descriptor);
+	public function renderEdit($descriptorInstance);
 	
 	
 	/**
 	 * Function that may return some JS script for Edit mode
-	 * @param FieldDescriptor $descriptor
+	 * @param FieldDescriptorInstance $descriptor
 	 * @return array<string>
 	 */
-	public function getJSEdit($descriptor);
+	public function getJSEdit($descriptorInstance);
 	
 	
 }

@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\FormRenderers\Bootstrap;
 
+use Mouf\MVC\BCE\BCEFormInstance;
+
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
 use Mouf\Html\Utils\WebLibraryManager\WebLibrary;
@@ -19,28 +23,38 @@ class BootstrapFormRenderer implements BCERendererInterface {
 	 */
 	public $skin;
 	
-	public function render(BCEForm $form){
-?>
-	<form class="form-horizontal" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?>>
-	<fieldset>
-		<?php
-		$idDescriptor = $form->idFieldDescriptor;
-		echo $idDescriptor->toHtml($form->getMode());
-		foreach ($form->fieldDescriptors as $descriptor) {
-			/* @var $descriptor BCEFieldDescriptorInterface */
-			$descriptor->toHtml($form->getMode());
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\FormRenderers\BCERendererInterface::render()
+	 * @param FieldDescriptorInstance
+	 */
+	public function render(BCEForm $form, $descriptorInstances,	FieldDescriptorInstance $idDescriptorInstance){
+		$editMode = $form->getMode() == "edit";
+		if ($editMode && $form->isMain){
+	?>
+		<form class="form-horizontal" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?>>
+	<?php
 		}
+		echo $idDescriptorInstance->toHtml($form->getMode());
+		foreach ($descriptorInstances as $descriptorInstance) {
+			/* @var $descriptor BCEFieldDescriptorInterface */
+			$descriptorInstance->toHtml($form->getMode());
+		}
+		if ($editMode && $form->isMain){
 		?>
-		<div class="form-actions">
-			<button class="btn btn-primary" type="submit"><?php echo $form->saveLabel; ?></button>
-			<button class="btn" type="reset"><?php echo $form->cancelLabel; ?></button>
-		</div>
-	</fieldset>
-	</form>
-<?php
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit"><?php echo $form->saveLabel; ?></button>
+				<button class="btn" type="reset"><?php echo $form->cancelLabel; ?></button>
+			</div>
+		</form>
+	<?php
+		}	
+	?>
+	<?php
 	}
 	
 	public function getSkin(){
+		$this->skin->addCssFile("vendor/mouf/mvc.bce/src/Mouf/MVC/BCE/FormRenderers/Bootstrap/Adds/bce-bootstrap-adds.css");
 		return $this->skin;
 	}
-}
+}	

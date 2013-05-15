@@ -15,12 +15,7 @@ use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
  * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
 
-class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
-	
-	/**
-	 * @var DescriptionRendererInterface
-	 */
-	public $descriptionRenderer;
+class SubFormFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)
@@ -29,33 +24,25 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	 */
 	public function render($descriptorInstance, $fieldHtml, $formMode) {
 		?>
-		<div class="control-group default-wrapper-renderer">
+		<div class="subform-wrapper form-inline <?php echo $descriptorInstance->getFieldName(); ?>">
 			<label for="<?php echo $descriptorInstance->getFieldName() ?>" class="control-label">
 				<?php 
 				echo $descriptorInstance->fieldDescriptor->getFieldLabel();
-				if($descriptorInstance->fieldDescriptor instanceof FieldDescriptor && $descriptorInstance->fieldDescriptor->getValidators()) {
-					foreach ($descriptorInstance->fieldDescriptor->getValidators() as $value) {
-						if(get_class($value) == 'RequiredValidator') {
-							echo '<span class="required-field">*</span>';
-							break;
-						}
-					}
-				}
 				?>
 			</label>
 			<div class="controls">
 				<?php 
-				echo $descriptorInstance->fieldDescriptor->toHTML($descriptorInstance, $formMode);
-				if ($formMode == 'edit' && $descriptorInstance->fieldDescriptor->getDescription() && $this->descriptionRenderer){
-					$this->descriptionRenderer->render($descriptorInstance->fieldDescriptor->getDescription());
-				}
+					echo $descriptorInstance->fieldDescriptor->toHTML($descriptorInstance, $formMode);
 				?>
+			<div class="form-actions">
+				<button class="btn" onclick="<?php echo $descriptorInstance->fieldDescriptor->getAddItemFonction(); ?>; return false;"><i class="icon icon-plus-sign"></i>&nbsp;Add an Item</button>
+			</div>
 			</div>
 		</div>
 		<?php
 	}
 	
 	public function setDescriptionRenderer(DescriptionRendererInterface $renderer){
-		$this->descriptionRenderer = $renderer;
-	}	
+		return;
+	}
 }

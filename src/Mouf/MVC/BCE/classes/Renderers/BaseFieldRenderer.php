@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\MVC\BCE\Classes\BCEException;
 
@@ -10,19 +11,20 @@ abstract class BaseFieldRenderer implements FieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface::render()
 	 */
-	public function render($descriptor, $formMode){
+	public function render($descriptorInstance, $formMode){
+		$descriptor = $descriptorInstance->fieldDescriptor;
 		/* @var $descriptor FieldDescriptor */
 		if ($formMode == 'edit'){
 			if ($this instanceof EditFieldRendererInterface){
-				return $this->renderEdit($descriptor);
+				return $this->renderEdit($descriptorInstance);
 			}else{
-				throw new BCEException("Descriptor for field '$descriptor->getFieldName()' does not implement the 'edit' rendering mode.");
+				throw new BCEException("Descriptor for field '".$descriptor->getFieldName()."' does not implement the 'edit' rendering mode.");
 			}
 		}else if ($formMode == 'view'){
 			if ($this instanceof ViewFieldRendererInterface){
-				return $this->renderView($descriptor);
+				return $this->renderView($descriptorInstance);
 			}else{
-				throw new BCEException("Descriptor for field '$descriptor->getFieldName()' does not implement the 'view' rendering mode.");
+				throw new BCEException("Descriptor for field '".$descriptor->getFieldName()."' does not implement the 'view' rendering mode.");
 			}
 		}else{
 			throw new BCEException("Form mode '$formMode' is not valid");
@@ -33,19 +35,19 @@ abstract class BaseFieldRenderer implements FieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor, $formMode){
-	/* @var $descriptor FieldDescriptor */
+	public function getJS($descriptorInstance, $formMode){
+		/* @var $descriptor FieldDescriptorInstance */
 		if ($formMode == 'edit'){
 			if ($this instanceof EditFieldRendererInterface){
-				return $this->getJSEdit($descriptor);
+				return $this->getJSEdit($descriptorInstance);
 			}else{
-				throw new BCEException("Descriptor for field '$descriptor->getFieldName()' does not implement the 'edit' rendering mode.");
+				throw new BCEException("Renderer '".__CLASS__."' does not implement the 'edit' rendering mode.");
 			}
 		}else if ($formMode == 'view'){
 			if ($this instanceof ViewFieldRendererInterface){
-				return $this->getJSView($descriptor);
+				return $this->getJSView($descriptorInstance);
 			}else{
-				throw new BCEException("Descriptor for field '$descriptor->getFieldName()' does not implement the 'view' rendering mode.");
+				throw new BCEException("Renderer ".__CLASS__." does not implement the 'view' rendering mode.");
 			}
 		}else{
 			throw new BCEException("Form mode '$formMode' is not valid");

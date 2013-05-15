@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
 /**
  * Base class for rendering simple text fields
@@ -20,26 +21,29 @@ class PasswordFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$value = $descriptor->getFieldValue();
-		return "<input type='password' ".($this->autocomplete ? "autocomplete='on'" : "autocomplete='off'")." value='' name='".$fieldName."' id='".$fieldName."'/>";
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->getFieldName();
+		$value = $descriptorInstance->getFieldValue();
+		return "<input ".$descriptorInstance->printAttributes()." type='password' ".($this->autocomplete ? "autocomplete='on'" : "autocomplete='off'")." value='' name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	
-	public function renderView($descriptor){
+	public function renderView($descriptorInstance){
+			/* @var $descriptorInstance FieldDescriptorInstance */
 		return false;
 	}
 	
-	public function getJSView($descriptor){
+	public function getJSView($descriptorInstance){
+			/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	

@@ -1,5 +1,6 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
@@ -26,10 +27,12 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::renderEdit()
 	 */
-	public function renderEdit($descriptor){
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$descriptor = $descriptorInstance->fieldDescriptor;
 		/* @var $descriptor Many2ManyFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$values = $descriptor->getBeanValues();
+		$fieldName = $descriptorInstance->getFieldName();
+		$values = $descriptorInstance->getFieldValue();
 		$html = "";
 		$data = $descriptor->getData();
 		$selectIds = array();
@@ -41,7 +44,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 		}
 		switch ($this->mode) {
 			case 'multiselect':
-				$html = "<select name='$fieldName' id='$fieldName' multiple='multiple'>";
+				$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' multiple='multiple'>";
 				foreach ($data as $bean) {
 					$beanId = $descriptor->getRelatedBeanId($bean);
 					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
@@ -59,7 +62,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
 					$checked = (array_search($beanId, $selectIds)!==false) ? "checked='checked'" : "";
 					$html .= "<label class='checkbox inline' for='$fieldName"."-"."$beanId'>
-						<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]'> $beanLabel
+						<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]' ".$descriptorInstance->printAttributes()."> $beanLabel
 					</label>";
 				}
 			break;

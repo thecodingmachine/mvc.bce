@@ -89,4 +89,16 @@ class FieldDescriptorBean {
 	 * @var string
 	 */
 	public $description;
+	
+	/**
+	 * The edit condition instance's name
+	 * @var string
+	 */
+	public $editCondition;
+
+	/**
+	 * The view condition instance's name
+	 * @var string
+	 */
+	public $viewCondition;
 }

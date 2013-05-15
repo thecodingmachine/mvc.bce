@@ -119,6 +119,10 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 	public function load($bean, $mainBeanId = null, &$form = null){
 		$this->loadValues($mainBeanId);
 		$this->loadData();
+		
+		$descriptorInstance = new FieldDescriptorInstance($this, $form, $mainBeanId);
+		$descriptorInstance->value = $this->beanValues;
+		return $descriptorInstance;
 	}
 	
 	/**
@@ -152,7 +156,7 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 	 * This Descriptor will do all the persistance job in this postSave method, beacause is has to wait the main bean has been persisted 
 	 * @see BCEFieldDescriptorInterface::postSave()
 	 */
-	public function postSave($bean, $beanId){
+	public function postSave($bean, $beanId, $postValues = null){
 		//First remember which "secondary beans" the main bean was linked to
 		$this->loadValues($beanId);
 		$beforVals = $this->getBeanValues();

@@ -1,8 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
-
 /**
  * Base class for rendering simple text area fields
  * @Component
@@ -13,18 +13,19 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$value = $descriptor->getFieldValue();
-		return '<textarea name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->getFieldName();
+		$value = $descriptorInstance->getFieldValue();
+		return '<textarea '.$descriptorInstance->printAttributes().' name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	
@@ -32,17 +33,18 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::renderView()
 	 */
-	public function renderView($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		return "<div id='".$fieldName."' id='".$fieldName."'>". $descriptor->getFieldValue() ."</div>";
+	public function renderView($descriptorInstance){
+				/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->getFieldName();
+		return "<div id='".$fieldName."' name='".$fieldName."'>". $descriptor->getFieldValue() ."</div>";
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptor){
+	public function getJSView($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	

@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 /**
  * Base class for rendering simple text fields
  * @Component
@@ -12,18 +14,20 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$value = $descriptor->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->getFieldName();
+		$value = $descriptorInstance->getFieldValue();
+		$strReadonly = ! $descriptorInstance->fieldDescriptor->canEdit() ? "readonly='readonly'" : "";
+		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."' $strReadonly ".$descriptorInstance->printAttributes()."/>";
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	

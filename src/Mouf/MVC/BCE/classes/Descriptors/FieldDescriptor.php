@@ -1,5 +1,15 @@
-<?php
+<?php 
 namespace Mouf\MVC\BCE\Classes\Descriptors;
+
+use Mouf\MoufManager;
+
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JSValidationData;
+
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
+
+use Mouf\Utils\Common\Validators\ValidatorInterface;
+
+use Mouf\Utils\Common\Validators\JsValidatorInterface;
 
 use Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface;
 
@@ -66,40 +76,35 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @Property
 	 * @var array<ValidatorInterface>
 	 */
-	public $validators;
+	public $validators = array();
 	
 	/**
 	 * The Condition to respect in order to be allowed to edit the field
+	 * @Property
 	 * @var ConditionInterface
 	 */
 	public $editCondition;
 	
 	/**
 	 * The Condition to respect in order to be allowed to view the field
+	 * @Property
 	 * @var ConditionInterface
 	 */
 	public $viewCondition;
 	
 	/**
-	 * The javascript functions and calls of the form
-	 * @var array<string, string>
+	 * @var int
 	 */
-	public $script = array();
-	
-	public function toHtml($formMode){
-		$fieldHtml = $this->getRenderer()->render($this, $formMode);
-		echo $fieldHtml !== false ? $this->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
-	}
+	public $beanId;
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see BCEFieldDescriptorInterface::getJS()
+	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addJS()
 	 */
-	public function getJS($formMode){
-			foreach ($this->renderer->getJS($this, $formMode) as $scope => $script){
-			$this->script[$scope][] = $script;
+	public function addJS(BCEForm & $form){
+		foreach ($this->renderer->getJS($this, $form->mode) as $scope => $script){
+			$form->scriptManager->addScript($scope, $script);
 		}
-		return $this->script;
 	}
 	
 	/**
@@ -174,7 +179,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	/**
 	 * Returns the label of the field
 	 */
-	public function getLabel(){
+	public function getFieldLabel(){
 		return $this->label;
 	}
 	
@@ -205,8 +210,8 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * Returns the Renderer for that bean
 	 * return FieldRendererInterface
 	 */
-	public function getRenderer(){
-		return $this->renderer;
+	public function toHTML($descriptorInstance, $formMode){
+		return $this->renderer->render($descriptorInstance, $formMode);
 	}
 	
 	/**

@@ -52,6 +52,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @var array<string>
 	 */
 	protected $validationHandlers;
+
+	/**
+	 * @var array<string>
+	 */
+	protected $conditions;
 	
 	/**
 	 * The name of the set main DAO of the form 
@@ -106,6 +111,7 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$this->formatters = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Formatters\\FormatterInterface", false);
 		$this->validators = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Validators\\ValidatorInterface", false);
 		$this->wrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\FieldWrapperRendererInterface", false);
+		$this->conditions = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\ConditionInterface\\ConditionInterface", false);
 
 		//Initialize form's attributes possible values
 		$this->formRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderers\\BCERendererInterface", false);
@@ -279,36 +285,35 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @param array $fieldData the data to be updated
 	 */
 	private function loadFieldDescriptor(MoufInstanceDescriptor &$fieldDescriptor, $fieldData){
-		if (isset($fieldData['formatter']) && !empty($fieldData['formatter'])){
-			$formatter = $this->moufManager->getInstanceDescriptor($fieldData['formatter']);
-			$fieldDescriptor->getProperty('formatter')->setValue($formatter);
-		} elseif(isset($fieldData['formatter']) && empty($fieldData['formatter'])) {
-			$fieldDescriptor->getProperty('formatter')->setValue(null);
-		}
-		if (isset($fieldData['renderer']) && !empty($fieldData['renderer'])){
-			$renderer = $this->moufManager->getInstanceDescriptor($fieldData['renderer']);
-			$fieldDescriptor->getProperty('renderer')->setValue($renderer);
-		} elseif(isset($fieldData['renderer']) && empty($fieldData['renderer'])) {
-			$fieldDescriptor->getProperty('renderer')->setValue(null);
-		}
-		if (isset($fieldData['wrapper_renderer']) && !empty($fieldData['wrapper_renderer'])){
-			$wrapperRenderer = $this->moufManager->getInstanceDescriptor($fieldData['wrapper_renderer']);
-			$fieldDescriptor->getProperty('fieldWrapperRenderer')->setValue($wrapperRenderer);
-		} elseif(isset($fieldData['wrapper_renderer']) && empty($fieldData['wrapper_renderer'])) {
-			$fieldDescriptor->getProperty('fieldWrapperRenderer')->setValue(null);
-		}
-		
-		
 		$fieldDescriptor->getProperty('fieldName')->setValue($fieldData['fieldname']);
 		$fieldDescriptor->getProperty('label')->setValue($fieldData['label']);
+		$fieldDescriptor->getProperty('description')->setValue($fieldData['description']);
 
-		$validators = array();
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['formatter'], 'formatter');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['renderer'], 'renderer');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['wrapper_renderer'], 'fieldWrapperRenderer');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['edit_condition'], 'editCondition');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['view_condition'], 'viewCondition');
+		
 		if (isset($fieldData['validators'])){
+			$validators = array();
 			foreach ($fieldData['validators'] as $validatorName) {
 				$validators[] = $this->moufManager->getInstanceDescriptor($validatorName);
 			}
+		}else{
+			$validators = null;
 		}
 		$fieldDescriptor->getProperty('validators')->setValue($validators);
+	}
+	
+	private function setSimpleProperty(& $fieldDescriptor, $postValue, $propertyName){
+		$propertyDesc = $fieldDescriptor->getProperty($propertyName);
+		if (isset($postValue) && !empty($postValue)){
+			$instance = $this->moufManager->getInstanceDescriptor($postValue);
+			$propertyDesc->setValue($instance);
+		} elseif(isset($postValue) && empty($postValue)) {
+			$propertyDesc->setValue(null);
+		}
 	}
 	
 	/**
@@ -343,6 +348,13 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @param array $fieldData the data to be updated
 	 */
 	private function loadM2MDescriptor(&$fieldDescriptor, $fieldData){
+// 		$cnt = count($fieldData['fieldname']);
+// 		if (substr($fieldData['fieldname'], $cnt - 3, $cnt - 1) != "[]"){
+// 			$newFieldName = $fieldData['fieldname']."[]";
+// 			$fieldDescriptor->getProperty('fieldName')->setValue($fieldData['fieldname']);
+// 		}
+// 		$fieldDescriptor->getProperty('fieldName')->setValue();
+		
 		$mappingDao = $this->moufManager->getInstanceDescriptor($fieldData['mappingDao']);
 		$fieldDescriptor->getProperty('mappingDao')->setValue($mappingDao);
 		

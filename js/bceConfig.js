@@ -15,20 +15,84 @@ var formMethods = [ "GET" , "POST" ];
 var refreshFKDaoSettings = {
 	'id_getter':{
 		field : "linkedIdGetter",
-     	defaultSelect : "getId|get_id",
-        methodType : "getter"
+	 	defaultSelect : "getId|get_id",
+	    methodType : "getter"
 	},
-    'label_getter':{
-    	field : "linkedLabelGetter",
+	'label_getter':{
+		field : "linkedLabelGetter",
 		defaultSelect : "getLabel|getValue",
-    	methodType : "getter"
-    },
-    'data_method':{
-    	field : "dataMethod",
+		methodType : "getter"
+	},
+	'data_method':{
+		field : "dataMethod",
 		defaultSelect : "getList|getValues|getAll",
-    	methodType : "any"
-    }
+		methodType : "any"
+	}
 };
+
+jQuery(document).ready(function(){
+	jQuery('#right-modal .search-query').keyup(function(){
+		var search = jQuery(this).val();
+		
+		var words = search.split(' ');
+		var matches = [];
+		for (var i = 0; i < words.length; i++){
+			if (words[i] != "") matches.push(new RegExp(words[i], 'gi'));
+		}
+		
+		for (var i = 0; i < conditions.length; i++){
+			var condition = conditions[i];
+			var conditionElem = jQuery('#right-modal span[data-id='+conditions[i]+']');
+			
+			var matchCount = 0;
+			for (var j = 0 ; j < matches.length ; j++){
+				if (matches[j].exec(condition)){
+					matchCount ++;
+				}
+			}
+			if (matchCount == matches.length){
+				conditionElem.show();
+			}else{
+				conditionElem.hide();
+			}
+		}
+	});
+	
+	jQuery('#right-modal .set-right').click(function(){
+		var condition = jQuery(this).attr('data-id');
+		_chooseRight(condition);
+	});
+	
+	jQuery('#right-modal .no-right').click(function(){
+		_chooseRight("");
+	});
+});
+
+	jQuery(document).on('click', '.field-values .remove i', function() {
+		var spanElem = jQuery(this).parents('span');
+		var container = jQuery(this).parents('.field-value-bloc');
+		var val = spanElem.text();
+		container.find('.list input[value='+val+']').attr('checked', false);
+		container.find('select.available option[value='+ val +']').show();
+		spanElem.remove();
+	});
+	
+	jQuery(document).on('click', '.field-value-bloc .right', function(event) {
+		_showRightModal(event);
+	});
+	
+	jQuery(document).on('click', '.add-m2m', function(){
+		addM2MBlock();
+	});
+	
+function _chooseRight(condition){
+	var target = jQuery('#right-modal .rightTarget').val();
+	jQuery('#right-modal').modal('hide');
+	jQuery('input[name='+escapeStr(target)+']').val(condition);
+	var iconElem = jQuery('<i/>').addClass('icon-white icon-edit').attr('data-id', target);
+	jQuery('i[data-id='+escapeStr(target)+']').parents('span').text(condition + "  ").append(iconElem);
+}
+	
 
 //simple counter of new added fields 
 var newId = 0;
@@ -125,6 +189,7 @@ var isNewform = false;
  * the DAO into the form instance, then call initInstance to load default suggested fields
  */
 function refershValues(element, instanceName){
+	if (!instanceName) return;
 	isNewform = true;
 	
 	jQuery.ajax({
@@ -150,6 +215,8 @@ function refershValues(element, instanceName){
  * @param string instanceName the name of the edited instance 
  */
 function initInstance(instanceName){
+	jQuery('#ajaxload').show();
+	
 	jQuery.ajax({
 	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
 	  data: "q=instanceData&n="+instanceName,
@@ -164,7 +231,8 @@ function initInstance(instanceName){
  * @param object data the data loaded by "initInstance"
  */
 function completeInstanceData(data){
-
+	jQuery('#ajaxload').hide();
+	
 	//Retrieve getters and setters of the main DAO
 	var filterdMethods = _getFilteredMethods(data.daoData);
 	getters = filterdMethods['getters'];
@@ -248,7 +316,7 @@ function completeInstanceData(data){
 	for (var fieldName in fieldElements){
 		var field = fieldElements[fieldName];
 		if (field.type != null ){
-			jQuery("#data").append(_fieldHtml(field));
+			_addFieldDescriptor(field);
 		}
 	}
 	
@@ -259,9 +327,15 @@ function completeInstanceData(data){
 		var field = newFieldElements[fieldName];
 		field.name = _instanceName + field.name;
 		if (field.type != null ){
-			jQuery("#data").append(_fieldHtml(field, "new"));
+			_addFieldDescriptor(field, 'new');
 		}
 	}
+
+	jQuery('#descriptors-tab .desc-titles li:first-child').addClass('active');
+	jQuery('#descriptors-tab .desc-content .tab-pane:first-child').addClass('active');
+	
+	jQuery('#descriptors-tab .desc-titles').append(jQuery('<li/>').append(jQuery('<a/>').addClass('add-m2m').text('add m2m')));
+	
 	
 	/* initialize form configuration tab*/
 	var formActionField = _getSimpleValueWrapper("Form Action URL", "action", "attr", data.action, 2);
@@ -299,35 +373,28 @@ function completeInstanceData(data){
 	var rendererField = _getListValueWrapper("Form Renderer", "renderer", "attr", data.renderer, formRenderers, null, 2);
 	jQuery("#data_add").append(rendererField);
 	
-	/* By default, all descriptor data container are collapsed */
-	jQuery(".field-data").each(function(){
-		jQuery(this).slideUp();
-	});
+//	/* By default, all descriptor data container are collapsed */
+//	jQuery(".field-data").each(function(){
+//		jQuery(this).slideUp();
+//	});
+
+	
 	
 	/* Remember, when suggesting new fk fields, that linked Id/Label Getters and dataMethod names should be suggested */
 	callFkDaoSelectRefresh();
 	
-	/* allow the user to sort fields' display order */
-	jQuery( ".sortable" ).sortable({handle: ".field-title"});
-	
-	/* Set up "accordion" behavior */
-	jQuery(".expand" ).live('click', function(event){
-		jQuery(".field-data").each(function(){
-			jQuery(this).slideUp();
-		});
-		
-		var elem = jQuery(event.target).closest(".field-title");
-		if (!elem.next(".field-data").is(':visible')){
-			elem.next(".field-data").slideDown();
-			jQuery(event.target).addClass('expanded');
-		}else{
-			elem.next(".field-data").slideUp();
-			jQuery(event.target).removeClass('expanded');
-		}
-	});
-	
 	/* Endup ui initialisation (multiselect, tab system, etc...) */
 	initUI();
+}
+
+function _addFieldDescriptor(field, type){
+	var title = 'content-'+field.fieldName;
+	var liElem = jQuery('<li/>');
+	liElem = jQuery('<li/>').addClass(type);
+	
+	jQuery('#descriptors-tab .desc-titles').append(liElem.append(jQuery('<a/>').attr('data-toggle', 'tab').attr('href', "#" + title).text(field.fieldName)));
+	jQuery('#descriptors-tab .desc-content').append(jQuery('<div/>').addClass('tab-pane').attr('id', title).html(_fieldHtml(field, type)));
+	
 }
 
 /* 
@@ -337,8 +404,18 @@ function completeInstanceData(data){
 function initUI(){
 	jQuery( ".sortable" ).sortable("refresh");
 	jQuery(".multiselect").multiselect({searchable: false, dividerLocation: 0.5});
-	jQuery( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-	jQuery( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+	
+	jQuery('select.available').change(function(){
+		var container = jQuery(this).parents('.field-value-bloc');
+		var val = jQuery(this).val();
+		if (!val){
+			return;
+		}
+		container.find('.list input[value='+val+']').attr('checked', true);
+		container.find('.field-values').append(jQuery('<span/>').attr('data-target', val).addClass('label label-info remove').text(val + "  ").append(jQuery('<i/>').addClass('icon-white icon-remove')));
+		jQuery(this).find('option[value='+ val +']').hide();
+		jQuery(this).val('');
+	});
 }
 
 /**
@@ -392,7 +469,25 @@ function _fieldHtml(field, addClass, fieldType, editName){
 	var checkActive = "<input type='checkbox' name='"+ nameAttr +"' "+ (field.active ? "checked='checked'" : "") +"/>";
 	
 	/* now  build the html ... */
-	var html = "<div class='field-title'><div style='float: left;'><div class='expand'></div><div style='float: left'>" + checkActive + "</div><div class='name-val'>" + name + "</div>" + "</div><div style='float: right'>"+setFK+setPK+"</div><div style='clear:both'></div></div>" +
+	switch (field.type) {
+		case "cust":
+			elementType = "Custom";
+			break;
+		case "subform":
+			elementType = "subform";
+			break;
+		case "base":
+			elementType = "Field (Base)";
+			break;
+		case "fk":
+			elementType = "Field (FK)";
+			break;
+		case "m2m":
+			elementType = "Field (M2M)";
+			break;
+	}
+	
+	var html = "<div class='field-title'><div class='name-val' style='float: left'><span class='element-type'>" + elementType + " : </span>" + name + "</div><div class='active-elem'>" + checkActive + "</div>" + "<div style='float: right'>"+setFK+setPK+"</div><div style='clear:both'></div></div>" +
 		"<div class='field-data'>"+	_html(_getFieldElements(field, fieldType));
 	
 	/* depending on the field type, specific elements should be added, 
@@ -447,7 +542,7 @@ function _getFieldElements(field, fieldType){
 	var label =_getSimpleValueWrapper("Label", "label", field.name, field.label, fieldType);
 	var renderer =_getListValueWrapper("Renderer", "renderer", field.name, field.renderer, field.type == 'm2m' ? multiRenderers : singleRenderers, null, fieldType);
 	var wrapperRenderer =_getListValueWrapper("Wrapper Renderer", "wrapper_renderer", field.name, field.wrapperRenderer, wrapperRenderers, null, fieldType);
-	var formatter =_getListValueWrapper("formatter", "formatter", field.name, field.formatter, formatters, null, fieldType);
+	var formatter =_getListValueWrapper("Formatter", "formatter", field.name, field.formatter, formatters, null, fieldType);
 	var validatorsElem =_getMultiListValueWrapper("Validators", "validators", field.name, field.validators, validators, fieldType);
 	
 	var br = jQuery("<div/>").append(jQuery("<br/>").css('clear', 'both'));
@@ -455,13 +550,14 @@ function _getFieldElements(field, fieldType){
 	
 	var description = _getSimpleValueWrapper("Description", "description", field.name, field.description, fieldType, true);
 	
-	var br3 = br.clone();
-	
 	var typeElemWrap = _getHiddenElemWrapper(fieldType, "type", field.name, field.type, 'field_type');
 	var isNewElemWrap = _getHiddenElemWrapper(fieldType, "new", field.name, field.is_new);
 	var instanceNameWrap = _getHiddenElemWrapper(fieldType, "instanceName", field.name, field.name); 
 	
-	return [name, label, renderer, wrapperRenderer, formatter, br, validatorsElem, br2, description, br3, typeElemWrap, isNewElemWrap, instanceNameWrap];
+	var editRightWrap = _getRightElement("Edit Right", "edit_condition", field.name, field.editCondition, conditions, null, fieldType);
+	var viewRightWrap = _getRightElement("View Right", "view_condition", field.name, field.viewCondition, conditions, null, fieldType);
+	
+	return [name, label, renderer, wrapperRenderer, formatter, br, validatorsElem, description, editRightWrap, viewRightWrap, br2, typeElemWrap, isNewElemWrap, instanceNameWrap];
 }
 
 /**
@@ -623,13 +719,52 @@ function _getFieldNames(fieldType, prop, name){
 function _getSimpleValueWrapper(label, prop, name, value, fieldType, isTextArea){
 	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
 	var divElem = jQuery("<div/>").addClass('field-value-bloc');
-	divElem.append(jQuery("<label>").html(label));
-	var input = !isTextArea ? jQuery("<input/>").attr('type', 'text').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value)
-			: jQuery('<textarea/>').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value);
+	divElem.append(jQuery('<label/>').text(label));
+	var input = !isTextArea ? 
+		jQuery("<input/>").attr('type', 'text').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value)
+		: jQuery('<textarea/>').attr('id', name+"_"+prop).attr('name', fieldNameAttr).text(value ? value : "");
+	input.attr('placeholder', label);
 	divElem.append(input);
 	return jQuery("<div/>").append(divElem);
 }
 
+/**
+ * Builds a strict autocomplete textbox 
+ * @param label:		the label to display in front of the field
+ * @param prop:			the property handled by the field
+ * @param name:			the name of the fieldDescriptor (if it is a fieldDescriptor)
+ * @param selectValue	the current value to be selected
+ * @param fieldType		the type of the field (1: idDesc, 2: config, 0 or null: fieldDescriptor
+ * @returns
+ */
+function _getRightElement(label, prop, name, selectValue, list, fieldType){
+	/* get the name of the field */
+	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
+	
+	var divElem = jQuery("<div/>").addClass('field-value-bloc right');
+	divElem.append(jQuery('<label/>').text(label));
+	var iconElem = jQuery('<i/>').addClass('icon-white icon-edit').attr('data-id', fieldNameAttr);
+	
+	divElem.append(jQuery('<span/>').addClass('label label-info right').text(selectValue ? selectValue + "  " : "").append(iconElem));
+	divElem.append(jQuery('<input/>').attr('type', "hidden").attr('name', fieldNameAttr).attr('value', selectValue));
+	
+	return jQuery("<div/>").append(divElem);
+}
+
+function _showRightModal(event){
+	var target = jQuery(event.target);
+	if (target.is('span')){
+		iElem = target.find('i'); 
+	}else{
+		iElem = target;
+	}
+	var fieldTarget = iElem.attr('data-id');
+	jQuery('#right-modal .rightTarget').attr('value', fieldTarget);
+	jQuery('#right-modal .search-query').attr('value', "");
+	jQuery('#right-modal .set-right').show();
+	
+	jQuery('#right-modal').modal();
+}
 /**
  * Builds a select box field for handling form or fieldDescriptor properties.
  * Sometimes, this select box may trigger the refresh of other select boxes 
@@ -665,14 +800,14 @@ function _getListValueWrapper(label, prop, name, selectValue, list, settings, fi
 	 */
 	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
 	
-	var divElem = jQuery("<div/>").addClass('field-value-bloc').append(jQuery("<label>").html(label));
-	
+	var divElem = jQuery("<div/>").addClass('field-value-bloc');
+	divElem.append(jQuery('<label/>').text(label));
 	/*
 	 * Build the select box
 	 */
 	var selectElem = jQuery("<select/>").attr('id', name+"_"+prop).attr("name", fieldNameAttr).attr("onchange", onchangehtml);
-	selectElem.append(jQuery("<option/>").attr('value', '').html(' - none - '));
 	
+	selectElem.append(jQuery("<option/>").attr('value', '').html('- ' + capitalize(label) + " -"));
 	for (var i = 0; i < list.length ; i++){
 		var opt = list[i];
 		selectElem.append(jQuery("<option/>").attr('value', opt).html(opt).attr('selected', selectValue == opt));
@@ -694,34 +829,75 @@ function _getListValueWrapper(label, prop, name, selectValue, list, settings, fi
  */
 function _getMultiListValueWrapper(label, prop, name, selectValues, list, fieldType){
 	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
-
-	var finalList = list;
-	if (selectValues){
-		finalList = selectValues.slice(0);
-		for (var i = 0; i < list.length ; i++){
-			var opt = list[i];
-			if (selectValues.indexOf(opt) == -1) finalList.push(opt);
-		}
-	}
 	
-	var selectElem = jQuery("<select/>")
-		.attr("name", fieldNameAttr+"[]").addClass("multiselect")
-		.attr("id", name+"_"+prop)
-		.attr("multiple", true);
-	for (var i = 0; i < finalList.length ; i++){
-		var opt = finalList[i];
-		var optionElem = jQuery("<option/>").val(opt).text(opt);
+	var availables = jQuery('<select/>').addClass('available');
+	var divElem = jQuery("<div/>").addClass('field-value-bloc multi').append(jQuery("<label/>").text(label)).append(availables);
+	var selected = jQuery('<div>').addClass('field-values');
+	var values = jQuery('<div>').addClass('list');
+	availables.append(jQuery('<option/>').val("").text("- Add a validator -"));
+	for (var i = 0; i < list.length; i++){
+		var opt = list[i];
+		var chbx = jQuery('<input/>').attr('type', 'checkbox').attr('name', fieldNameAttr+"[]").val(opt);
+		var optElem = jQuery('<option/>').val(opt).text(opt);
 		if (selectValues && selectValues.indexOf(opt) != -1) {
-			optionElem.attr("selected", true);
+			chbx.attr("checked", true);
+			var spanElem = jQuery('<span/>').addClass('label label-info remove').text(opt+"  ").append(jQuery('<i/>').addClass('icon-white icon-remove'));
+			spanElem.attr(opt);
+			selected.append(spanElem);
+			optElem.hide();
 		}
-		optionElem.appendTo(selectElem);
+		availables.append(optElem);
+		values.append(chbx);
 	}
 	
-	var divElem = jQuery("<div/>").addClass('field-value-bloc');
-	jQuery("<label/>").text(label).appendTo(divElem);
-	selectElem.appendTo(divElem);
-
+	divElem.append(selected).append(values);
+	jQuery(".field-values").sortable({
+		update: function( event, ui ) {
+			var validator = jQuery(event.toElement).attr('data-target');
+			var list = jQuery(this).parent().find('.list');
+			var chbx = list.find('input[value='+validator+']');
+			var clone = chbx.clone();
+			chbx.remove();
+			var index = jQuery(event.toElement).index();
+			
+			if (index === 0) {
+				list.prepend(clone);
+	        } else {
+	        	list.children().eq(index - 1).after(clone);
+	        }
+		}
+	});
+	jQuery(".field-values").disableSelection();
 	return jQuery("<div/>").append(divElem);
+
+//	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
+//	var finalList = list;
+//	if (selectValues){
+//		finalList = selectValues.slice(0);
+//		for (var i = 0; i < list.length ; i++){
+//			var opt = list[i];
+//			if (selectValues.indexOf(opt) == -1) finalList.push(opt);
+//		}
+//	}
+//	
+//	var selectElem = jQuery("<select/>")
+//		.attr("name", fieldNameAttr+"[]").addClass("multiselect")
+//		.attr("id", name+"_"+prop)
+//		.attr("multiple", true);
+//	for (var i = 0; i < finalList.length ; i++){
+//		var opt = finalList[i];
+//		var optionElem = jQuery("<option/>").val(opt).text(opt);
+//		if (selectValues && selectValues.indexOf(opt) != -1) {
+//			optionElem.attr("selected", true);
+//		}
+//		optionElem.appendTo(selectElem);
+//	}
+//	
+//	var divElem = jQuery("<div/>").addClass('field-value-bloc');
+//	jQuery("<label/>").text(label).appendTo(divElem);
+//	selectElem.appendTo(divElem);
+//
+//	return jQuery("<div/>").append(divElem);
 }
 
 /**
@@ -905,7 +1081,14 @@ function addM2MBlock(){
 	 * Build the HTML and append it 
 	 */
 	var html = _fieldHtml(emptyM2MField, "new", 0, true);
-	jQuery("#data").append(html);
+	
+	var liElem = jQuery('<li/>');
+	
+	jQuery('#descriptors-tab .desc-titles li:last-child').before(liElem.append(jQuery('<a/>').attr('data-toggle', 'tab').attr('href', "#" + emptyM2MField.fieldName).text(emptyM2MField.fieldName)));
+	jQuery('#descriptors-tab .desc-content').append(jQuery('<div/>').addClass('tab-pane').attr('id', emptyM2MField.fieldName).html(html));
+	
+
+	
 	newId ++;
 	
 	/*
@@ -1076,4 +1259,14 @@ function _selectFromSettings(elem, setting){
 	});
 	
 	elem.val(selectVal);
+}
+
+function capitalize (text) {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+function escapeStr( str) {
+ if( str)
+     return str.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1');
+ else
+     return str;
 }

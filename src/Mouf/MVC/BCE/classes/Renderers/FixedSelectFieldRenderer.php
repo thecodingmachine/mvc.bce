@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\ForeignKeyFieldDescriptor;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 /**
  * This renderer handles Read-Only fields
  * @ApplyTo { "pk" : [ "pk" ] }
@@ -19,11 +23,13 @@ class FixedSelectFieldRenderer extends DefaultViewFieldRenderer implements Singl
      * (non-PHPdoc)
      * @see FieldRendererInterface::render()
      */
-    public function renderEdit($descriptor) {
+    public function renderEdit($descriptorInstance) {
+        /* @var $descriptorInstance FieldDescriptorInstance */
+    	$descriptor = $descriptorInstance->fieldDescriptor;
         /* @var $descriptor ForeignKeyFieldDescriptor */
-        $fieldName = $descriptor->getFieldName();
+        $fieldName = $descriptorInstance->getFieldName();
         $data = $descriptor->getData();
-        $value = $descriptor->getFieldValue();
+        $value = $descriptorInstance->getFieldValue();
         $html = "";
 
         $selected = " - ";
@@ -42,7 +48,8 @@ class FixedSelectFieldRenderer extends DefaultViewFieldRenderer implements Singl
      * (non-PHPdoc)
      * @see FieldRendererInterface::getJS()
      */
-    public function getJSEdit($descriptor) {
+    public function getJSEdit($descriptorInstance) {
+        /* @var $descriptorInstance FieldDescriptorInstance */
         return array();
     }
 

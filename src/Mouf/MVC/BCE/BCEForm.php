@@ -1,8 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE;
 
+use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Utils\WebLibraryManager\InlineWebLibrary;
-
 use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\Database\DAOInterface;
@@ -24,12 +25,6 @@ use Mouf;
  *
  */
 class BCEForm {
-	
-	/**
-	 * The main bean of the form, i.e. the object that define the edited data in the form
-	 * @var mixed $baseBean
-	 */
-	public $baseBean;
 	
 	/**
 	 * Field Decriptors define which fields avaiable through the main DAO should be involved in the form.<br/>
@@ -135,7 +130,13 @@ class BCEForm {
 	 * The js scripts added by the renderers
 	 * @var array<string>
 	 */
-	public $scripts = array();
+	public $scripts = array();//TODO add a JSFormHandler for handling all scripts
+
+	/**
+	 * The instance that will handle scripts aggregation and rendering
+	 * @var ScriptManager
+	 */
+	public $scriptManager;//TODO add a JSFormHandler for handling all scripts
 	
 	/**
 	 * The mode (edit or view) of the form.
@@ -150,154 +151,61 @@ class BCEForm {
 	public $mode = "edit";
 	
 	/**
+	 * @var boolean
+	 */
+	public $isMain = true;
+	
+	
+	/**
 	 * Load the main bean of the Form, and then the linked descriptors to display bean values
 	 * @param mixed $id: The id of the bean (may be null for new objects)
 	 */
-	public function load($id = null){
-		//Intantiate form's main bean (like JAVA Spring's formBindingObject), if ot is an existing one
-		$this->baseBean = $id ? $this->mainDAO->getById($id) :  null;
+	public function load($bean, $id = null){
+		$descriptorInstances = array();
+		if ($bean) $this->baseBean = $bean;
 		//Load bean values into related field Descriptors
-		$this->idFieldDescriptor->load($this->baseBean, $id, $this);
+		$idDescriptorInstance = $this->idFieldDescriptor->load($this->baseBean, $id, $this, true);
+		if (!$id){
+			$id = $this->idFieldDescriptor->getValue($this->baseBean);
+		}
+		
 		foreach ($this->fieldDescriptors as $descriptor) {
 			/* @var $descriptor FieldDescriptor */
 			if (!$descriptor->canEdit() && !$descriptor->canView()){
 				continue;
 			}
 			
-			$descriptor->load($this->baseBean, $id, $this);
-			if ($descriptor instanceof FieldDescriptor) {
-				$this->validationHandler->buildValidationScript($descriptor, $this->attributes['id']);
-			}
-			$this->loadScripts($descriptor);
+			$descriptorInstance = $descriptor->load($this->baseBean, $id, $this);
+			$descriptorInstance->addValidationData($this->validationHandler);
+			$descriptor->addJS($this);
 			
 			// Create an array of field descriptor by name
 			$this->fieldDescriptorsByName[$descriptor->getFieldName()] = $descriptor;
+			
+			$descriptorInstances[] = $descriptorInstance;
 		}
+		
 		
 		//Instantiate new bean (after because of TDBM's constraint to trigger complete save when getting other objects, like FKDaos List methods)
 		if ($id == null){
 			$this->baseBean = $this->mainDAO->create();
 		}
 		
+		if ($this->isMain){
+			$this->validationHandler->addJS($this);
+			$this->loadScripts();
+		}
+		
+		return array($idDescriptorInstance, $descriptorInstances);
+	}
+	
+	public function loadScripts(){
 		//Load required libraries
+		$lib = new InlineWebLibrary();
+		$lib->setJSFromText($this->scriptManager->renderScripts());
+		Mouf::getDefaultWebLibraryManager()->addLibrary($lib);
 		Mouf::getDefaultWebLibraryManager()->addLibrary($this->renderer->getSkin());
 		Mouf::getDefaultWebLibraryManager()->addLibrary($this->validationHandler->getJsLibrary());
-		$lib = new InlineWebLibrary();
-		$lib->setJSFromText($this->getValidationJS());
-		Mouf::getDefaultWebLibraryManager()->addLibrary($lib);
-	}
-	
-	/**
-	 * Returns the JS validation strings of the form in HTML
-	 * @return string
-	 */
-	private function getValidationJS(){
-		$js = $this->validationHandler->getValidationJs($this->attributes['id']);
-		$js .= $this->renderScripts();
-		return '
-		<script type="text/javascript">
-		<!--
-		'.$js.'
-		//-->
-		</script>		
-		';
-	}
-	
-	private function renderScripts(){
-		$jsPrefix = $jsSuffix = $js = "";
-		
-		foreach ($this->scripts as $scope => $values){
-			switch ($scope) {
-				case "ready":
-					$jsPrefix = "
-						$(document).ready(function(){";
-					$jsSuffix = "
-						});";
-				break;
-				case "load":
-					$jsPrefix = "
-						$(window).ready(function(){";
-					$jsSuffix = "
-						});";
-				break;
-				case "unload":
-					$jsPrefix = "
-						$(window).ready(function(){";
-					$jsSuffix = "
-						});";
-				break;
-			}
-			foreach ($values as $value){
-				$js .= "
-					$value
-				";
-			}
-		}
-		
-		return $jsPrefix . $js . $jsSuffix;
-	}
-	
-	/**
-	 * Outputs the form's HTML
-	 */
-	public function toHTML(){
-		//Render the form
-		$this->renderer->render($this);
-	}
-	
-	private function loadScripts($descriptor){
-		foreach ($descriptor->getJs($this->mode) as $scope => $scripts){
-			foreach ($scripts as $script){
-				$this->scripts[$scope][] = $script;
-			}
-		}
-	}
-	
-	/**
-	 * Make the save form action.
-	 * 
-	 * @param array $postValues
-	 */
-	public function save($postValues = null){
-		if($postValues != null) {
-			$id = $postValues[$this->idFieldDescriptor->getFieldName()];
-		} else {
-			$id = get($this->idFieldDescriptor->getFieldName());
-		}
-		$this->baseBean = empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id);
-		
-		foreach ($this->fieldDescriptors as $descriptor) {
-			if (!$descriptor->canEdit()){
-				continue;
-			}
-			$descriptor->preSave($postValues, $this);
-		}
-		if (!count($this->errorMessages)){
-			//save the main bean
-			$this->mainDAO->save($this->baseBean);
-			
-			$id = $this->getMainBeanId();//Get bean Id after save if it's an add
-			//Now call the postSave scripts (important for M2M descs for example)
-			foreach ($this->fieldDescriptors as $descriptor){ 
-				if (!$descriptor->canEdit()){
-					continue;
-				}
-				$descriptor->postSave($this->baseBean, $id);
-			}
-			
-			return $id;
-		}else{
-			return false;
-		}
-	}
-	
-	/**
-	 * Gets the id of the bean
-	 * @param mixed $id the old id of the bean
-	 */
-	private function getMainBeanId(){
-		$this->idFieldDescriptor->load($this->baseBean);
-		return $this->idFieldDescriptor->getFieldValue();
 	}
 	
 	public function setAttribute($attributeName, $value){
@@ -328,5 +236,51 @@ class BCEForm {
 	
 	public function getMode(){
 		return $this->mode; 
+	}
+	
+	/**
+	 * Make the save form action.
+	 *
+	 * @param array $postValues
+	 */
+	public function save($postValues = null, $bean = null){
+		if($postValues != null) {
+			$id = $postValues[$this->idFieldDescriptor->getFieldName()];
+		} else {
+			$id = get($this->idFieldDescriptor->getFieldName());
+		}
+		$this->baseBean = $bean ? $bean : (empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id));
+	
+		foreach ($this->fieldDescriptors as $descriptor) {
+			if (!$descriptor->canEdit()){
+				continue;
+			}
+			$descriptor->preSave($postValues, $this);
+		}
+		if (!count($this->errorMessages)){
+			//save the main bean
+			$this->mainDAO->save($this->baseBean);
+				
+			$id = $this->getMainBeanId();//Get bean Id after save if it's an add
+			//Now call the postSave scripts (important for M2M descs for example)
+			foreach ($this->fieldDescriptors as $descriptor){
+				if (!$descriptor->canEdit()){
+					continue;
+				}
+				$descriptor->postSave($this->baseBean, $id, $postValues);
+			}
+				
+			return $id;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Gets the id of the bean
+	 * @param mixed $id the old id of the bean
+	 */
+	public function getMainBeanId(){
+		return $this->idFieldDescriptor->getValue($this->baseBean);
 	}
 }

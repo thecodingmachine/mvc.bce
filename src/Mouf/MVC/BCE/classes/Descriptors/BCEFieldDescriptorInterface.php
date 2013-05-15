@@ -1,5 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
+
 use Mouf\MVC\BCE\BCEForm;
 
 /**
@@ -28,12 +30,6 @@ interface BCEFieldDescriptorInterface {
 	public function load($bean, $id = null, &$form = null);
 	
 	/**
-	 * Function called when rendering the whole Form
-	 * @param bool $formMode the mode (edit ot view) of the form
-	 */
-	public function toHtml($formMode);
-	
-	/**
 	 * returns the specific JS for the field. 
 	 * 	- This JS may come from the renderer if any (eg datepicker or slider, multiselect, etc..)
 	 *  - Or also from the descriptor itself : eg a file upload callback function
@@ -41,7 +37,7 @@ interface BCEFieldDescriptorInterface {
 	 *  
 	 * @param bool $formMode the mode (edit ot view) of the form
 	 */
-	public function getJS($formMode);
+	public function addJS(BCEForm & $form);
 	
 	/**
 	 * Does all the operations before the main bean is saved. E.G:
@@ -61,5 +57,6 @@ interface BCEFieldDescriptorInterface {
 	 * @param mixed $bean the saved bean
 	 * @param mixed $beanId the id of the saved bean
 	 */
-	public function postSave($bean, $beanId);
+	public function postSave($bean, $beanId, $postValues);
+	
 }

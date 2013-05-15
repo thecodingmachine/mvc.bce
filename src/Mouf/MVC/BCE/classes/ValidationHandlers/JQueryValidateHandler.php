@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\ValidationHandlers;
 
+use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
+
+use Mouf\MVC\BCE\BCEForm;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
 use Mouf\Utils\Common\Validators\JsValidatorInterface;
@@ -11,19 +15,19 @@ use Mouf\Utils\Common\Validators\JsValidatorInterface;
  * @author Kevin
  *
  */
-class JQueryValidateHandler implements JsValidationHandlerInterface{
+class JQueryValidateHandler implements JsValidationHandlerInterface {
 	
 	/**
 	 * Contains all the validation functions
 	 * @var array<string>
 	 */
-	private $validationMethods;
+	private $methods = array();
 	
 	/**
 	 * Contains all the rule to be applied, field by field
 	 * @var stdClass
 	 */
-	private $validationRules;
+	private $fieldRules = array();
 	
 	/**
 	 * @Property
@@ -31,79 +35,28 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 	 */
 	public $jsLib;
 	
-	private function wrapRule(FieldDescriptor $fieldDescriptor, JsValidatorInterface $validator, $ruleIndex){
-		return "
-			$.validator.addMethod(
-				'".$fieldDescriptor->getFieldName()."_rule_$ruleIndex',
-				function(value, element) { 
-					var functionCall = ".$validator->getScript()."
-					return functionCall(value, element);
-				},
-				'".str_replace("{fieldName}", $fieldDescriptor->getFieldLabel(), $validator->getErrorMessage())."'
-			);";
-	}
 	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see JsValidationHandlerInterface::buildValidationScript()
-	 */
-	public function buildValidationScript(FieldDescriptor $descriptor, $formId){
-		if (!count($descriptor->getValidators())){
-			return;
-		}
-		
-		$i = 0;
-		$fieldName = $descriptor->getFieldName();
-		$validators = $descriptor->getValidators();
-		
-		$realFieldName = $descriptor instanceof Many2ManyFieldDescriptor ? $fieldName."[]" : $fieldName;
-		
-		if ($this->validationRules === null){
-			$this->validationRules = new \stdClass();
-			$this->validationRules->rules = new \stdClass();
-		}
-		
-		foreach ($validators as $validator) {
-			if ($validator instanceof JsValidatorInterface) {
-				$this->validationMethods[] = $this->wrapRule($descriptor, $validator, $i);
-				$methodName = $fieldName."_rule_".$i;
-				if (!isset($this->validationRules->rules->$realFieldName)){
-					$this->validationRules->rules->$realFieldName = new \stdClass();
-				}
-				if (!isset($this->validationRules->rules->$realFieldName->$methodName)){
-					$this->validationRules->rules->$realFieldName->$methodName = new \stdClass();
-				}
-				$this->validationRules->rules->$realFieldName->$methodName = $validator->getJsArguments();
-				$i++;
-			}
-		}
-	}
-	
-	public function getValidationJs($formId){
+	public function addJs(BCEForm $form){
+		$formId = $form->attributes['id'];
 		if(empty($formId)) {
 			throw new \Exception('Error while generating JS validation rules, the id of the form ($formId) must be set.');
 		}
                 
-                if (empty($this->validationRules)){
-                    return "";
-                }
+		if (empty($this->fieldRules)){
+			return array();
+		}
                 
-		$rulesJson = json_encode($this->validationRules->rules);
+		$rulesJson = json_encode($this->fieldRules);
 		
 		$rulesJson = "
 			{
-				rules: $rulesJson,
-				errorPlacement : function(error, element){
-					var id = element.attr('id');
-					var htmlElem = document.getElementById(id);
-					var type = htmlElem.nodeName.toLowerCase();
-					if (type == 'input' && _checkable(htmlElem)){
-						error.insertAfter($('input[name='+htmlElem.name+']:checkbox:last').parent());
+				errorPlacement: function(error, element) {
+					if (element[0].type == 'checkbox'){
+						var fieldName = $(element[0]).attr('name');
+						error.insertAfter( $('[name=\"'+fieldName+'\"]:last').parent() );
 					}else{
-						error.insertAfter(element);
-					}
-					element.closest('.control-group').addClass('error');
+						error.insertAfter( element );
+					};
 				},
 				errorClass: 'help-inline',
 				errorElement: 'span'
@@ -111,7 +64,6 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 		";
 		
 		$js = '
-		$(document).ready(function(){
 			_currentForm =document.getElementById("'.$formId.'");
 			
 			_checkable =  function( element ) {
@@ -156,26 +108,54 @@ class JQueryValidateHandler implements JsValidationHandlerInterface{
 			};
 		';
 		
-                if (isset($this->validationMethods)){
-                   foreach ($this->validationMethods as $method) {
+		foreach ($this->methods as $method) {
 			$js.="
 				$method			
 			";
-                    } 
-                }
+		} 
 		
 		$js.= "
 			var validateHandler = $('#$formId').validate(
 				$rulesJson
-			);
-		});";
+			);";
+
+		foreach ($this->fieldRules as $fieldId => $rule) {
+			$js.="
+			$('.$fieldId').each(function(){
+				$(this).rules('add', {".$fieldId.": ".$rule."});
+			});
+			";
+		}
 		
 		
-		return $js;
+		$form->scriptManager->addScript(ScriptManager::SCOPE_READY, $js);
 	}
 	
 	public function getJsLibrary(){
 		return $this->jsLib;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface::addValidationData()
+	 */
+	public function addValidationData(JSValidationData $data){
+		$this->methods[$data->ruleName] = "
+			$.validator.addMethod(
+				'$data->ruleName',
+				function(value, element) { 
+					var functionCall = $data->ruleScript
+					return functionCall(value, element);
+				},
+				'$data->ruleMessage'
+			);
+		";
+		
+		$this->fieldRules[$data->ruleName] = $data->ruleArguments;
+		
+		return array(
+			"class" => array($data->ruleName)
+		);
 	}
 	
 }

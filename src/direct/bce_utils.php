@@ -1,4 +1,8 @@
 <?php
+use Mouf\MoufInstanceDescriptor;
+
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 
 use Mouf\MVC\BCE\Admin\FieldDescriptorBean;
@@ -15,6 +19,7 @@ use Mouf\MVC\BCE\Admin\BeanFieldHelper;
 use Mouf\MVC\BCE\Admin\BeanMethodHelper;
 use Mouf\MVC\BCE\Admin\DaoDescriptorBean;
 use Mouf\MVC\BCE\Admin\BCEFormInstanceBean;
+use Mouf\MVC\BCE\Admin\SubFormFieldDescriptorBean;
 /**
  * ----------------------------------------------------------------
  * ------------------------- Head's UP!!!--------------------------
@@ -576,6 +581,14 @@ class BCEUtils{
 			$fieldData = new BaseFieldDescriptorBean();
 		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'){
 			$fieldData = new Many2ManyFieldDescriptorBean();
+		}else if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor'){
+			$fieldData = new SubFormFieldDescriptorBean();
+			/*   ICI!!! TODO : 
+			 *   * gérer l'admin bce des subforms descs,
+			 *   * tester les droits et gérer ceux des subforms,
+			 *   * faire des tabs sortable 
+			 *   * gérer le nom du tab (pas vide, c'est mieux ;)
+			 *   */
 		}else{
 			$isCustom = true;
 			$fieldData = new CustomFieldDescriptorBean();
@@ -585,12 +598,15 @@ class BCEUtils{
 			$fieldData->name = $descriptor->getName();
 		}else{
 			
-			/* 
-			 * In any case the descriptor extends the fieldDecriptor class,
-			 * so getter, setter, name, label, formatter, etc... are loaded here
-			 */
-			$this->loadBaseValues($fieldData, $descriptor, $instance);
-			
+			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormDescriptor'){
+				/* 
+				 * In any case except the subform descriptor, the descriptor extends the fieldDecriptor class.
+				 * so getter, setter, name, label, formatter, etc... are loaded here
+				 */
+				$this->loadBaseValues($fieldData, $descriptor, $instance);
+			}else{
+				$this->loadSubFormDescriptorValues($fieldData, $instance);
+			}
 			/*
 			 * Load BaseFieldDescriptor data
 			 * TODO : find a better way than comparing class names, use instance of, is_a or is_subclass... but one that works :( 
@@ -632,6 +648,12 @@ class BCEUtils{
 		}
 		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
 			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+		}
+		if ($instance->getProperty('editCondition')->getValue()){
+			$bean->editCondition = $instance->getProperty('editCondition')->getValue()->getName();
+		}
+		if ($instance->getProperty('viewCondition')->getValue()){
+			$bean->viewCondition = $instance->getProperty('viewCondition')->getValue()->getName();
 		}
 		 
 		$formatterDesc = $instance->getProperty('formatter')->getValue();
@@ -697,5 +719,31 @@ class BCEUtils{
 			$m2mDescBean->linkedLabelGetter = $instance->getProperty('linkedLabelGetter')->getValue();
 			$m2mDescBean->dataMethod = $instance->getProperty('dataMethod')->getValue();
 		}
+	}
+	
+	/**
+	 * Load the properties' values of a Many2ManyFieldDescriptor into a Many2ManyFieldDescriptorBean
+	 * @param Many2ManyFieldDescriptorBean $fkDescBean
+	 * @param Many2ManyFieldDescriptor $instance : the fieldDescriptor that will provide the data
+	 */
+	private function loadSubFormDescriptorValues(& $subFormDescBean, MoufInstanceDescriptor $instance){
+		/* @var $subFormDescBean SubFormFieldDescriptorBean */
+		$subFormDescBean->name = $descriptor->getName();
+		$bean->description = $instance->getProperty('description')->getValue();
+		if ($instance->getProperty('renderer')->getValue()){
+			$bean->renderer = $instance->getProperty('renderer')->getValue()->getName();
+		}
+		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
+			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+		}
+		
+		$bean->fieldName = $instance->getProperty('fieldName')->getValue();
+		$bean->label = $instance->getProperty('label')->getValue();
+		
+		$subFormDescBean->beansGetter = $instance->getProperty('beansGetter')->getValue();
+		
+		
+		
+		
 	}
 }

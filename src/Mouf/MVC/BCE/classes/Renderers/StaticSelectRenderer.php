@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 /**
  * This renderer create a select with static values
  * @Component
@@ -18,11 +20,11 @@ class StaticSelectRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$value = $descriptor->getFieldValue();
-		$html = "<select name='".$fieldName."' id='".$fieldName."'>";
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->getFieldName();
+		$value = $descriptorInstance->getFieldValue();
+		$html = "<select ".$descriptorInstance->printAttributes()." name='".$fieldName."' id='".$fieldName."'>";
 		foreach($this->settings as $option) {
 			if ($option == $value) {
 				$html .= "<option value=".$option." selected >".$option."</option>";
@@ -39,7 +41,8 @@ class StaticSelectRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * NO JS for the moment
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
 	

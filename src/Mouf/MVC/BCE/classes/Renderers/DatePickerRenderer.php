@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
+
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+
 use Mouf\MoufManager;
 use Mouf;
 
@@ -22,11 +26,11 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
 	 */
-	public function renderEdit($descriptor){
-		/* @var $descriptor BaseFieldDescriptor */
-		$fieldName = $descriptor->getFieldName();
-		$value = $descriptor->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
+	public function renderEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
+		$fieldName = $descriptorInstance->fieldDescriptor->getFieldName();
+		$value = $descriptorInstance->getFieldValue();
+		return "<input ".$descriptorInstance->printAttributes()." type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**
@@ -34,12 +38,13 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 	 * The datepicker depends on jQueryUI's datepicker widget, therefore load the library into the WebLibrary manager, and call the datepicker initialization on dom ready
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptorInstance){
+		/* @var $descriptorInstance FieldDescriptorInstance */
 		/* @var $libManager WebLibraryManager */
 		$jQueryUI = MoufManager::getMoufManager()->getInstance('jQueryUiLibrary');
 		Mouf::getDefaultWebLibraryManager()->addLibrary($jQueryUI);
 		
-		$fieldName = $descriptor->getFieldName();
+		$fieldName = $descriptorInstance->getFieldName();
 		
 		$settings = "";
 		if ($this->settings){
@@ -50,7 +55,7 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 		}
 		
 		return array(
-			"ready" => "$('#$fieldName').datepicker($settings);"
+			ScriptManager::SCOPE_READY => "$('#$fieldName').datepicker($settings);"
 		);
 	}
 	
