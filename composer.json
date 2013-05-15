@@ -41,7 +41,8 @@
 			],
 			"require-admin": [
     			"src/BCEAdmin.php"
-    		]
+    		],
+		"logo": "icons/logo.png"
 		}
     }
 }
