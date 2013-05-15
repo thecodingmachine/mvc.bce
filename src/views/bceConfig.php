@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
 			<div id="ajaxload"></div>
 		</div>		
 	</div>
-	<button type="submit">Save</button>
+	<button type="submit" class="btn btn-primary">Save</button>
 	</form>
 	<div id="right-modal" class="modal hide fade sign-in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">

@@ -162,11 +162,11 @@ class BCEForm {
 	 */
 	public function load($bean, $id = null){
 		$descriptorInstances = array();
-		if ($bean) $this->baseBean = $bean;
+
 		//Load bean values into related field Descriptors
-		$idDescriptorInstance = $this->idFieldDescriptor->load($this->baseBean, $id, $this, true);
+		$idDescriptorInstance = $this->idFieldDescriptor->load($bean, $id, $this, true);
 		if (!$id){
-			$id = $this->idFieldDescriptor->getValue($this->baseBean);
+			$id = $this->idFieldDescriptor->getValue($bean);
 		}
 		
 		foreach ($this->fieldDescriptors as $descriptor) {
@@ -175,7 +175,7 @@ class BCEForm {
 				continue;
 			}
 			
-			$descriptorInstance = $descriptor->load($this->baseBean, $id, $this);
+			$descriptorInstance = $descriptor->load($bean, $id, $this);
 			$descriptorInstance->addValidationData($this->validationHandler);
 			$descriptor->addJS($this);
 			
@@ -188,7 +188,7 @@ class BCEForm {
 		
 		//Instantiate new bean (after because of TDBM's constraint to trigger complete save when getting other objects, like FKDaos List methods)
 		if ($id == null){
-			$this->baseBean = $this->mainDAO->create();
+			$bean = $this->mainDAO->create();
 		}
 		
 		if ($this->isMain){
@@ -249,7 +249,7 @@ class BCEForm {
 		} else {
 			$id = get($this->idFieldDescriptor->getFieldName());
 		}
-		$this->baseBean = $bean ? $bean : (empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id));
+		$bean = $bean ? $bean : (empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id));
 	
 		foreach ($this->fieldDescriptors as $descriptor) {
 			if (!$descriptor->canEdit()){
@@ -259,15 +259,15 @@ class BCEForm {
 		}
 		if (!count($this->errorMessages)){
 			//save the main bean
-			$this->mainDAO->save($this->baseBean);
+			$this->mainDAO->save($bean);
 				
-			$id = $this->getMainBeanId();//Get bean Id after save if it's an add
+			$id = $this->idFieldDescriptor->getValue($bean);//Get bean Id after save if it's an add
 			//Now call the postSave scripts (important for M2M descs for example)
 			foreach ($this->fieldDescriptors as $descriptor){
 				if (!$descriptor->canEdit()){
 					continue;
 				}
-				$descriptor->postSave($this->baseBean, $id, $postValues);
+				$descriptor->postSave($bean, $id, $postValues);
 			}
 				
 			return $id;
@@ -275,12 +275,5 @@ class BCEForm {
 			return false;
 		}
 	}
-	
-	/**
-	 * Gets the id of the bean
-	 * @param mixed $id the old id of the bean
-	 */
-	public function getMainBeanId(){
-		return $this->idFieldDescriptor->getValue($this->baseBean);
-	}
+
 }

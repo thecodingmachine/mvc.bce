@@ -292,8 +292,16 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['formatter'], 'formatter');
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['renderer'], 'renderer');
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['wrapper_renderer'], 'fieldWrapperRenderer');
-		$this->setSimpleProperty($fieldDescriptor, $fieldData['edit_condition'], 'editCondition');
-		$this->setSimpleProperty($fieldDescriptor, $fieldData['view_condition'], 'viewCondition');
+		if (isset($fieldData['edit_condition'])) {
+			$this->setSimpleProperty($fieldDescriptor, $fieldData['edit_condition'], 'editCondition');
+		} else {
+			$this->setSimpleProperty($fieldDescriptor, null, 'editCondition');
+		}
+		if (isset($fieldData['view_condition'])) {
+			$this->setSimpleProperty($fieldDescriptor, $fieldData['view_condition'], 'viewCondition');
+		} else {
+			$this->setSimpleProperty($fieldDescriptor, null, 'viewCondition');
+		}
 		
 		if (isset($fieldData['validators'])){
 			$validators = array();
