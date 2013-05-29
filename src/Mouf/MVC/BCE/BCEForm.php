@@ -27,7 +27,7 @@ class BCEForm implements HtmlElementInterface {
 	
 	/**
 	 * The main bean of the form, i.e. the object that define the edited data in the form
-	 * @var mixed $baseBean
+	 *
 	 */
 	public $baseBean;
 	
