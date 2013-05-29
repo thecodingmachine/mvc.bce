@@ -26,6 +26,13 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	public $fieldLabel;
 	
 	/**
+	 * The description of the field as displayed in the form
+	 * @Property
+	 * @var string
+	 */
+	public $description;
+	
+	/**
 	 * @var BCEForm
 	 */
 	public $form;
@@ -60,13 +67,10 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	 */
 	private $beans = array();
 	
-	public $editCondition;
-	public $viewCondition;
-	
 	/**
 	 * The renderer that will display the whole DOM associated to the field (label included)
 	 * @Property
-	 * @var FieldWrapperRendererInterface
+	 * @var SubFormFieldWrapperRendererInterface
 	 */
 	public $fieldWrapperRenderer;
 	
@@ -199,8 +203,8 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		return $this->fieldWrapperRenderer;
 	}
 	
-	public function preSave($post, BCEForm &$form){
-		//TODO
+	public function preSave($post, BCEForm &$form, $bean){
+		//TODO if needed
 	}
 	
 	public function postSave($parentBean, $parentBeanId, $postValues = null){

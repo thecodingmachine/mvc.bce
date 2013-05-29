@@ -12,12 +12,21 @@ var multiRenderers = ['<?php echo implode("', '", $this->multiRenderers); ?>'];
 var formatters = ['<?php echo implode("', '", $this->formatters); ?>'];
 var validators = ['<?php echo implode("', '", $this->validators); ?>'];
 var conditions = ['<?php echo implode("', '", $this->conditions); ?>'];
+var itemWrapperRenderers = ['<?php echo implode("', '", $this->itemWrapperRenderers); ?>'];
+var forms = ['<?php echo implode("', '", $this->forms); ?>'];
 <?php 
 if (count($this->wrapperRenderers)){
 ?>
 var wrapperRenderers = ['<?php echo implode("', '", $this->wrapperRenderers); ?>'];
 <?php
-}else echo "wrapperRenderers = []";
+}else echo "var wrapperRenderers = []";
+?>
+<?php 
+if (count($this->subformWrapperRenderers)){
+?>
+var subformWrapperRenderers = ['<?php echo implode("', '", $this->subformWrapperRenderers); ?>'];
+<?php
+}else echo "var subformWrapperRenderers = []";
 ?>
 
 var formRenderers = ['<?php echo implode("', '", $this->formRenderers); ?>'];
@@ -113,5 +122,13 @@ jQuery(document).ready(function() {
 		}
 		?>
 			<input type="hidden" class='rightTarget' value=""/>
+		</div>
+	</div>
+	<div id="m2m-help-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		</div>
+		<div class="modal-body">
+			<img src="<?php echo ROOT_URL ?>../mvc.bce/src/views/m2m.png" />
 		</div>
 	</div>

@@ -62,6 +62,10 @@ switch ($query) {
 	case 'instanceData':
 		echo json_encode($utils->getInstanceData($inputName));
 	break;
+	
+	case 'formMainDaoData':
+		echo json_encode($utils->getDaoDataFromForm($inputName));
+	break;
 }
 
 class BCEUtils{
@@ -169,6 +173,13 @@ class BCEUtils{
 		$desc = MoufManager::getMoufManager()->getInstanceDescriptor($daoInstanceName);
 		$daoClass = $desc->getClassName();
 		return $this->getDaoData($daoClass, $goDeeper);
+	}
+	
+	public function getDaoDataFromForm($formName){
+		$desc = MoufManager::getMoufManager()->getInstanceDescriptor($formName);
+		$prop = $desc->getProperty('mainDAO');
+		$val = $prop->getValue();
+		return $this->getDaoData($val->getClassName());
 	}
 	
 	/**
@@ -598,20 +609,21 @@ class BCEUtils{
 			$fieldData->name = $descriptor->getName();
 		}else{
 			
-			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormDescriptor'){
+			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor'){
 				/* 
 				 * In any case except the subform descriptor, the descriptor extends the fieldDecriptor class.
 				 * so getter, setter, name, label, formatter, etc... are loaded here
 				 */
 				$this->loadBaseValues($fieldData, $descriptor, $instance);
 			}else{
-				$this->loadSubFormDescriptorValues($fieldData, $instance);
+				$this->loadSubFormDescriptorValues($fieldData, $descriptor, $instance);
 			}
 			/*
 			 * Load BaseFieldDescriptor data
 			 * TODO : find a better way than comparing class names, use instance of, is_a or is_subclass... but one that works :( 
 			 */
-			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'){
+			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor'
+					&& $descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor'){
 				$fieldData->getter = $instance->getProperty('getter')->getValue();
 				$fieldData->setter = $instance->getProperty('setter')->getValue();
 			}
@@ -726,24 +738,29 @@ class BCEUtils{
 	 * @param Many2ManyFieldDescriptorBean $fkDescBean
 	 * @param Many2ManyFieldDescriptor $instance : the fieldDescriptor that will provide the data
 	 */
-	private function loadSubFormDescriptorValues(& $subFormDescBean, MoufInstanceDescriptor $instance){
+	private function loadSubFormDescriptorValues(& $subFormDescBean, $descriptor, MoufInstanceDescriptor $instance){
 		/* @var $subFormDescBean SubFormFieldDescriptorBean */
 		$subFormDescBean->name = $descriptor->getName();
-		$bean->description = $instance->getProperty('description')->getValue();
-		if ($instance->getProperty('renderer')->getValue()){
-			$bean->renderer = $instance->getProperty('renderer')->getValue()->getName();
-		}
+		
 		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
-			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+			$subFormDescBean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+		}
+		if ($instance->getProperty('itemWrapperRenderer')->getValue()){
+			$subFormDescBean->itemWrapperRenderer = $instance->getProperty('itemWrapperRenderer')->getValue()->getName();
+		}
+		if ($instance->getProperty('form')->getValue()){
+			$subFormDescBean->form = $instance->getProperty('form')->getValue()->getName();
 		}
 		
-		$bean->fieldName = $instance->getProperty('fieldName')->getValue();
-		$bean->label = $instance->getProperty('label')->getValue();
-		
+		$subFormDescBean->fieldName = $instance->getProperty('fieldName')->getValue();
+		$subFormDescBean->label = $instance->getProperty('fieldLabel')->getValue();
+		$subFormDescBean->description = $instance->getProperty('description')->getValue();
+		$subFormDescBean->fkGetter = $instance->getProperty('fkGetter')->getValue();
+		$subFormDescBean->fkSetter = $instance->getProperty('fkSetter')->getValue();
 		$subFormDescBean->beansGetter = $instance->getProperty('beansGetter')->getValue();
-		
-		
-		
-		
+		//Get descriptor's form dao data...
+		$formProp = $instance->getProperty('form')->getValue();
+		$daoClass = $formProp->getProperty('mainDAO')->getValue()->getClassName();
+		$subFormDescBean->daoData = $this->getDaoData($daoClass);
 	}
 }

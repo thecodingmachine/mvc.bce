@@ -13,21 +13,40 @@ var formMethods = [ "GET" , "POST" ];
 
 //Used to suggest bean or DAO methods for the FKDescriptor attributes
 var refreshFKDaoSettings = {
-	'id_getter':{
-		field : "linkedIdGetter",
-	 	defaultSelect : "getId|get_id",
+		'id_getter':{
+			field : "linkedIdGetter",
+			defaultSelect : "getId|get_id",
+			methodType : "getter"
+		},
+		'label_getter':{
+			field : "linkedLabelGetter",
+			defaultSelect : "getLabel|getValue",
+			methodType : "getter"
+		},
+		'data_method':{
+			field : "dataMethod",
+			defaultSelect : "getList|getValues|getAll",
+			methodType : "any"
+		}
+};
+
+var refreshSubFormSettings = {
+	'fk_getter':{
+		field : "fk_getter",
+	 	defaultSelect : null,
 	    methodType : "getter"
 	},
-	'label_getter':{
-		field : "linkedLabelGetter",
-		defaultSelect : "getLabel|getValue",
-		methodType : "getter"
+	'fk_setter':{
+		field : "fk_setter",
+		defaultSelect : null,
+		methodType : "setter"
 	},
-	'data_method':{
-		field : "dataMethod",
-		defaultSelect : "getList|getValues|getAll",
+	'beans_getter':{
+		field : "beans_getter",
+		defaultSelect : null,
 		methodType : "any"
-	}
+	},
+	method: "formMainDaoData" 
 };
 
 jQuery(document).ready(function(){
@@ -83,6 +102,10 @@ jQuery(document).ready(function(){
 	
 	jQuery(document).on('click', '.add-m2m', function(){
 		addM2MBlock();
+	});
+	
+	jQuery(document).on('click', '.pop.help', function(event){
+		_showM2MHelpModal(event);
 	});
 	
 function _chooseRight(condition){
@@ -335,6 +358,7 @@ function completeInstanceData(data){
 	jQuery('#descriptors-tab .desc-content .tab-pane:first-child').addClass('active');
 	
 	jQuery('#descriptors-tab .desc-titles').append(jQuery('<li/>').append(jQuery('<a/>').addClass('add-m2m').text('add m2m')));
+	jQuery('#descriptors-tab .desc-titles').append(jQuery('<li/>').append(jQuery('<a/>').addClass('add-subform').text('add SubForm')));
 	
 	
 	/* initialize form configuration tab*/
@@ -384,6 +408,7 @@ function completeInstanceData(data){
 	callFkDaoSelectRefresh();
 	
 	/* Endup ui initialisation (multiselect, tab system, etc...) */
+	jQuery('#descriptors-tab .desc-titles').sortable();
 	initUI();
 }
 
@@ -403,7 +428,8 @@ function _addFieldDescriptor(field, type){
  */
 function initUI(){
 	jQuery( ".sortable" ).sortable("refresh");
-	jQuery(".multiselect").multiselect({searchable: false, dividerLocation: 0.5});
+	
+	jQuery('#descriptors-tab .desc-titles').sortable('refresh');
 	
 	jQuery('select.available').change(function(){
 		var container = jQuery(this).parents('.field-value-bloc');
@@ -474,43 +500,78 @@ function _fieldHtml(field, addClass, fieldType, editName){
 			elementType = "Custom";
 			break;
 		case "subform":
-			elementType = "subform";
+			elementType = "Sub Form";
 			break;
 		case "base":
-			elementType = "Field (Base)";
+			elementType = "Bean field (Base)";
 			break;
 		case "fk":
-			elementType = "Field (FK)";
+			elementType = "Bean field (FK)";
 			break;
 		case "m2m":
-			elementType = "Field (M2M)";
+			elementType = "Simple M2M relation";
 			break;
+	}
+	
+	var fieldHTML;
+	if (field.type != 'subform'){
+		fieldHTML = _html(_getFieldElements(field, fieldType));
+		/* depending on the field type, specific elements should be added, 
+		 * like the 'linkedIdGetter' select box if it is a FKFieldDescriptor.
+		 * 
+		 * This script reflexes the type hierarchy, therefore, a FK Descriptor is built with Base AND FK descriptors' HTML */
+		switch (field.type){
+		case "base":
+			fieldHTML += _html(_getBaseElements(field, fieldType));
+			break;
+		case "fk":
+			fieldHTML += _html(_getBaseElements(field, fieldType));
+			fieldHTML += "<br style='clear: both'/>"+_html(_getFKElements(field, fieldType));
+			break;
+		case "m2m":
+			fieldHTML += "<br style='clear: both'/>"+_html(_getM2mElements(field, fieldType));
+			break;
+		}
+	} else {
+		fieldHTML = _getSubFormHtml(field, fieldType);
 	}
 	
 	var html = "<div class='field-title'><div class='name-val' style='float: left'><span class='element-type'>" + elementType + " : </span>" + name + "</div><div class='active-elem'>" + checkActive + "</div>" + "<div style='float: right'>"+setFK+setPK+"</div><div style='clear:both'></div></div>" +
-		"<div class='field-data'>"+	_html(_getFieldElements(field, fieldType));
-	
-	/* depending on the field type, specific elements should be added, 
-	 * like the 'linkedIdGetter' select box if it is a FKFieldDescriptor.
-	 * 
-	 * This script reflexes the type hierarchy, therefore, a FK Descriptor is built with Base AND FK descriptors' HTML */
-	switch (field.type){
-		case "base":
-			html += _html(_getBaseElements(field, fieldType));
-			break;
-		case "fk":
-			html += _html(_getBaseElements(field, fieldType));
-			html += "<br style='clear: both'/>"+_html(_getFKElements(field, fieldType));
-			break;
-		case "m2m":
-			html += "<br style='clear: both'/>"+_html(_getM2mElements(field, fieldType));
-			break;
-	}
-	html += "</div>";
+		"<div class='field-data'>"+	fieldHTML + "</div>";
 	
 	return "<div class='field-bloc "+field.type+strAddClass+"' id='wrapper-"+field.name+"'>"+
 		html +
 	"<br style='clear:both'/></div>";
+}
+
+function _getSubFormHtml(field, fieldType) {
+	var name = _getSimpleValueWrapper("Field Name", "fieldname", field.name, field.fieldName, fieldType); 
+	var label =_getSimpleValueWrapper("Label", "label", field.name, field.label, fieldType);
+	var wrapperRenderer =_getListValueWrapper("Wrapper Renderer", "wrapper_renderer", field.name, field.wrapperRenderer, subformWrapperRenderers, null, fieldType);
+	
+	var br = jQuery("<div/>").append(jQuery("<br/>").css('clear', 'both'));
+	var br2 = br.clone();
+	
+	var description = _getSimpleValueWrapper("Description", "description", field.name, field.description, fieldType, true);
+	
+	var typeElemWrap = _getHiddenElemWrapper(fieldType, "type", field.name, field.type, 'field_type');
+	var isNewElemWrap = _getHiddenElemWrapper(fieldType, "new", field.name, field.is_new);
+	var instanceNameWrap = _getHiddenElemWrapper(fieldType, "instanceName", field.name, field.name);
+
+	var itemWrapper = _getListValueWrapper("Item Wrapper", "item_wrapper", field.name, field.itemWrapperRenderer, itemWrapperRenderers, null, fieldType);
+
+	var formWrapper = _getListValueWrapper("Sub Form", "sub_form", field.name, field.form, forms, "refreshSubFormSettings", fieldType);
+
+	var daoMethods = _getDaoMethods(field.daoData);
+	var beansGetter = _getListValueWrapper("Sub Form", "beans_getter", field.name, field.beansGetter, daoMethods, null, fieldType);
+	
+	var filterdMethods = _getFilteredMethods(field.daoData);
+	fieldGetters = filterdMethods['getters'];
+	fieldSetters = filterdMethods['setters'];
+	var fkGetter = _getListValueWrapper("Parent id FK Getter", "fk_getter", field.name, field.fkGetter, fieldGetters, fieldType);
+	var fkSetter = _getListValueWrapper("Parent id FK Setter", "fk_setter", field.name, field.fkSetter, fieldSetters, fieldType);
+
+	return _html([name, label, wrapperRenderer, br, description, formWrapper, br2, beansGetter, fkGetter, fkSetter, typeElemWrap, isNewElemWrap, instanceNameWrap, itemWrapper]);
 }
 
 /* 
@@ -652,6 +713,9 @@ function _getM2mElements(field, fieldType){
 	var fieldSetters = filterdMethods['setters'];
 	var mappingDaoMethods = _getDaoMethods(field.mappingDaoData);
 
+	var helpLink = $('<a/>').attr('href', "#").text("Click here to understand how to configure a M2M descriptor").addClass("help pop");
+	helpLink = $('<div/>').append(helpLink);
+	
 	/*
 	 * Build mapping DAO select box
 	 */
@@ -681,7 +745,7 @@ function _getM2mElements(field, fieldType){
 	var linkedLabelGetter = _getListValueWrapper("linkedLabelGetter", "linkedLabelGetter", field.name, field.linkedLabelGetter, fieldGetters, null, fieldType);
 	var dataMethod = _getListValueWrapper("dataMethod", "dataMethod", field.name, field.dataMethod, daoMethods, null, fieldType);
 	
-	return [mappingDao, mappingIdGetter, mappingLeftKeySetter, mappingRightKeyGetter, mappingRightKeySetter,beanValuesMethod, br, linkedDao, linkedIdGetter, linkedLabelGetter, dataMethod];
+	return [helpLink, br, mappingDao, mappingIdGetter, mappingLeftKeySetter, mappingRightKeyGetter, mappingRightKeySetter,beanValuesMethod, br, linkedDao, linkedIdGetter, linkedLabelGetter, dataMethod];
 }
 
 /**
@@ -718,7 +782,7 @@ function _getFieldNames(fieldType, prop, name){
  */
 function _getSimpleValueWrapper(label, prop, name, value, fieldType, isTextArea){
 	var fieldNameAttr = _getFieldNames(fieldType, prop, name);
-	var divElem = jQuery("<div/>").addClass('field-value-bloc');
+	var divElem = jQuery("<div/>").addClass('field-value-bloc prop-'+prop);
 	divElem.append(jQuery('<label/>').text(label));
 	var input = !isTextArea ? 
 		jQuery("<input/>").attr('type', 'text').attr('id', name+"_"+prop).attr('name', fieldNameAttr).attr('value',value)
@@ -764,6 +828,10 @@ function _showRightModal(event){
 	jQuery('#right-modal .set-right').show();
 	
 	jQuery('#right-modal').modal();
+}
+
+function _showM2MHelpModal(event){
+	jQuery('#m2m-help-modal').modal();
 }
 /**
  * Builds a select box field for handling form or fieldDescriptor properties.
@@ -914,12 +982,14 @@ function _getMultiListValueWrapper(label, prop, name, selectValues, list, fieldT
  * @param newDaoName:	the new value of the DAO select box
  */
 function refreshBeanMethods(settings, fieldName, newDaoName){
+	var method = settings.method ? settings.method : "daoData";
+	
 	/*
 	 * Get the DAO data for the new DAO (ie DAO methods and related bean's getters and setters) 
 	 */
 	jQuery.ajax({
 	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
-	  data: "q=daoData&n="+newDaoName,
+	  data: "q="+method+"&n="+newDaoName,
 	  success: function (data){
 		  /*
 		   * Update the related lists with the DAO data

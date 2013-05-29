@@ -1,5 +1,5 @@
 <?php
-namespace Mouf\MVC\BCE\FormRenderers\Bootstrap\Wrappers;
+namespace Mouf\MVC\BCE\FormRenderers;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 

@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\FormRenderers\Bootstrap\Wrappers;
 
+use Mouf\MVC\BCE\FormRenderers\SubFormFieldWrapperRendererInterface;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
 use Mouf\MVC\BCE\FormRenderers\DescriptionRendererInterface;
@@ -15,7 +17,7 @@ use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
  * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
 
-class SubFormFieldWrapperRenderer implements FieldWrapperRendererInterface {
+class SubFormFieldWrapperRenderer implements SubFormFieldWrapperRendererInterface {
 	
 	/**
 	 * (non-PHPdoc)

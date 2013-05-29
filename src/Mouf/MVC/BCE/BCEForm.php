@@ -255,7 +255,7 @@ class BCEForm {
 			if (!$descriptor->canEdit()){
 				continue;
 			}
-			$descriptor->preSave($postValues, $this);
+			$descriptor->preSave($postValues, $this, $bean);
 		}
 		if (!count($this->errorMessages)){
 			//save the main bean

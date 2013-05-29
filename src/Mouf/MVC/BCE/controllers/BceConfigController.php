@@ -46,6 +46,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 	/**
 	 * @var array<string>
 	 */
+	protected $subformWrapperRenderers;
+	
+	/**
+	 * @var array<string>
+	 */
 	protected $formRenderers;
 	
 	/**
@@ -57,6 +62,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @var array<string>
 	 */
 	protected $conditions;
+
+	/**
+	 * @var array<string>
+	 */
+	protected $itemWrapperRenderers;
 	
 	/**
 	 * The name of the set main DAO of the form 
@@ -111,7 +121,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$this->formatters = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Formatters\\FormatterInterface", false);
 		$this->validators = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Validators\\ValidatorInterface", false);
 		$this->wrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\FieldWrapperRendererInterface", false);
+		$this->subformWrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\SubFormFieldWrapperRendererInterface", false);
 		$this->conditions = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\ConditionInterface\\ConditionInterface", false);
+		$this->itemWrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderers\\SubFormItemWrapperInterface", false);
+		
+		$this->forms = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\BCEForm", false);
 
 		//Initialize form's attributes possible values
 		$this->formRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderers\\BCERendererInterface", false);
@@ -202,6 +216,8 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$attributes['class'] = $_POST['config']['class'];
 		$formInstance->getProperty('attributes')->setValue($attributes);
 		
+		//TODO : maybe create the formInstance ? But how...
+		
 		$this->moufManager->rewriteMouf();
 		
 		header("Location: " . ROOT_URL . "bceadmin/?name=" . $_POST['formInstanceName'] . "&success=1");
@@ -224,19 +240,22 @@ class BceConfigController extends AbstractMoufInstanceController {
 				case "m2m":
 					$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor";
 				break;
+				case "subform":
+					$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor";
+				break;
 				default:
 					throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
 			}
 			
 			$fieldDescriptor = $this->moufManager->createInstance($className);
-			$instanceName = $fieldData['type'] == "m2m" ? $this->getInstanceName($fieldData['instanceNameInput']) : $this->getInstanceName($fieldData['instanceName']);
+			$instanceName = ($fieldData['type'] == "m2m" || $fieldData['type'] == "subform") ? $this->getInstanceName($fieldData['instanceNameInput']) : $this->getInstanceName($fieldData['instanceName']);
 			$fieldDescriptor->setName($instanceName);
 		}else{
 			$fieldDescriptor = $this->moufManager->getInstanceDescriptor($fieldData['instanceName']);
-			
 			if (
 				(($fieldData['type']=='base') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor")) ||
 				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor")) ||
+				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor")) ||
 				(($fieldData['type']=='m2m') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor"))
 			){
 				switch ($fieldData['type']) {
@@ -248,6 +267,9 @@ class BceConfigController extends AbstractMoufInstanceController {
 						break;
 					case "m2m":
 						$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor";
+						break;
+					case "subform":
+						$className = "Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor";
 						break;
 					default:
 						throw new \Exception('Invalid field data: no type for '.$fieldData['fieldname']);
@@ -263,16 +285,20 @@ class BceConfigController extends AbstractMoufInstanceController {
 		
 		//Set data depending on descriptor's type
 		if ($fieldData['type'] != "custom"){
-			$this->loadFieldDescriptor($fieldDescriptor, $fieldData);
-			
-			if ($fieldData['type'] != "m2m"){
-				$this->loadBaseFieldDescriptor($fieldDescriptor, $fieldData);
-			}
-			
-			if ($fieldData['type'] == "fk"){
-				$this->loadFKDescriptor($fieldDescriptor, $fieldData);
-			}else if ($fieldData['type'] == "m2m"){
-				$this->loadM2MDescriptor($fieldDescriptor, $fieldData);
+			if (array_search($fieldData['type'], array("base", "fk", "m2m")) !== false){
+				$this->loadFieldDescriptor($fieldDescriptor, $fieldData);
+				
+				if ($fieldData['type'] != "m2m"){
+					$this->loadBaseFieldDescriptor($fieldDescriptor, $fieldData);
+				}
+				
+				if ($fieldData['type'] == "fk"){
+					$this->loadFKDescriptor($fieldDescriptor, $fieldData);
+				}else if ($fieldData['type'] == "m2m"){
+					$this->loadM2MDescriptor($fieldDescriptor, $fieldData);
+				}
+			}else if ($fieldData['type'] == "subform"){
+				$this->loadSubFormDescriptor($fieldDescriptor, $fieldData);
 			}
 		}
 		
@@ -356,13 +382,6 @@ class BceConfigController extends AbstractMoufInstanceController {
 	 * @param array $fieldData the data to be updated
 	 */
 	private function loadM2MDescriptor(&$fieldDescriptor, $fieldData){
-// 		$cnt = count($fieldData['fieldname']);
-// 		if (substr($fieldData['fieldname'], $cnt - 3, $cnt - 1) != "[]"){
-// 			$newFieldName = $fieldData['fieldname']."[]";
-// 			$fieldDescriptor->getProperty('fieldName')->setValue($fieldData['fieldname']);
-// 		}
-// 		$fieldDescriptor->getProperty('fieldName')->setValue();
-		
 		$mappingDao = $this->moufManager->getInstanceDescriptor($fieldData['mappingDao']);
 		$fieldDescriptor->getProperty('mappingDao')->setValue($mappingDao);
 		
@@ -378,6 +397,23 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$fieldDescriptor->getProperty('linkedIdGetter')->setValue($fieldData['linkedIdGetter']);
 		$fieldDescriptor->getProperty('linkedLabelGetter')->setValue($fieldData['linkedLabelGetter']);
 		$fieldDescriptor->getProperty('dataMethod')->setValue($fieldData['dataMethod']);
+	}
+	
+	private function loadSubFormDescriptor($fieldDescriptor, $fieldData){
+		$fieldDescriptor->getProperty('fieldName')->setValue($fieldData['fieldname']);
+		$fieldDescriptor->getProperty('fieldLabel')->setValue($fieldData['label']);
+		$fieldDescriptor->getProperty('fkGetter')->setValue($fieldData['fk_getter']);		
+		$fieldDescriptor->getProperty('fkSetter')->setValue($fieldData['fk_setter']);		
+		$fieldDescriptor->getProperty('description')->setValue($fieldData['description']);		
+
+		$fieldDescriptor->getProperty('beansGetter')->setValue($fieldData['beans_getter']);		
+		$fieldDescriptor->getProperty('fkGetter')->setValue($fieldData['fk_getter']);		
+		$fieldDescriptor->getProperty('fkSetter')->setValue($fieldData['fk_setter']);		
+		
+		
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['item_wrapper'], 'itemWrapperRenderer');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['wrapper_renderer'], 'fieldWrapperRenderer');
+		$this->setSimpleProperty($fieldDescriptor, $fieldData['sub_form'], 'form');
 	}
 	
 	/**

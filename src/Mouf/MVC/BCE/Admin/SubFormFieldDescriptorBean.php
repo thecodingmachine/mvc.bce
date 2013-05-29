@@ -12,18 +12,18 @@ namespace Mouf\MVC\BCE\Admin;
 class SubFormFieldDescriptorBean extends FieldDescriptorBean {
 	
 	public $fieldName;
-	public $fieldLabel;
+	public $label;
+	public $description;
 	public $form;
 	public $beansGetter;
 	
 	public $fkSetter;
 	public $fkGetter;
 	
-	public $editCondition;
-	public $viewCondition;
-	
-	public $fieldWrapperRenderer;
+	public $wrapperRenderer;
 	public $itemWrapperRenderer;
+	
+	public $daoData;
 	
 	public function __construct(){
 		$this->type = 'subform';

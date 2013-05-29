@@ -6,9 +6,13 @@ div.field-value-bloc{
 	float: left;
 	min-height: 25px;
 	margin-top: 3px;
-}
-div.field-value-bloc{
 	margin-right: 10px;
+}
+div.field-value-bloc.prop-description{
+	float: none;
+}
+div.field-value-bloc.prop-description textarea {
+	width: 98%;
 }
 .field-data input,
 .field-data select{
@@ -109,7 +113,7 @@ div.field-title div.name-val span.element-type{
 	font-weight: normal;
 }
 textarea{
-	width: 660px;
+	width: 100%;
 	height: 100px;
 }
 div#ajaxload{
@@ -159,4 +163,11 @@ div#ajaxload{
 }
 #right-modal .search-query{
 	margin: 10px 0;
+}
+.help.pop{
+	font-weight: bold;
+	font-size: small;
+}
+#m2m-help-modal .modal-header{
+	border-bottom: none;
 }
