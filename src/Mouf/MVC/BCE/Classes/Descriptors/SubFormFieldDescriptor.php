@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\MVC\BCE\FormRenderers\SubFormFieldWrapperRendererInterface;
+
 use Mouf\MVC\BCE\FormRenderers\SubFormItemWrapperInterface;
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
@@ -143,7 +145,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	}
 	
 	
-	public function addJS(BCEForm & $form){
+	public function addJS(BCEForm & $form, $bean, $id){
 		
 		$script = "
 			var new".$this->fieldName."_index = 1;

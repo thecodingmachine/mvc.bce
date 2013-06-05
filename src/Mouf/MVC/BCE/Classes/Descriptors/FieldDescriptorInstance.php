@@ -52,6 +52,10 @@ class FieldDescriptorInstance {
 	public function getFieldValue(){
 		return $this->value;
 	}
+	
+	public function setFieldValue($value){
+		$this->value = $value;
+	}
 
 	/**
 	 * (non-PHPdoc)

@@ -31,7 +31,7 @@ class JQueryValidateHandler implements JsValidationHandlerInterface {
 	
 	/**
 	 * @Property
-	 * @var WebLibrary $jsLib
+	 * @var WebLibrary
 	 */
 	public $jsLib;
 	

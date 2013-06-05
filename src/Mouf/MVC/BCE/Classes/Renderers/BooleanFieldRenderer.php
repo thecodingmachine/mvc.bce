@@ -49,7 +49,7 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		return array();
 	}
 	
@@ -57,7 +57,7 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptorInstance){
+	public function getJSView($descriptor, $bean, $id){
 		return array();
 	}
 	

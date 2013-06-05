@@ -2,6 +2,7 @@
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
 use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
+use Mouf\MVC\BCE\Descriptors\BCEFieldDescriptorInterface;
 
 interface ViewFieldRendererInterface {
 	
@@ -14,9 +15,9 @@ interface ViewFieldRendererInterface {
 	
 	/**
 	 * Function that may return some JS script for 'View' mode
-	 * @param FieldDescriptorInstance $descriptor
+	 * @param BCEFieldDescriptorInterface $descriptor
 	 * @return array<string>
 	 */
-	public function getJSView($descriptorInstance);
+	public function getJSView($descriptor, $bean, $id);
 	
 }

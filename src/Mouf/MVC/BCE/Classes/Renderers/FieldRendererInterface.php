@@ -18,9 +18,9 @@ interface FieldRendererInterface {
 	
 	/**
 	 * Function that may return some JS script (eg. datepicker, slider, etc...) related to this renderer
-	 * @param FieldDescriptorInstance $descriptor
+	 * @param BCEFieldDescriptorInterface $descriptor
 	 * @return array<string>
 	 */
-	public function getJS($descriptorInstance, $formMode);
+	public function getJS($descriptor, $formMode, $bean, $id);
 	
 }

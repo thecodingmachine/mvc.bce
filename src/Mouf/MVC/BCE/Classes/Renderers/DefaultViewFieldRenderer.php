@@ -20,7 +20,7 @@ abstract class DefaultViewFieldRenderer extends BaseFieldRenderer implements Vie
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	function getJSView($descriptorInstance){
+	function getJSView($descriptor, $bean, $id){
 		return array();
 	}
 	

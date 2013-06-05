@@ -27,13 +27,11 @@ class BCEFormInstance implements HtmlElementInterface{
 	
 	/**
 	 * The main bean of the form, i.e. the object that define the edited data in the form
-	 * @var mixed $baseBean
 	 */
 	public $baseBean;
 	
 	/**
 	 * The id of the main bean of the form
-	 * @var int $beanId
 	 */
 	public $beanId;
 	
@@ -61,7 +59,13 @@ class BCEFormInstance implements HtmlElementInterface{
 		return $this->form->save($postValues);
 	}
 	
-	
+	/**
+	 * @param string $fieldName
+	 * @return FieldDescriptorInstance
+	 */
+	public function getDescriptorInstance($fieldName){
+		return $this->descriptorInstances[$fieldName];
+	}
 	
 	
 }

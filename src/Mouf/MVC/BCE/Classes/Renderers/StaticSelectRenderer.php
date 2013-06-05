@@ -41,7 +41,7 @@ class StaticSelectRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * NO JS for the moment
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}

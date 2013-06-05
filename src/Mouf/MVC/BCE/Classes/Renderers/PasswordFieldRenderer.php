@@ -32,7 +32,7 @@ class PasswordFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
@@ -42,7 +42,7 @@ class PasswordFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		return false;
 	}
 	
-	public function getJSView($descriptorInstance){
+	public function getJSView($descriptor, $bean, $id){
 			/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}

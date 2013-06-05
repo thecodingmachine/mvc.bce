@@ -37,7 +37,7 @@ interface BCEFieldDescriptorInterface {
 	 *  
 	 * @param bool $formMode the mode (edit ot view) of the form
 	 */
-	public function addJS(BCEForm & $form);
+	public function addJS(BCEForm & $form, $bean, $id);
 	
 	/**
 	 * Does all the operations before the main bean is saved. E.G:

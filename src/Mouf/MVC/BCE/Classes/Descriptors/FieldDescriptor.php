@@ -101,8 +101,8 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addJS()
 	 */
-	public function addJS(BCEForm & $form){
-		foreach ($this->renderer->getJS($this, $form->mode) as $scope => $script){
+	public function addJS(BCEForm & $form, $bean, $id){
+		foreach ($this->renderer->getJS($this, $form->mode, $bean, $id) as $scope => $script){
 			$form->scriptManager->addScript($scope, $script);
 		}
 	}

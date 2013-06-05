@@ -75,7 +75,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptor){
+	public function getJSEdit($descriptor, $bean, $id){
 		return array();
 	}
 	
@@ -97,7 +97,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\DefaultViewFieldRenderer::getJSView()
 	 */
-	public function getJSView($descriptor){
+	public function getJSView($descriptor, $bean, $id){
 		return array();
 	}
 	

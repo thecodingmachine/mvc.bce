@@ -26,7 +26,7 @@ class SpanRenderer extends DefaultViewFieldRenderer implements SingleFieldRender
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}

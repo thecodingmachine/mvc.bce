@@ -27,7 +27,7 @@ class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInt
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
@@ -45,9 +45,9 @@ class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInt
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptorInstance){
+	public function getJSView($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
-		return $this->getJSEdit($descriptorInstance);
+		return $this->getJSEdit($descriptor, $bean, $id);
 	}
 	
 }

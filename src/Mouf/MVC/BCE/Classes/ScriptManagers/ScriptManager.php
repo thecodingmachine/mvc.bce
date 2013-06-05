@@ -4,7 +4,7 @@ namespace Mouf\MVC\BCE\Classes\ScriptManagers;
 
 class ScriptManager {
 	
-	private $scripts;
+	private $scripts = array();
 	
 	const SCOPE_READY = "ready";
 	const SCOPE_LOAD = "load";

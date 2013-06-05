@@ -17,7 +17,7 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 
 	/**
 	 * @Property
-	 * @var string $settings
+	 * @var string
 	 * the JSON settings for the datpicker (see http://jqueryui.com/demos/datepicker/#options)
 	 */
 	public $settings;
@@ -38,13 +38,13 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 	 * The datepicker depends on jQueryUI's datepicker widget, therefore load the library into the WebLibrary manager, and call the datepicker initialization on dom ready
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		/* @var $libManager WebLibraryManager */
 		$jQueryUI = MoufManager::getMoufManager()->getInstance('jQueryUiLibrary');
 		Mouf::getDefaultWebLibraryManager()->addLibrary($jQueryUI);
 		
-		$fieldName = $descriptorInstance->getFieldName();
+		$fieldName = $descriptor->getFieldName();
 		
 		$settings = "";
 		if ($this->settings){

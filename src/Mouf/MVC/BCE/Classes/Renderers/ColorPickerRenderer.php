@@ -26,9 +26,9 @@ class ColorPickerRenderer extends BaseFieldRenderer implements SingleFieldRender
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
-		$fieldName = $descriptorInstance->getFieldName();
+		$fieldName = $descriptor->getFieldName();
 		return array(
 			ScriptManager::SCOPE_READY => "
 				function init() {
@@ -60,8 +60,8 @@ class ColorPickerRenderer extends BaseFieldRenderer implements SingleFieldRender
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptorInstance){
-		return $this->getJSEdit($descriptorInstance);
+	public function getJSView($descriptor, $bean, $id){
+		return $this->getJSEdit($descriptor);
 	}
 	
 	

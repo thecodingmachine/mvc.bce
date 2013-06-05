@@ -24,7 +24,7 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptorInstance){
+	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
@@ -43,7 +43,7 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptorInstance){
+	public function getJSView($descriptor, $bean, $id){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}

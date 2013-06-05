@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
+
 use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
 /**
  * This interface is implemented by any field renderer
@@ -18,10 +20,10 @@ interface EditFieldRendererInterface {
 	
 	/**
 	 * Function that may return some JS script for Edit mode
-	 * @param FieldDescriptorInstance $descriptor
+	 * @param BCEFieldDescriptorInterface $descriptor
 	 * @return array<string>
 	 */
-	public function getJSEdit($descriptorInstance);
+	public function getJSEdit($descriptor, $bean, $id);
 	
 	
 }

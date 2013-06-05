@@ -1,6 +1,12 @@
 <?php
 namespace Mouf\MVC\BCE;
 
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
+
+use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
+
+use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
+
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Utils\WebLibraryManager\InlineWebLibrary;
@@ -177,12 +183,12 @@ class BCEForm {
 			
 			$descriptorInstance = $descriptor->load($bean, $id, $this);
 			$descriptorInstance->addValidationData($this->validationHandler);
-			$descriptor->addJS($this);
+			$descriptor->addJS($this, $bean, $id);
 			
 			// Create an array of field descriptor by name
 			$this->fieldDescriptorsByName[$descriptor->getFieldName()] = $descriptor;
 			
-			$descriptorInstances[] = $descriptorInstance;
+			$descriptorInstances[$descriptor->getFieldName()] = $descriptorInstance;
 		}
 		
 		

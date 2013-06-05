@@ -35,17 +35,16 @@ abstract class BaseFieldRenderer implements FieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptorInstance, $formMode){
-		/* @var $descriptor FieldDescriptorInstance */
+	public function getJS($descriptor, $formMode, $bean, $id){
 		if ($formMode == 'edit'){
 			if ($this instanceof EditFieldRendererInterface){
-				return $this->getJSEdit($descriptorInstance);
+				return $this->getJSEdit($descriptor, $bean, $id);
 			}else{
 				throw new BCEException("Renderer '".__CLASS__."' does not implement the 'edit' rendering mode.");
 			}
 		}else if ($formMode == 'view'){
 			if ($this instanceof ViewFieldRendererInterface){
-				return $this->getJSView($descriptorInstance);
+				return $this->getJSView($descriptor, $bean, $id);
 			}else{
 				throw new BCEException("Renderer ".__CLASS__." does not implement the 'view' rendering mode.");
 			}
