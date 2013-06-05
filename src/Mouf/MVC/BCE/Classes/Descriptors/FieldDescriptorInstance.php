@@ -52,6 +52,10 @@ class FieldDescriptorInstance {
 	public function getFieldValue(){
 		return $this->value;
 	}
+
+	public function getBeanId(){
+		return $this->beanId;
+	}
 	
 	public function setFieldValue($value){
 		$this->value = $value;
