@@ -59,4 +59,16 @@ interface BCEFieldDescriptorInterface {
 	 */
 	public function postSave($bean, $beanId, $postValues);
 	
+	/**
+	 * Tells if the field is editable
+	 * @return boolean
+	 */
+	public function canEdit();
+	
+	/**
+	 * Tells if the field's value can be viewed
+	 * @return boolean
+	 */
+	public function canView();
+	
 }

@@ -201,7 +201,6 @@ class BCEForm {
 			$this->validationHandler->addJS($this);
 			$this->loadScripts();
 		}
-		
 		return array($idDescriptorInstance, $descriptorInstances);
 	}
 	
