@@ -457,24 +457,7 @@ function initUI(){
 function _fieldHtml(field, addClass, fieldType, editName){
 	var isIdDesc = fieldType == 1;
 	if (field.type == "custom"){
-//		return  "<div id='wrapper-"+ field.name +"' class='field-bloc base'>" +
-//			"		<div class='field-title'>" +
-//						"<div style='float: left;'>" +
-//							"<div style='margin-left: 30px; display: block; float: left'>&nbsp</div>" +
-//							"<div style='float: left'><input type='checkbox' checked='checked' name='fields["+ field.name +"][active]'></div>"+
-//							"<input type='hidden' name='fields["+ field.name +"][new]' value='false'/>"+
-//							"<input type='hidden' name='fields["+ field.name +"][type]' value='"+ field.type +"' class='field_type' />"+
-//							"<input type='hidden' name='fields["+ field.name +"][instanceName]' value='"+ field.name +"'/>"+
-//							"<div class='name-val'>"+ field.name +"</div>" +
-//							"<div style='float: left'>&nbsp;&nbsp;[custom]</div>" +
-//						"</div>" +
-//						"<div style='clear:both'></div>" +
-//					"</div>" +
-//					"<br style='clear:both'>" +
-//				"<div>";
-		
 		return '<div class="field-bloc custom" id="wrapper-'+ field.name +'"><div class="field-title"><div class="name-val" style="float: left"><span class="element-type">Custom Field : </span>'+ field.name +'</div><div class="active-elem"><input type="checkbox" name="fields['+ field.name +'][active]" checked="checked"></div><div style="clear:both"></div></div><div class="field-data"><br style="clear: both;"><input type="hidden" name="fields['+ field.name +'][type]" class="field_type" value="base"><input type="hidden" name="fields['+ field.name +'][new]" value="false"><input type="hidden" name="fields['+ field.name +'][instanceName]" value="'+ field.name +'"></div><br style="clear:both"></div>';
-		//'+ field.name +'
 	}
 	
 	var strAddClass = addClass ? " "+addClass : "";
