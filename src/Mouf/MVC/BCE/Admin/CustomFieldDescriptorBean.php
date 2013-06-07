@@ -15,4 +15,6 @@ class CustomFieldDescriptorBean {
 		$this->type = 'custom';
 	}
 	
+	public $fieldName;
+	
 }

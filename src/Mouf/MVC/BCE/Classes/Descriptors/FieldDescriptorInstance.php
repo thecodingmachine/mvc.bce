@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
+
 use Mouf\MVC\BCE\BCEForm;
 
 use Mouf\MVC\BCE\Classes\ValidationHandlers\JSValidationData;
@@ -8,7 +10,7 @@ use Mouf\MoufManager;
 use Mouf\Utils\Common\Validators\JsValidatorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 
-class FieldDescriptorInstance {
+class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 	
 	/**
 	 * @var FieldDescriptor
@@ -65,7 +67,7 @@ class FieldDescriptorInstance {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addValidationData()
 	 */
-	public function addValidationData(&$handler) {
+	public function addValidationData(JsValidationHandlerInterface &$handler) {
 		$i = 0;
 		if (!isset($this->fieldDescriptor->validators)){
 			return;

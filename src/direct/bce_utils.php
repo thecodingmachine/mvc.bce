@@ -607,6 +607,8 @@ class BCEUtils{
 		
 		if ($isCustom){
 			$fieldData->name = $descriptor->getName();
+			$obj = MoufManager::getMoufManager()->getInstance($descriptor->getName());
+			$fieldData->fieldName = $obj->getFieldName();
 		}else{
 			
 			if ($descriptor->getClassName() != 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor'){
