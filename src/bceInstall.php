@@ -20,6 +20,8 @@ $classes = array(
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\BooleanFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextFieldRenderer",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\FileUploaderRenderer{\"onlyOneFile\":false}",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\FileUploaderRenderer{\"onlyOneFile\":true}",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextAreaFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\PasswordFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer{\"radioMode\":true}",
