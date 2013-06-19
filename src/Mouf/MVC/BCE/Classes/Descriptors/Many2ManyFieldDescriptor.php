@@ -131,9 +131,13 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 	 * @param mixed $mainBeanId the id of the main bean 
 	 */
 	public function loadValues($mainBeanId){
-		$tmpArray = call_user_func(array($this->mappingDao, $this->beanValuesMethod), $mainBeanId);
-		foreach ($tmpArray as $bean){
-			$this->beanValues[$this->getMappingRightKey($bean)] = $bean;
+		if ($mainBeanId == null){
+			$this->beanValues = $this->getDefaultValue();
+		}else{
+			$tmpArray = call_user_func(array($this->mappingDao, $this->beanValuesMethod), $mainBeanId);
+			foreach ($tmpArray as $bean){
+				$this->beanValues[$this->getMappingRightKey($bean)] = $bean;
+			}
 		}
 	}
 	

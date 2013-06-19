@@ -1,6 +1,10 @@
 <?php 
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\Utils\Value\ValueUtils;
+
+use Mouf\Utils\Value\ValueInterface;
+
 use Mouf\MoufManager;
 
 use Mouf\MVC\BCE\Classes\ValidationHandlers\JSValidationData;
@@ -18,7 +22,6 @@ use Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface;
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 use Mouf\MVC\BCE\BCEForm;
 use Mouf\Utils\Common\Formatters\FormatterInterface;
-
 /**
  * This class is the simpliest FieldDescriptor:
  * it handles a field that has no "connections" to other objects (
@@ -98,6 +101,12 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	public $beanId;
 	
 	/**
+	 * 
+	 * @var string|ValueInterface
+	 */
+	private $defaultValue;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addJS()
 	 */
@@ -117,25 +126,29 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @see BCEFieldDescriptorInterface::preSave()
 	 */
 	public function preSave($post = null, BCEForm &$form, $bean){
-		if($post != null) {
-			$value = isset($post[$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
-		} else {
-			$value = get($this->getFieldName());
-		}
+		if (!$this->canEdit()){
+			$value = $this->getDefaultValue();
+		}else{
+			if($post != null) {
+				$value = isset($post[$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
+			} else {
+				$value = get($this->getFieldName());
+			}
 			
-		//unformat values
-		$formatter = $this->getFormatter();
-		if ($formatter && $formatter instanceof BijectiveFormatterInterface) {
-			$value = $formatter->unformat($value);
-		}
+			//unformat values
+			$formatter = $this->getFormatter();
+			if ($formatter && $formatter instanceof BijectiveFormatterInterface) {
+				$value = $formatter->unformat($value);
+			}
 			
-		//validate fields
-		$validators = $this->getValidators();
-		if (count($validators)){
-			foreach ($validators as $validator) {
-				/* @var $validator ValidatorInterface */
-				if (!$validator->validate($value)){//TODO if return array (false, error), the tests passes ???
-					$form->addError($this->fieldName, $validator->getErrorMessage());
+			//validate fields
+			$validators = $this->getValidators();
+			if (count($validators)){
+				foreach ($validators as $validator) {
+					/* @var $validator ValidatorInterface */
+					if (!$validator->validate($value)){//TODO if return array (false, error), the tests passes ???
+						$form->addError($this->fieldName, $validator->getErrorMessage());
+					}
 				}
 			}
 		}
@@ -236,4 +249,19 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 		return $this->formatter;
 	}
 	
+	/**
+	 * returns the default value casted as a string if needed
+	 * @return string
+	 */
+	public function getDefaultValue(){
+		return ValueUtils::val($this->defaultValue);
+	}
+	
+	/**
+	 * Sets the default value
+	 * @param string|ValueInterface $value
+	 */
+	public function setDefaultValue($value){
+		$this->defaultValue  = $value;
+	}
 }

@@ -2,7 +2,6 @@
 namespace Mouf\MVC\BCE;
 
 use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
-
 use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
 
 use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
@@ -257,9 +256,6 @@ class BCEForm {
 		$bean = $bean ? $bean : (empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id));
 	
 		foreach ($this->fieldDescriptors as $descriptor) {
-			if (!$descriptor->canEdit()){
-				continue;
-			}
 			$descriptor->preSave($postValues, $this, $bean);
 		}
 		if (!count($this->errorMessages)){

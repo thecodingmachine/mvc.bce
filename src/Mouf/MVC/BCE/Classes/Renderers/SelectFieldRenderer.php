@@ -31,8 +31,11 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 		$data = $descriptor->getData();
 		$value = $descriptorInstance->getFieldValue();
 		$html = "";
+		
+		$readonlyStr = $descriptorInstance->fieldDescriptor->canEdit() ? "" : "disabled='disabled'";
+		
 		if (!$this->radioMode){
-			$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName'>";
+			$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' $readonlyStr>";
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
@@ -50,7 +53,7 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 				
 				$html.="
 					<label class='radio inline' for='$fieldName"."-"."$beanId'>
-						<input type='radio' value='$beanId' $checkedStr id='$fieldName"."-"."$beanId' name='$fieldName'> $beanLabel
+						<input type='radio' value='$beanId' $checkedStr id='$fieldName"."-"."$beanId' name='$fieldName' $readonlyStr> $beanLabel
 					</label>
 				";
 			}

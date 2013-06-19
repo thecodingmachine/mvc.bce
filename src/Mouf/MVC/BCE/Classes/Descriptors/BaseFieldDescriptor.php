@@ -44,7 +44,7 @@ class BaseFieldDescriptor extends FieldDescriptor {
 	
 	public function getValue($mainBean){
 		if ($mainBean == null){
-			$fieldValue = null;
+			$fieldValue = $this->getDefaultValue();
 		}else{
 			$fieldValue = call_user_func(array($mainBean, $this->getter));
 			if ($this->formatter){

@@ -243,4 +243,8 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		return true;
 	}
 	
+	public function getDefaultValue(){
+		return null;
+	}
+	
 }

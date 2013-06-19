@@ -71,4 +71,12 @@ interface BCEFieldDescriptorInterface {
 	 */
 	public function canView();
 	
+	/**
+	 * Default value to be applied :
+	 *  - at form display if bean is being created
+	 *  - at save step if field is readonly AND being created
+	 *  @return string
+	 */
+	public function getDefaultValue();
+	
 }

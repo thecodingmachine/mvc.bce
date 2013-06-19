@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\Database\DAOInterface;
+
 /**
  * This field descriptor can be used in order to handle foreing key relations of the Form's main bean.
  * For example, a user has a role_id, that references a role.id primary key...
@@ -12,6 +14,7 @@ namespace Mouf\MVC\BCE\Classes\Descriptors;
  * 		  In our example, this would be the role labels the user might be affected
  * @Component
  */
+
 class ForeignKeyFieldDescriptor extends BaseFieldDescriptor {
 	
 	/**
