@@ -24,7 +24,8 @@
 		"mouf/javascript.jquery.jquery": "~1.7",
 		"mouf/javascript.jquery.jquery-ui": "~1.8",
 		"mouf/javascript.jquery.jquery-validate": "~1.10",
-		"mouf/utils.value.value-interface": "~1.0"
+		"mouf/utils.value.value-interface": "~1.0",
+		"mouf/html.utils.ckeditor": "~1.0"
     },
     "autoload": {
         "psr-0": {
