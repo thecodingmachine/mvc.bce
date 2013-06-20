@@ -25,6 +25,7 @@ $classes = array(
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\TextAreaFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\PasswordFieldRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer{\"radioMode\":true}",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\RichTextFieldRenderer",
 
 		"Mouf\\MVC\\BCE\\FormRenderers\\NoWrapFieldWrapperRenderer",
 		

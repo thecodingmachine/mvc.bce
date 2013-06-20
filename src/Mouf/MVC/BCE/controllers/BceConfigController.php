@@ -255,7 +255,7 @@ class BceConfigController extends AbstractMoufInstanceController {
 			if (
 				(($fieldData['type']=='base') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\BaseFieldDescriptor")) ||
 				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor")) ||
-				(($fieldData['type']=='fk') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor")) ||
+				(($fieldData['type']=='subform') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\SubFormFieldDescriptor")) ||
 				(($fieldData['type']=='m2m') && ($fieldDescriptor->getClassName() != "Mouf\\MVC\\BCE\\Classes\\Descriptors\\Many2ManyFieldDescriptor"))
 			){
 				switch ($fieldData['type']) {
