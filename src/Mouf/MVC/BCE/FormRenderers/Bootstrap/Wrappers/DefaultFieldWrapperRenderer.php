@@ -23,13 +23,18 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	public $descriptionRenderer;
 	
 	/**
+	 * @var bool
+	 */
+	public $clearControlWrapper = false;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @param FieldDescriptorInstance $descriptorInstance
 	 * @see \Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface::render()
 	 */
 	public function render($descriptorInstance, $fieldHtml, $formMode) {
 		?>
-		<div class="control-group default-wrapper-renderer">
+		<div class="control-group default-wrapper-renderer<?php if ($this->clearControlWrapper) echo " clear-wrap" ?>">
 			<label for="<?php echo $descriptorInstance->getFieldName() ?>" class="control-label">
 				<?php 
 				echo $descriptorInstance->fieldDescriptor->getFieldLabel();

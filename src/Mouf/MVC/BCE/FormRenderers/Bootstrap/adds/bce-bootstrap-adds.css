@@ -60,3 +60,7 @@ label.checkbox.inline{
 	display: none;
 	cursor: pointer;
 }
+.control-group.clear-wrap .controls{
+	clear: both;
+	margin-left: 0;
+}
