@@ -53,7 +53,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 						$html .= '<td>';
 							$ext = substr($value, strrpos($value, '.') + 1);
 							if($ext == 'jpeg' || $ext == 'jpg' || $ext == 'gif' || $ext == 'png')
-								$html .= '<img src="'.str_replace('\\', '/', $value).'" style="width: 50px; height: 50px" />';
+								$html .= '<img src="'.ROOT_URL.str_replace('\\', '/', $value).'" style="width: 50px; height: 50px" />';
 							else
 								$html .= $value;
 						$html .= '</td>';
