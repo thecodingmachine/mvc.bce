@@ -135,8 +135,6 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 				$this->fileDao->save($bean);
 				
 			}
-			
-			$bean->save();
 		}
 		return;
 	} 
