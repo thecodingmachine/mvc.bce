@@ -124,13 +124,13 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 			}
 		}
 		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName())) {
-			$folder = $this->folder.'\\'.$beanId;
+			$folder = $this->folder.DIRECTORY_SEPARATOR.$beanId;
 			
 			$fileList = $this->fileUploaderWidget->moveFile($this->getFieldName(), ROOT_PATH.$folder);
 
 			foreach ($fileList as $file) {
 				$bean = $this->fileDao->create();
-				call_user_func(array($bean, $this->filePathSetter),  $folder.'\\'.$file);
+				call_user_func(array($bean, $this->filePathSetter),  $folder.DIRECTORY_SEPARATOR.$file);
 				call_user_func(array($bean, $this->fkSetter), $beanId);
 				$this->fileDao->save($bean);
 				
