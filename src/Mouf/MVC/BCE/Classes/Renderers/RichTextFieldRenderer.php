@@ -8,7 +8,6 @@ use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 /**
  * Base class for rendering simple text fields
  * @Component
- * @ApplyTo { "php" :[ "string", "int", "number"] }
  */
 class RichTextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
 	
