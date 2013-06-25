@@ -124,7 +124,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 			}
 		}
 		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName())) {
-			$folder = $this->folder.'\\'.$beanId;
+			$folder = $this->folder.DIRECTORY_SEPARATOR.$beanId;
 			
 			$fileList = $this->fileUploaderWidget->moveFile($this->getFieldName(), ROOT_PATH.$folder);
 
