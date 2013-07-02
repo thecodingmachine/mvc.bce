@@ -62,12 +62,23 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 							$html .= '<a href="#" onclick="return removeFileUpload_'.$fieldName.'('.$i.', \''.str_replace('\\', '\\\\', $value).'\')">remove</a>';
 						$html .= '</td>';
 					$html .= '</tr>';
+					
+					$paths = explode(DIRECTORY_SEPARATOR, $value);
+					$scriptVals[ROOT_URL.str_replace(DIRECTORY_SEPARATOR, "/", $value)] = $paths[count($paths) - 1];
+					
 					$i ++;
 				}
 			}
 			
 			$html .= '</table>';
 			$html .= '<div id="remove-file-upload-'.$fileUploader->inputName.'"></div>';
+			$html .= '
+				<script>
+					if (typeof bce_files === "undefined"){
+						bce_files = {};
+					}
+					bce_files = $.extend(bce_files, '.json_encode($scriptVals).');
+				</script>';
 		}
 		return $html.$fileUploader->returnHtmlString();
 		
