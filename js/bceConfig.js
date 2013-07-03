@@ -457,7 +457,7 @@ function initUI(){
 function _fieldHtml(field, addClass, fieldType, editName){
 	var isIdDesc = fieldType == 1;
 	if (field.type == "custom"){
-		return '<div class="field-bloc custom" id="wrapper-'+ field.name +'"><div class="field-title"><div class="name-val" style="float: left"><span class="element-type">Custom Field : </span>'+ field.name +'</div><div class="active-elem"><input type="checkbox" name="fields['+ field.name +'][active]" checked="checked"></div><div style="clear:both"></div></div><div class="field-data"><br style="clear: both;"><input type="hidden" name="fields['+ field.name +'][type]" class="field_type" value="base"><input type="hidden" name="fields['+ field.name +'][new]" value="false"><input type="hidden" name="fields['+ field.name +'][instanceName]" value="'+ field.name +'"></div><br style="clear:both"></div>';
+		return '<div class="field-bloc custom" id="wrapper-'+ field.name +'"><div class="field-title"><div class="name-val" style="float: left"><span class="element-type">Custom Field : </span>'+ field.name +'</div><div class="active-elem"><input type="checkbox" name="fields['+ field.name +'][active]" checked="checked"></div><div style="clear:both"></div></div><div class="field-data"><br style="clear: both;"><input type="hidden" name="fields['+ field.name +'][type]" class="field_type" value="custom"><input type="hidden" name="fields['+ field.name +'][new]" value="false"><input type="hidden" name="fields['+ field.name +'][instanceName]" value="'+ field.name +'"></div><br style="clear:both"></div>';
 	}
 	
 	var strAddClass = addClass ? " "+addClass : "";
