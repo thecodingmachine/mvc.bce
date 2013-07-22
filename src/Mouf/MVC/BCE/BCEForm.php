@@ -1,11 +1,18 @@
 <?php
 namespace Mouf\MVC\BCE;
+use Mouf\MVC\BCE\classes\validators\JsValidationHandlerInterface;
+
+use Mouf\MVC\BCE\classes\BaseFieldDescriptor;
+
+use Mouf\MVC\BCE\FormRenderer\BCERendererInterface;
+
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 
 use Mouf\MVC\BCE\classes\FieldDescriptor;
 use Mouf\Database\DAOInterface;
 use Mouf;
 use Mouf\MVC\BCE\classes\BCEFieldDescriptorInterface;
+
 
 /**
  * 
