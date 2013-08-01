@@ -37,7 +37,7 @@ class RichTextFieldRenderer extends DefaultViewFieldRenderer implements SingleFi
 		/* @var $descriptor BCEFieldDescriptorInterface */
 		$fieldName = $descriptor->getFieldName();
 				
-		return array(ScriptManager::SCOPE_READY => "CKEDITOR.replace( '$fieldName', {allowedContent: true, customConfig: '".ROOT_URL.$this->custom_configFile."'} );");
+		return array(ScriptManager::SCOPE_READY => "CKEDITOR.replace( '$fieldName', {allowedContent: true, language: 'en', customConfig: '".ROOT_URL.$this->custom_configFile."'} );");
 	}
 	
 }
