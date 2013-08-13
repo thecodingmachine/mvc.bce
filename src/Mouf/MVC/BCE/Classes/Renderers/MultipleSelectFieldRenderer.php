@@ -24,6 +24,12 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	public $mode = 'checkbox';
 	
 	/**
+	 * 
+	 * @var bool
+	 */
+	private $defaultTradMode = false;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::renderEdit()
 	 */
@@ -60,9 +66,14 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 				foreach ($data as $bean) {
 					$beanId = $descriptor->getRelatedBeanId($bean);
 					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
+					if($this->defaultTradMode == true){
+						$beanLabel = iMsg($beanLabel);
+					}
 					$checked = (array_search($beanId, $selectIds)!==false) ? "checked='checked'" : "";
-					$html .= "<label class='checkbox inline' for='$fieldName"."-"."$beanId'>
-						<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]' ".$descriptorInstance->printAttributes()."> $beanLabel
+					$html .= "
+					<label class='checkbox inline' for='$fieldName"."-"."$beanId'>
+						<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]' ".$descriptorInstance->printAttributes().">
+						$beanLabel
 					</label>";
 				}
 			break;
@@ -99,6 +110,14 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 */
 	public function getJSView($descriptor, $bean, $id){
 		return array();
+	}
+	
+	/**
+	 *
+	 *
+	 */
+	public function seti18nUtilisation($tradMode){
+		$this->defaultTradMode = $tradMode;
 	}
 	
 }
