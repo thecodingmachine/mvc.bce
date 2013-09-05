@@ -17,7 +17,7 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
 		$value = $descriptorInstance->getFieldValue();
-		return '<textarea '.$descriptorInstance->printAttributes().' name="'.$fieldName.'" id="'.$fieldName.'">'.$value.'</textarea>';
+		return '<textarea '.$descriptorInstance->printAttributes().' name="'.$fieldName.'" id="'.$fieldName.'">'.htmlspecialchars($value, ENT_QUOTES).'</textarea>';
 	}
 	
 	/**
