@@ -34,7 +34,7 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	 */
 	public function render($descriptorInstance, $fieldHtml, $formMode) {
 		?>
-		<div class="control-group default-wrapper-renderer<?php if ($this->clearControlWrapper) echo " clear-wrap" ?>">
+		<div class="control-group default-wrapper-renderer <?php echo $descriptorInstance->fieldDescriptor->getFieldName();if ($this->clearControlWrapper) echo " clear-wrap" ?>">
 			<label for="<?php echo $descriptorInstance->getFieldName() ?>" class="control-label">
 				<?php 
 				echo $descriptorInstance->fieldDescriptor->getFieldLabel();

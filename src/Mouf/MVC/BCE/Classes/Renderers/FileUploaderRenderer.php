@@ -1,7 +1,6 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
-
 use Mouf\MoufManager;
 
 /**
@@ -91,6 +90,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 */
 	public function getJSEdit($descriptor, $bean, $id){
 		$fieldName = $descriptor->getFieldName();
+		$fileUploader = new \stdClass();
 		$fileUploader->inputName = $fieldName;
 		/* @var $libManager WebLibraryManager */
 		$moufManager = MoufManager::getMoufManager();

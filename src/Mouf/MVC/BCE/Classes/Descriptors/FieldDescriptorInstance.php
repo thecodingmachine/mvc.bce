@@ -135,7 +135,8 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 			return "";
 		}
 	
-		$fieldHtml = $this->fieldDescriptor->toHTML($this, $formMode);
+// 		$fieldHtml = $this->fieldDescriptor->toHTML($this, $formMode);
+		$fieldHtml = "";
 		echo $fieldHtml !== false ? $this->fieldDescriptor->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
 	}
 	
