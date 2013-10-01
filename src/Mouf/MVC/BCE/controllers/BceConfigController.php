@@ -211,7 +211,11 @@ class BceConfigController extends AbstractMoufInstanceController {
 		//Save form tag's attributes
 		$attributes['name'] = $_POST['config']['name'];
 		$attributes['id'] = $_POST['config']['id'];
-		$attributes['acceptCharset'] = $_POST['config']['acceptCharset'];
+		if (isset($_POST['config']['acceptCharset'])) {
+			$attributes['acceptCharset'] = $_POST['config']['acceptCharset'];
+		} else {
+			$attributes['acceptCharset'] = 'UTF-8';
+		}
 		$attributes['enctype'] = $_POST['config']['enctype'];
 		$attributes['class'] = $_POST['config']['class'];
 		$formInstance->getProperty('attributes')->setValue($attributes);
