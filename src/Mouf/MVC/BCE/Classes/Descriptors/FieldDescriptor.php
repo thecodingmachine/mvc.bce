@@ -17,6 +17,8 @@ use Mouf\Utils\Common\Validators\JsValidatorInterface;
 
 use Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface;
 
+use Mouf\Utils\Common\Formatters\BijectiveFormatterInterface;
+
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 use Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface;
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;

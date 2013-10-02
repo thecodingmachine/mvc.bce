@@ -564,10 +564,10 @@ class BCEUtils{
 		}
 		
 		$rendererDesc = $desc->getProperty('renderer')->getValue();
-		if ($rendererDesc) $obj->renderer = $rendererDesc->getName();
+		if ($rendererDesc) $obj->renderer = $rendererDesc->getIdentifierName();
 
 		$validateHandlerDesc = $desc->getProperty('validationHandler')->getValue();
-		if ($rendererDesc) $obj->validationHandler= $validateHandlerDesc->getName();
+		if ($rendererDesc) $obj->validationHandler= $validateHandlerDesc->getIdentifierName();
 		
 		return $obj;
 	}
@@ -583,7 +583,7 @@ class BCEUtils{
 		$isCustom = false;
 		
 		//Load the instance from which the data will be extracted
-		$instance = MoufManager::getMoufManager()->getInstanceDescriptor($descriptor->getName());
+		$instance = MoufManager::getMoufManager()->getInstanceDescriptor($descriptor->getIdentifierName());
 		
 		//Instanciate the bean with a class that matches the descriptor instance's class
 		if ($descriptor->getClassName() == 'Mouf\\MVC\\BCE\\Classes\\Descriptors\\ForeignKeyFieldDescriptor'){
@@ -606,8 +606,8 @@ class BCEUtils{
 		}
 		
 		if ($isCustom){
-			$fieldData->name = $descriptor->getName();
-			$obj = MoufManager::getMoufManager()->getInstance($descriptor->getName());
+			$fieldData->name = $descriptor->getIdentifierName();
+			$obj = MoufManager::getMoufManager()->getInstance($descriptor->getIdentifierName());
 			$fieldData->fieldName = $obj->getFieldName();
 		}else{
 			
@@ -655,23 +655,23 @@ class BCEUtils{
 	 */
 	private function loadBaseValues(&$bean, $descriptor, $instance){
 		/* @var $bean FieldDescriptorBean */
-		$bean->name = $descriptor->getName();
+		$bean->name = $descriptor->getIdentifierName();
 		$bean->description = $instance->getProperty('description')->getValue();
 		if ($instance->getProperty('renderer')->getValue()){
-			$bean->renderer = $instance->getProperty('renderer')->getValue()->getName();
+			$bean->renderer = $instance->getProperty('renderer')->getValue()->getIdentifierName();
 		}
 		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
-			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getIdentifierName();
 		}
 		if ($instance->getProperty('editCondition')->getValue()){
-			$bean->editCondition = $instance->getProperty('editCondition')->getValue()->getName();
+			$bean->editCondition = $instance->getProperty('editCondition')->getValue()->getIdentifierName();
 		}
 		if ($instance->getProperty('viewCondition')->getValue()){
-			$bean->viewCondition = $instance->getProperty('viewCondition')->getValue()->getName();
+			$bean->viewCondition = $instance->getProperty('viewCondition')->getValue()->getIdentifierName();
 		}
 		 
 		$formatterDesc = $instance->getProperty('formatter')->getValue();
-		$bean->formatter = $formatterDesc ? $formatterDesc->getName() : null;
+		$bean->formatter = $formatterDesc ? $formatterDesc->getIdentifierName() : null;
 		$bean->fieldName = $instance->getProperty('fieldName')->getValue();
 		$bean->label = $instance->getProperty('label')->getValue();
 		
@@ -681,7 +681,7 @@ class BCEUtils{
 			$validatorsDesc = $validatorsDesc->getValue();
 			if ($validatorsDesc){
 				foreach ($validatorsDesc as $validator) {
-					$bean->validators[] = $validator->getName();
+					$bean->validators[] = $validator->getIdentifierName();
 				}
 			}
 		}
@@ -696,7 +696,7 @@ class BCEUtils{
 		/* @var $fkDescBean ForeignKeyFieldDescriptorBean */
 		$daoDesc = $instance->getProperty('dao')->getValue();
 		if ($daoDesc){
-			$fkDescBean->daoName = $daoDesc->getName();
+			$fkDescBean->daoName = $daoDesc->getIdentifierName();
 			$fkDescBean->daoData = $this->getDaoData($daoDesc->getClassName());
 		
 			$fkDescBean->dataMethod = $instance->getProperty('dataMethod')->getValue();
@@ -714,7 +714,7 @@ class BCEUtils{
 		/* @var $m2mDescBean Many2ManyFieldDescriptorBean */
 		$mappingDaoDesc = $instance->getProperty("mappingDao")->getValue();
 		if ($mappingDaoDesc){
-			$m2mDescBean->mappingDaoName = $mappingDaoDesc->getName();
+			$m2mDescBean->mappingDaoName = $mappingDaoDesc->getIdentifierName();
 			$m2mDescBean->mappingDaoData = $this->getDaoData($mappingDaoDesc->getClassName());
 			
 			$m2mDescBean->mappingIdGetter = $instance->getProperty('mappingIdGetter')->getValue();
@@ -726,7 +726,7 @@ class BCEUtils{
 		
 		$linkedDaoDesc = $instance->getProperty("linkedDao")->getValue();
 		if ($linkedDaoDesc){
-			$m2mDescBean->linkedDaoName = $linkedDaoDesc->getName();
+			$m2mDescBean->linkedDaoName = $linkedDaoDesc->getIdentifierName();
 			$m2mDescBean->linkedDaoData = $this->getDaoData($linkedDaoDesc->getClassName());
 			
 			$m2mDescBean->linkedIdGetter = $instance->getProperty('linkedIdGetter')->getValue();
@@ -742,16 +742,16 @@ class BCEUtils{
 	 */
 	private function loadSubFormDescriptorValues(& $subFormDescBean, $descriptor, MoufInstanceDescriptor $instance){
 		/* @var $subFormDescBean SubFormFieldDescriptorBean */
-		$subFormDescBean->name = $descriptor->getName();
+		$subFormDescBean->name = $descriptor->getIdentifierName();
 		
 		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
-			$subFormDescBean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getName();
+			$subFormDescBean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getIdentifierName();
 		}
 		if ($instance->getProperty('itemWrapperRenderer')->getValue()){
-			$subFormDescBean->itemWrapperRenderer = $instance->getProperty('itemWrapperRenderer')->getValue()->getName();
+			$subFormDescBean->itemWrapperRenderer = $instance->getProperty('itemWrapperRenderer')->getValue()->getIdentifierName();
 		}
 		if ($instance->getProperty('form')->getValue()){
-			$subFormDescBean->form = $instance->getProperty('form')->getValue()->getName();
+			$subFormDescBean->form = $instance->getProperty('form')->getValue()->getIdentifierName();
 		}
 		
 		$subFormDescBean->fieldName = $instance->getProperty('fieldName')->getValue();
