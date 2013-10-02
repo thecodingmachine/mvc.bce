@@ -43,6 +43,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		$fileUploader->directory = null;
 		
 		$html = '';
+                $scriptVals = array();
 		if($values) {
 			$html = '<table>';
 			$i = 0;
