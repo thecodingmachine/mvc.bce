@@ -210,6 +210,10 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$formInstance->getProperty('validationHandler')->setValue($this->moufManager->getInstanceDescriptor($validate));
 		$formInstance->getProperty('renderer')->setValue($this->moufManager->getInstanceDescriptor($renderer));
 		
+		if (!$formInstance->getProperty('scriptManager')->getValue()) {
+			$formInstance->getProperty('scriptManager')->setValue($this->moufManager->getInstanceDescriptor('scriptManager'));
+		}
+		
 		//Save form tag's attributes
 		$attributes['name'] = $_POST['config']['name'];
 		$attributes['id'] = $_POST['config']['id'];
