@@ -241,10 +241,13 @@ function initInstance(instanceName){
 	jQuery('#ajaxload').show();
 	
 	jQuery.ajax({
-	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
-	  data: "q=instanceData&n="+instanceName,
+	  url: bceSettings.rootUrl + "bceadmin/getInstanceData",
+	  data: "instance="+instanceName,
 	  success: completeInstanceData,
-	  error: function(error){jQuery("#data").html();alert('error')},
+	  error: function(error){
+		  jQuery("#data").html();
+		  addMessage('An error occurred in BCE: '+error.responseText, "alert alert-error");
+	  },
 	  dataType: 'json'
 	});
 }
@@ -968,14 +971,20 @@ function _getMultiListValueWrapper(label, prop, name, selectValues, list, fieldT
  * @param newDaoName:	the new value of the DAO select box
  */
 function refreshBeanMethods(settings, fieldName, newDaoName){
-	var method = settings.method ? settings.method : "daoData";
+	//var method = settings.method ? settings.method : "daoData";
+	var method;
+	if (settings.method && settings.method == 'formMainDaoData') {
+		method = 'getDaoDataFromForm';
+	} else {
+		method = 'getDaoDataFromInstance';
+	}
 	
 	/*
 	 * Get the DAO data for the new DAO (ie DAO methods and related bean's getters and setters) 
 	 */
 	jQuery.ajax({
-	  url: bceSettings.rootUrl + "../mvc.bce/src/direct/bce_utils.php",
-	  data: "q="+method+"&n="+newDaoName,
+	  url: bceSettings.rootUrl + "bceadmin/" + method,
+	  data: "instance="+newDaoName,
 	  success: function (data){
 		  /*
 		   * Update the related lists with the DAO data

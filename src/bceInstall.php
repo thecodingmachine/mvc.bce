@@ -50,6 +50,8 @@ $jQValidateInstanceName = InstallUtils::getInstanceName("JQueryValidateHandler",
 $jQValidateInstance->setName($jQValidateInstanceName);
 $jQValidateInstance->getProperty('jsLib')->setValue($moufManager->getInstanceDescriptor("jQueryValidateLibrary"));
 
+InstallUtils::getOrCreateInstance('bceUtils', 'Mouf\\MVC\\BCE\\Services\\BCEUtils', $moufManager);
+
 // Let's rewrite the MoufComponents.php file to save the component
 $moufManager->rewriteMouf();
 

@@ -8,6 +8,8 @@ use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Reflection\MoufReflectionProxy;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Controllers\AbstractMoufInstanceController;
+use Mouf\InstanceProxy;
+use Mouf\MVC\BCE\Services\BCEUtils;
 /**
  * The controller to generate automatically the Beans, Daos, etc...
  * Sweet!
@@ -433,5 +435,41 @@ class BceConfigController extends AbstractMoufInstanceController {
 			$i++;
 		}
 		return $finalName;
+	}
+	
+	/**
+	 * Simply routes data to BCEUtils::getDaoDataFromInstance
+	 * 
+	 * @Action
+	 * @param string $instance
+	 */
+	public function getDaoDataFromInstance($instance) {
+		$bceUtils = new InstanceProxy('bceUtils');
+		/* @var $bceUtils BCEUtils */
+		echo json_encode($bceUtils->getDaoDataFromInstance($instance));
+	}
+	
+	/**
+	 * Simply routes data to BCEUtils::getInstanceData
+	 *
+	 * @Action
+	 * @param string $instance
+	 */
+	public function getInstanceData($instance) {
+		$bceUtils = new InstanceProxy('bceUtils');
+		/* @var $bceUtils BCEUtils */
+		echo json_encode($bceUtils->getInstanceData($instance));
+	}
+	
+	/**
+	 * Simply routes data to BCEUtils::getDaoDataFromForm
+	 *
+	 * @Action
+	 * @param string $instance
+	 */
+	public function getDaoDataFromForm($instance) {
+		$bceUtils = new InstanceProxy('bceUtils');
+		/* @var $bceUtils BCEUtils */
+		echo json_encode($bceUtils->getDaoDataFromForm($instance));
 	}
 }
