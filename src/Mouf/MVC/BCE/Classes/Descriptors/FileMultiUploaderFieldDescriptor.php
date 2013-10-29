@@ -64,6 +64,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 		$this->loadValues($mainBeanId);
 	
 		$descriptorInstance = new FieldDescriptorInstance($this, $form, $mainBeanId);
+		
 		$values = array();
 		if($this->values) {
 			foreach ($this->values as $bean){
@@ -105,6 +106,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 	 * @see BCEFieldDescriptorInterface::postSave()
 	 */
 	public function postSave($bean, $beanId, $postValues) {
+		
 		$this->loadValues($beanId);
 		// Retrieve post to check if the user delete a file
 		if($postValues != null) {
@@ -123,7 +125,10 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 				}
 			}
 		}
-		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName())) {
+		
+		$uniqueId = get('document');
+
+		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName()) && !$this->fileUploaderWidget->noTemporaryFile) {
 			$folder = $this->folder.DIRECTORY_SEPARATOR.$beanId;
 			
 			$fileList = $this->fileUploaderWidget->moveFile($this->getFieldName(), ROOT_PATH.$folder);
@@ -136,6 +141,17 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 				
 			}
 		}
+		// If there isn't data in post value. Retrieve session to save the file list.
+		else if($uniqueId && isset($_SESSION["mouf_fileupload_autorizeduploads"][$uniqueId]['files']) && $this->fileUploaderWidget->noTemporarySave) {
+			foreach ($_SESSION["mouf_fileupload_autorizeduploads"][$uniqueId]['files'] as $file) {
+
+				$bean = $this->fileDao->create();
+				call_user_func(array($bean, $this->filePathSetter),  $file);
+				call_user_func(array($bean, $this->fkSetter), $beanId);
+				$this->fileDao->save($bean);
+			}
+		}
+		unset($_SESSION["mouf_fileupload_autorizeduploads"][$uniqueId]);
 		return;
 	} 
 	

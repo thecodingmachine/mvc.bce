@@ -30,6 +30,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		}
 		
 		$fileUploader = $descriptor->getFileUploaderWidget();
+		$fileUploader->directory = $descriptor->folder;
 		if($this->onlyOneFile) {
 			$fileUploader->multiple = false;
 			$fileUploader->onlyOneFile = true;
@@ -40,7 +41,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		}
 		
 		$fileUploader->inputName = $fieldName;
-		$fileUploader->directory = null;
+		//$fileUploader->directory = null;
 		
 		$html = '';
                 $scriptVals = array();
