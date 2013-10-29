@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Mouf": "src/"
+            "Mouf\\MVC\\BCE": "src/"
         }
     },
     "minimum-stability": "dev",
