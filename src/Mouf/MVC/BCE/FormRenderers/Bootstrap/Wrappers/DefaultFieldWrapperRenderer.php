@@ -34,8 +34,8 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 	 */
 	public function render($descriptorInstance, $fieldHtml, $formMode) {
 		?>
-		<div class="control-group default-wrapper-renderer <?php echo $descriptorInstance->fieldDescriptor->getFieldName();if ($this->clearControlWrapper) echo " clear-wrap" ?>">
-			<label for="<?php echo $descriptorInstance->getFieldName() ?>" class="control-label">
+		<div class="form-group default-wrapper-renderer <?php echo $descriptorInstance->fieldDescriptor->getFieldName();if ($this->clearControlWrapper) echo " clear-wrap" ?>">
+			<label for="<?php echo $descriptorInstance->getFieldName() ?>" class="control-label col-sm-4">
 				<?php 
 				echo $descriptorInstance->fieldDescriptor->getFieldLabel();
 				if($descriptorInstance->fieldDescriptor instanceof FieldDescriptor && $descriptorInstance->fieldDescriptor->getValidators()) {
@@ -48,7 +48,7 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 				}
 				?>
 			</label>
-			<div class="controls">
+			<div class="col-sm-8">
 				<?php 
 				echo $descriptorInstance->fieldDescriptor->toHTML($descriptorInstance, $formMode);
 				if ($formMode == 'edit' && $descriptorInstance->fieldDescriptor->getDescription() && $this->descriptionRenderer){

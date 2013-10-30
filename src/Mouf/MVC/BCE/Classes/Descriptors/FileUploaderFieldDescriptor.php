@@ -94,7 +94,7 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	public function postSave($bean, $beanId, $postValues) {
 		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName())) {
 			//TODO recupere le nom du bean !!
-			$folder = $this->folder.'\\'.$beanId;
+			$folder = $this->folder.'/'.$beanId;
 			
 			if(is_dir(ROOT_PATH.$folder)) {
 				if ($dh = opendir(ROOT_PATH.$folder)) {
@@ -111,7 +111,7 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 			$value = array_shift($fileList);
 		
 			//Set value context before saving
-			$this->setValue($bean, $folder.'\\'.$value);
+			$this->setValue($bean, $folder.'/'.$value);
 			
 			$bean->save();
 		}
