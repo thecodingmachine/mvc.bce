@@ -40,7 +40,7 @@ class DefaultFieldWrapperRenderer implements FieldWrapperRendererInterface {
 				echo $descriptorInstance->fieldDescriptor->getFieldLabel();
 				if($descriptorInstance->fieldDescriptor instanceof FieldDescriptor && $descriptorInstance->fieldDescriptor->getValidators()) {
 					foreach ($descriptorInstance->fieldDescriptor->getValidators() as $value) {
-						if(get_class($value) == 'RequiredValidator') {
+						if(get_class($value) == 'Mouf\\Utils\\Common\\Validators\\RequiredValidator') {
 							echo '<span class="required-field">*</span>';
 							break;
 						}

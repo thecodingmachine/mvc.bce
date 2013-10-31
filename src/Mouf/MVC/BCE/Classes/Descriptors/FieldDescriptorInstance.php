@@ -134,10 +134,12 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 		if (!$this->fieldDescriptor->canView() && $formMode == 'view'){
 			return "";
 		}
+		
+		echo $this->fieldDescriptor->toHTML($this, $formMode);
 	
 // 		$fieldHtml = $this->fieldDescriptor->toHTML($this, $formMode);
-		$fieldHtml = "";
-		echo $fieldHtml !== false ? $this->fieldDescriptor->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
+//		$fieldHtml = "";
+		//echo $fieldHtml !== false ? $this->fieldDescriptor->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
 	}
 	
 }

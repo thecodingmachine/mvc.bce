@@ -31,8 +31,12 @@ class BootstrapFormRenderer implements BCERendererInterface {
 	public function render(BCEForm $form, $descriptorInstances,	FieldDescriptorInstance $idDescriptorInstance){
 		$editMode = $form->getMode() == "edit";
 		if ($editMode && $form->isMain){
+			if(isset($form->attributes['class'])) {
+				$form->attributes['class'] = '';
+			}
+			$form->attributes['class'] .= ' form-horizontal col-lg-8 col-lg-offset-2';
 	?>
-		<form class="form-horizontal" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?>>
+		<form form="role" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?>>
 	<?php
 		}
 		echo $idDescriptorInstance->toHtml($form->getMode());
