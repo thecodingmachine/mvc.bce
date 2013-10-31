@@ -51,6 +51,9 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 		$fieldName = $descriptorInstance->getFieldName();
 		$value = $descriptorInstance->getFieldValue();
 		$strReadonly = ! $descriptorInstance->fieldDescriptor->canEdit() ? "readonly='readonly'" : "";
+		
+		$descriptorInstance->attributes['class'][] = 'form-control';
+		
 		return "<input type='text' value='".htmlspecialchars($value, ENT_QUOTES)."' name='".$fieldName."' id='".$fieldName."' $strReadonly ".$descriptorInstance->printAttributes()."/>";
 		*/
 	}

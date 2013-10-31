@@ -91,7 +91,7 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 		$readonlyStr = $descriptorInstance->fieldDescriptor->canEdit() ? "" : "disabled='disabled'";
 		
 		if (!$this->radioMode){
-			$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' $readonlyStr>";
+			$html = "<select  class='form-control' ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' $readonlyStr>";
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);

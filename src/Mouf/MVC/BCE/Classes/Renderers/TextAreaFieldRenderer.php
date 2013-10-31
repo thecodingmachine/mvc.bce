@@ -18,7 +18,6 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
 		$value = $descriptorInstance->getFieldValue();
-		
 
 		$textareaField = new TextAreaField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
 		if(isset($descriptorInstance->attributes['classes'])) {
@@ -38,6 +37,10 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		ob_start();
 		$textareaField->toHtml();
 		return ob_get_clean();
+/*
+		$descriptorInstance->attributes['class'][] = 'form-control';
+		return '<textarea '.$descriptorInstance->printAttributes().' name="'.$fieldName.'" id="'.$fieldName.'">'.htmlspecialchars($value, ENT_QUOTES).'</textarea>';
+		*/
 	}
 	
 	/**
