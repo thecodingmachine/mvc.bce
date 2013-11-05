@@ -2,6 +2,11 @@
 namespace Mouf\MVC\BCE\Classes\Renderers;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
+use Mouf\Html\Widgets\Form\CheckboxesField;
+use Mouf\Html\Widgets\Form\CheckboxField;
+use Mouf\Html\Widgets\Form\SelectMultipleField;
+use Mouf\Html\Tags\Option;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
  * @Component
@@ -50,6 +55,32 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 		}
 		switch ($this->mode) {
 			case 'multiselect':
+				$selectMultipleField = new SelectMultipleField($descriptor->getFieldLabel(), $fieldName);
+				if($descriptorInstance->getValidator()) {
+					$selectMultipleField->setSelectClasses($descriptorInstance->getValidator());
+				}
+				if(isset($descriptorInstance->attributes['styles'])) {
+					$selectMultipleField->getSelect()->setStyles($descriptorInstance->attributes['styles']);
+				}
+				$options = array();
+				foreach ($data as $bean) {
+					$beanId = $descriptor->getRelatedBeanId($bean);
+					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
+					
+					$option = new Option();
+					$option->setValue($beanId);
+					$option->addText($beanLabel);
+					if (array_search($beanId, $selectIds)) {
+						$option->setSelected('selected');
+					}
+					$options[] = $option;
+				}
+				$selectMultipleField->setOptions($options);
+
+				ob_start();
+				$selectMultipleField->toHtml();
+				return ob_get_clean();
+				/*
 				$html = "<select ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' multiple='multiple'>";
 				foreach ($data as $bean) {
 					$beanId = $descriptor->getRelatedBeanId($bean);
@@ -60,22 +91,47 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					$html .= "<option value='$beanId' $selectStr>$beanLabel</option>";
 				}
 				$html .= "</select>";
+				*/
 			break;
 			
 			case 'chbx':
+				$checkboxesField = new CheckboxesField($descriptor->getFieldLabel(), $fieldName);
+				if($descriptorInstance->getValidator()) {
+					$checkboxesField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
+				}
+				$checkboxes = array();
 				foreach ($data as $bean) {
 					$beanId = $descriptor->getRelatedBeanId($bean);
 					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
 					if($this->defaultTradMode == true){
 						$beanLabel = iMsg($beanLabel);
 					}
+					
+					$checkboxField = new CheckboxField($beanLabel, null, $beanId);
+					$checkboxField->getInput()->setId($fieldName.'-'.$beanId);
+					$checkboxField->setChecked((array_search($beanId, $selectIds)!==false));
+					if($descriptorInstance->getValidator()) {
+						$checkboxField->setInputClasses($descriptorInstance->getValidator());
+					}
+					if(isset($descriptorInstance->attributes['styles'])) {
+						$checkboxField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+					}
+					
+					$checkboxes[] = $checkboxField;
+					/*
 					$checked = (array_search($beanId, $selectIds)!==false) ? "checked='checked'" : "";
 					$html .= "
 					<label class='checkbox inline' for='$fieldName"."-"."$beanId'>
 						<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]' ".$descriptorInstance->printAttributes().">
 						$beanLabel
 					</label>";
+					*/
 				}
+				$checkboxesField->setCheckboxes($checkboxes);
+
+				ob_start();
+				$checkboxesField->toHtml();
+				return ob_get_clean();
 			break;
 		}
 		return $html;

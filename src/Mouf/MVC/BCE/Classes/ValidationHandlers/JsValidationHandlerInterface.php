@@ -19,8 +19,9 @@ interface JsValidationHandlerInterface {
 	public function getJsLibrary();
 	
 	/**
-	 * Ad a validation data to the form
+	 * Add a validation data to the form
 	 * @param JSValidationData $data
+	 * @return string Css class to add it on html element
 	 */
 	public function addValidationData(JSValidationData $data);
 }

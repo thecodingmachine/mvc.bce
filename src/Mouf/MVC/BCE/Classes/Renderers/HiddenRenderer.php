@@ -20,7 +20,7 @@ class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInt
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
 		$value = $descriptorInstance->getFieldValue();
-		return "<input ".$descriptorInstance->printAttributes()." type='hidden' value='".htmlspecialchars($value, ENT_QUOTES)."' name='".$fieldName."' id='".$fieldName."'/>";
+		return "<input class='".implode(' ', $descriptorInstance->getValidator())."' type='hidden' value='".htmlspecialchars($value, ENT_QUOTES)."' name='".$fieldName."' id='".$fieldName."'/>";
 	}
 	
 	/**

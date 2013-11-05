@@ -26,13 +26,11 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 	 */
 	public function renderEdit($descriptorInstance){
 		/* @var $descriptorInstance FieldDescriptorInstance */
-		
-		$textField = new TextField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
-		if(isset($descriptorInstance->attributes['classes'])) {
-			$textField->setInputClasses($descriptorInstance->attributes['classes']);
-		}
 
-		$textField->getInput()->setType('text');
+		$textField = new TextField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
+		if($descriptorInstance->getValidator()) {
+			$textField->setInputClasses($descriptorInstance->getValidator());
+		}
 		
 		$textField->getInput()->setId($descriptorInstance->getFieldName());
 		$textField->getInput()->setReadonly((!$descriptorInstance->fieldDescriptor->canEdit()) ? "readonly" : null);

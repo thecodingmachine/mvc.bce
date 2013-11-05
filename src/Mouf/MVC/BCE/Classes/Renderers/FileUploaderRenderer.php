@@ -2,6 +2,8 @@
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
 use Mouf\MoufManager;
+use Mouf\Html\Widgets\Form\FileUploaderField;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 
 /**
  * This renderer handles date / timestamp input fields with the jQuery DatePicker
@@ -29,6 +31,12 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 			$values = array($values);
 		}
 		
+		/*
+		if($descriptorInstance->getValidator()) {
+			$textField->setInputClasses($descriptorInstance->getValidator());
+		}
+		 */
+		
 		$fileUploader = $descriptor->getFileUploaderWidget();
 		$fileUploader->directory = $descriptor->folder;
 		if($this->onlyOneFile) {
@@ -41,8 +49,16 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		}
 		
 		$fileUploader->inputName = $fieldName;
-		//$fileUploader->directory = null;
+
+		$fileUploaderField = new FileUploaderField($descriptor->getFieldLabel(), $fileUploader, $values);
+
+		//$fileUploaderField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidator()));
 		
+		ob_start();
+		$fileUploaderField->toHtml();
+		return ob_get_clean();
+		
+		/*
 		$html = '';
                 $scriptVals = array();
 		if($values) {
@@ -81,6 +97,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 					bce_files = $.extend(bce_files, '.json_encode($scriptVals).');
 				</script>';
 		}
+		*/
 		return $html.$fileUploader->returnHtmlString();
 		
 	}

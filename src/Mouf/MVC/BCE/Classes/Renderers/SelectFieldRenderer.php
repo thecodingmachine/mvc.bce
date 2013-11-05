@@ -6,6 +6,7 @@ use Mouf\Html\Widgets\Form\SelectField;
 use Mouf\Html\Tags\Option;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 use Mouf\Html\Widgets\Form\RadiosField;
+use Mouf\Html\Widgets\Form\RadioField;
 
 
 /**
@@ -31,12 +32,13 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$descriptor = $descriptorInstance->fieldDescriptor;
 		$value = $descriptorInstance->getFieldValue();
+		
 		if (!$this->radioMode) {
 			$selectField = new SelectField($descriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $value);
 			$selectField->getSelect()->setName($descriptorInstance->getFieldName());
 			$selectField->getSelect()->setId($descriptorInstance->getFieldName());
-			if(isset($descriptorInstance->attributes['classes'])) {
-				$selectField->setSelectClasses($descriptorInstance->attributes['classes']);
+			if($descriptorInstance->getValidator()) {
+				$selectField->setSelectClasses($descriptorInstance->getValidator());
 			}
 			if(isset($descriptorInstance->attributes['styles'])) {
 				$selectField->getSelect()->setStyles($descriptorInstance->attributes['styles']);
@@ -51,7 +53,7 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
 				$option = new Option();
 				$option->setValue($beanId);
-				$option->setLabel($beanLabel);
+				$option->addText($beanLabel);
 				if ($beanId == $value) {
 					$option->setSelected('selected');
 				}
@@ -64,81 +66,31 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 			return ob_get_clean();
 		}
 		else {
-			$radiosFields = new RadiosField($descriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $value);
+			$radiosFields = new RadiosField($descriptor->getFieldLabel(), $descriptorInstance->getFieldName());
+			$radiosFields->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
 			
+			$radios = array();
+			$data = $descriptor->getData();
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
 				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
+				$radioField = new RadioField($beanLabel, $descriptorInstance->getFieldName(), $beanId, ($beanId == $value)); 
+				$radioField->getInput()->setReadonly((!$descriptor->canEdit()) ? "readonly" : null);
+				if($descriptorInstance->getValidator()) {
+					$radioField->setInputClasses($descriptorInstance->getValidator());
+				}
+				if(isset($descriptorInstance->attributes['styles'])) {
+					$radioField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+				}
 				
-				$checkedStr = ($beanId == $value) ? "checked='checked'" : "";
+				$radios[] = $radioField;
+			}
+			$radiosFields->setRadios($radios);
 			
-			
-				$html.="
-				<label class='radio inline' for='$fieldName"."-"."$beanId'>
-				<input type='radio' value='$beanId' $checkedStr id='$fieldName"."-"."$beanId' name='$fieldName' $readonlyStr> $beanLabel
-				</label>
-				";
-			}
+			ob_start();
+			$radiosFields->toHtml();
+			return ob_get_clean();
 		}
-		/*
-		$descriptor = $descriptorInstance->fieldDescriptor;
-		/* @var $descriptor ForeignKeyFieldDescriptor 
-		$fieldName = $descriptorInstance->getFieldName();
-		$data = $descriptor->getData();
-		$value = $descriptorInstance->getFieldValue();
-		$html = "";
-		
-		$readonlyStr = $descriptorInstance->fieldDescriptor->canEdit() ? "" : "disabled='disabled'";
-		
-		if (!$this->radioMode){
-			$html = "<select  class='form-control' ".$descriptorInstance->printAttributes()." name='$fieldName' id='$fieldName' $readonlyStr>";
-			foreach ($data as $linkedBean) {
-				$beanId = $descriptor->getRelatedBeanId($linkedBean);
-				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
-				if ($beanId == $value) $selectStr = "selected = 'selected'";
-				else $selectStr = "";
-				$html .= "<option value='$beanId' $selectStr>$beanLabel</option>";
-			}
-			$html .= "</select>";
-		}else{
-			foreach ($data as $linkedBean) {
-				$beanId = $descriptor->getRelatedBeanId($linkedBean);
-				$beanLabel = $descriptor->getRelatedBeanLabel($linkedBean);
-				$checkedStr = ($beanId == $value) ? "checked='checked'" : "";
-				
-				
-				$html.="
-					<label class='radio inline' for='$fieldName"."-"."$beanId'>
-						<input type='radio' value='$beanId' $checkedStr id='$fieldName"."-"."$beanId' name='$fieldName' $readonlyStr> $beanLabel
-					</label>
-				";
-			}
-		}
-		*/
-		/*
-		 * 
-		$textField = new TextField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
-		if(isset($descriptorInstance->attributes['classes'])) {
-			$textField->setInputClasses($descriptorInstance->attributes['classes']);
-		}
-
-		$textField->getInput()->setType('text');
-		
-		$textField->getInput()->setId($descriptorInstance->getFieldName());
-		$textField->getInput()->setReadonly((!$descriptorInstance->fieldDescriptor->canEdit()) ? "readonly" : null);
-		if(isset($descriptorInstance->attributes['styles'])) {
-			$textField->getInput()->setStyles($descriptorInstance->attributes['styles']);
-		}
-
-		$textField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
-		
-		$textField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
-		
-		ob_start();
-		$textField->toHtml();
-		return ob_get_clean();
-		 */
-		return $html;
 	}
 	
 	/**

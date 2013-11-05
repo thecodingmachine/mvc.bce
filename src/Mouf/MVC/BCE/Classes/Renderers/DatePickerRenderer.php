@@ -7,13 +7,15 @@ use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
 use Mouf\MoufManager;
 use Mouf;
+use Mouf\Html\Widgets\Form\TextField;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 
 /**
  * This renderer handles date / timestamp input fields with the jQuery DatePicker
  * @ApplyTo { "php" :[ "timestamp", "datetime", "date" ] }
  * @Component
  */
-class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
+class DatePickerRenderer extends TextFieldRenderer implements SingleFieldRendererInterface {
 
 	/**
 	 * @Property
@@ -21,17 +23,6 @@ class DatePickerRenderer extends DefaultViewFieldRenderer implements SingleField
 	 * the JSON settings for the datpicker (see http://jqueryui.com/demos/datepicker/#options)
 	 */
 	public $settings;
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see FieldRendererInterface::render()
-	 */
-	public function renderEdit($descriptorInstance){
-		/* @var $descriptorInstance FieldDescriptorInstance */
-		$fieldName = $descriptorInstance->fieldDescriptor->getFieldName();
-		$value = $descriptorInstance->getFieldValue();
-		return "<input ".$descriptorInstance->printAttributes()." type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."'/>";
-	}
 	
 	/**
 	 * (non-PHPdoc)

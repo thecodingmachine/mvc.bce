@@ -2,6 +2,7 @@
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+use Mouf\Html\Widgets\Form\CheckboxField;
 
 /**
  * Base class for rendering simple boolean fields
@@ -30,8 +31,11 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 	public function renderEdit($descriptorInstance){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
-		$strChecked = $descriptorInstance->getFieldValue() ? "checked = 'checked'" : "";
-		return "<input type='checkbox' value='1' name='$fieldName' id='$fieldName' $strChecked ".$descriptorInstance->printAttributes()."/>";
+		
+		$checkboxField = new CheckboxField($descriptorInstance->fieldDescriptor->getFieldLabel(), $fieldName, '1', $descriptorInstance->getFieldValue());
+		ob_start();
+		$checkboxField->toHtml();
+		return ob_get_clean();
 	}
 	
 	/**

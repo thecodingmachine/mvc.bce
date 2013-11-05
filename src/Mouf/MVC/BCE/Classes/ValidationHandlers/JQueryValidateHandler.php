@@ -153,9 +153,7 @@ class JQueryValidateHandler implements JsValidationHandlerInterface {
 		
 		$this->fieldRules[$data->ruleName] = $data->ruleArguments;
 		
-		return array(
-			"class" => array($data->ruleName)
-		);
+		return array($data->ruleName);
 	}
 	
 }

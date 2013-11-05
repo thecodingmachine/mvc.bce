@@ -4,30 +4,20 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
+use Mouf\Html\Widgets\Form\TextAreaField;
 
 /**
  * Base class for rendering simple text fields
  * @Component
  */
-class RichTextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldRendererInterface {
+class RichTextFieldRenderer extends TextAreaFieldRenderer implements SingleFieldRendererInterface {
 	
 	/**
 	 * Custom configuration file, relative to the ROOT_URL
 	 * @var string
 	 */
 	public $custom_configFile = "vendor/mouf/cms.cms-controller/src/js/ck_full_config.js";
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see FieldRendererInterface::render()
-	 */
-	public function renderEdit($descriptorInstance){
-		/* @var $descriptorInstance FieldDescriptorInstance */
-		$fieldName = $descriptorInstance->getFieldName();
-		$value = $descriptorInstance->getFieldValue();
-		$strReadonly = ! $descriptorInstance->fieldDescriptor->canEdit() ? "readonly='readonly'" : "";
-		return "<textarea name='".$fieldName."' id='".$fieldName."' $strReadonly ".$descriptorInstance->printAttributes().">$value</textarea>";
-	}
 	
 	/**
 	 * (non-PHPdoc)

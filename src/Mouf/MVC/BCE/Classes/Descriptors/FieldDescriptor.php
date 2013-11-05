@@ -81,7 +81,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @Property
 	 * @var array<ValidatorInterface>
 	 */
-	public $validators = array();
+	private $validators = array();
 	
 	/**
 	 * The Condition to respect in order to be allowed to edit the field
@@ -242,6 +242,22 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 */
 	public function getValidators(){
 		return $this->validators;
+	}
+
+	/**
+	 * Set validators
+	 * @param ValidatorInterface[]
+	 */
+	public function setValidators($validators){
+		$this->validators = $validators;
+	}
+
+	/**
+	 * Add validators
+	 * @param ValidatorInterface
+	 */
+	public function addValidator($validator){
+		$this->validators[] = $validator;
 	}
 
 	/**

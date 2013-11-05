@@ -4,6 +4,7 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
 use Mouf\Html\Widgets\Form\TextAreaField;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 /**
  * Base class for rendering simple text area fields
  * @Component
@@ -20,14 +21,14 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		$value = $descriptorInstance->getFieldValue();
 
 		$textareaField = new TextAreaField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
-		if(isset($descriptorInstance->attributes['classes'])) {
-			$textareaField->setInputClasses($descriptorInstance->attributes['classes']);
+		if($descriptorInstance->getValidator()) {
+			$textareaField->setTextareaClasses($descriptorInstance->getValidator());
 		}
 		
-		$textareaField->getInput()->setId($descriptorInstance->getFieldName());
-		$textareaField->getInput()->setReadonly((!$descriptorInstance->fieldDescriptor->canEdit()) ? "readonly" : null);
+		$textareaField->getTextarea()->setId($descriptorInstance->getFieldName());
+		$textareaField->getTextarea()->setReadonly((!$descriptorInstance->fieldDescriptor->canEdit()) ? "readonly" : null);
 		if(isset($descriptorInstance->attributes['styles'])) {
-			$textareaField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+			$textareaField->getTextarea()->setStyles($descriptorInstance->attributes['styles']);
 		}
 		
 		$textareaField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());

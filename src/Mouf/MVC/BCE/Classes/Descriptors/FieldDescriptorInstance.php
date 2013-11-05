@@ -27,7 +27,11 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 	 */
 	public $value;
 	
-	public $attributes = array();
+	/**
+	 * Validator list
+	 * @var string[]
+	 */
+	protected $validators = array();
 	
 	/**
 	 * @var int
@@ -77,13 +81,21 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 			if ($validator instanceof JsValidatorInterface){
 				$validationRule = MoufManager::getMoufManager()->findInstanceName($validator);
 				$validationData = new JSValidationData($this->getFieldName(), $validator->getScript(), $validationRule, $validator->getErrorMessage(), $validator->getJsArguments());
-				$attributes = $handler->addValidationData($validationData);
-				$this->mergeAttributes($attributes);
+				$this->validators = array_merge($handler->addValidationData($validationData), $this->validators);
 				$i++;
 			}
 		}
 	}
 	
+	/**
+	 * Return array of all classes for validator.
+	 * Add it on your html element.
+	 * @return string[]
+	 */
+	public function getValidator() {
+		return $this->validators;
+	}
+/*	
 	private function mergeAttributes($attributes){
 		foreach ($attributes as $attrName => $attrValues){
 			switch ($attrName) {
@@ -129,7 +141,7 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 		}
 		return $strAttr;
 	}
-	
+	*/
 	public function toHtml($formMode){
 		if (!$this->fieldDescriptor->canView() && $formMode == 'view'){
 			return "";

@@ -4,6 +4,8 @@ namespace Mouf\MVC\BCE\Classes\Renderers;
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+use Mouf\Html\Widgets\Form\TextField;
+use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 
 /**
  * This renderer handles text input fields with the jQuery MiniColor
@@ -19,7 +21,27 @@ class ColorPickerRenderer extends BaseFieldRenderer implements SingleFieldRender
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
 		$value = $descriptorInstance->getFieldValue();
-		return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."' class='color-picker'/>";
+
+		$textField = new TextField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue());
+		if($descriptorInstance->getValidator()) {
+			$textField->setInputClasses($descriptorInstance->getValidator());
+		}
+		$textField->addInputClass('color-picker');
+		
+		$textField->getInput()->setId($descriptorInstance->getFieldName());
+		$textField->getInput()->setReadonly((!$descriptorInstance->fieldDescriptor->canEdit()) ? "readonly" : null);
+		if(isset($descriptorInstance->attributes['styles'])) {
+			$textField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+		}
+
+		$textField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
+		
+		$textField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
+		
+		ob_start();
+		$textField->toHtml();
+		return ob_get_clean();
+		//return "<input type='text' value='".$value."' name='".$fieldName."' id='".$fieldName."' class='color-picker'/>";
 	}
 	
 	/**
