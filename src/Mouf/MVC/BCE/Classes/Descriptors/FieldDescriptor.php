@@ -81,7 +81,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @Property
 	 * @var array<ValidatorInterface>
 	 */
-	private $validators = array();
+	public $validators = array();
 	
 	/**
 	 * The Condition to respect in order to be allowed to edit the field

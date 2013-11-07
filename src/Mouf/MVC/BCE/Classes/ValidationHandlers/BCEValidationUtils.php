@@ -13,7 +13,9 @@ class BCEValidationUtils {
 	public static function hasRequiredValidator($validators) {
 		if($validators) {
 			foreach ($validators as $value) {
-				if(get_class($value) == 'Mouf\\Utils\\Common\\Validators\\RequiredValidator') {
+				$class = get_class($value);
+				if($class == 'Mouf\\Utils\\Common\\Validators\\RequiredValidator'
+					|| $class == 'Mouf\\Utils\\Common\\Validators\\FileUploaderRequiredValidator') {
 					return true;
 				}
 			}

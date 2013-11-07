@@ -17,7 +17,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * @var bool
 	 */
 	public $onlyOneFile;
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
@@ -29,6 +29,10 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		$values = $descriptorInstance->getFieldValue();
 		if(!is_array($values)) {
 			$values = array($values);
+		}
+
+		if($values) {
+			// set has value or not
 		}
 		
 		/*
@@ -51,8 +55,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		$fileUploader->inputName = $fieldName;
 
 		$fileUploaderField = new FileUploaderField($descriptor->getFieldLabel(), $fileUploader, $values);
-
-		//$fileUploaderField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidator()));
+		$fileUploaderField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
 		
 		ob_start();
 		$fileUploaderField->toHtml();
@@ -127,7 +130,28 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 						$(".file-upload-'.$fieldName.'-"+el).remove();
 						return false;
 					}';
-		
+		/*
+		$script .= '$(document).ready(function(){
+				$.validator.addMethod(
+				"fileuploader_require",
+				function(value, element) {
+				
+					var functionCall =
+					function (value, element){
+						var hasElement = _getLength(value, element) > 0;
+						if(hasElement) {
+							return true;
+						}
+						else {
+							_getLength(value, element);
+						}
+					}
+				
+				})
+			//$("#document").rules("add", {"fileuploader_require": 1});
+			})
+				';
+		*/
 		return array($script);
 	}
 	

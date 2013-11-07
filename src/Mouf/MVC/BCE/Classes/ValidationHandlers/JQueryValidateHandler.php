@@ -50,6 +50,7 @@ class JQueryValidateHandler implements JsValidationHandlerInterface {
 		
 		$rulesJson = "
 			{
+				ignore: [],
 				errorPlacement: function(error, element) {
 					if (element[0].type == 'checkbox'){
 						var fieldName = $(element[0]).attr('name');
