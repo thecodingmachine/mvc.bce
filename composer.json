@@ -29,7 +29,7 @@
     },
     "suggest": {
         "mouf/html.utils.bootstrap": "Use bootstrap to make a graat rendering"
-    }
+    },
     "autoload": {
         "psr-0": {
             "Mouf\\MVC\\BCE": "src/"
