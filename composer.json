@@ -19,7 +19,6 @@
 		"mouf/utils.common.formatters": "~3.0",
 		"mouf/database.dao-interface": "~2.0",
 		"mouf/html.utils.weblibrarymanager": "~2.0",
-		"mouf/html.utils.bootstrap": "~3.0",
 		"mouf/database.tdbm": "~3.0",
 		"mouf/javascript.jquery.jquery": "~1.7",
 		"mouf/javascript.jquery.jquery-ui": "~1.8",
@@ -28,6 +27,9 @@
 		"mouf/html.utils.ckeditor": "~1.0",
 		"mouf/html.widgets.fileuploaderwidget": "~2.0"
     },
+    "suggest": {
+        "mouf/html.utils.bootstrap": "Use bootstrap to make a graat rendering"
+    }
     "autoload": {
         "psr-0": {
             "Mouf\\MVC\\BCE": "src/"
