@@ -36,7 +36,7 @@ class BootstrapFormRenderer implements BCERendererInterface {
 			}
 			$form->attributes['class'] .= ' form-horizontal col-lg-8 col-lg-offset-2';
 	?>
-		<form class="form-horizontal col-lg-8 col-lg-offset-2" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?> role="form">
+		<form class="form-horizontal col-lg-8 col-lg-offset-2 <?php echo $form->attributes["class"] ?>" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?> role="form">
 	<?php
 		}
 		echo $idDescriptorInstance->toHtml($form->getMode());
@@ -58,7 +58,6 @@ class BootstrapFormRenderer implements BCERendererInterface {
 	}
 	
 	public function getSkin(){
-		$this->skin->addCssFile("vendor/mouf/mvc.bce/src/Mouf/MVC/BCE/FormRenderers/Bootstrap/Adds/bce-bootstrap-adds.css");
 		return $this->skin;
 	}
 }	
