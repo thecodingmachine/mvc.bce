@@ -246,7 +246,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 
 	/**
 	 * Set validators
-	 * @param ValidatorInterface[]
+	 * @param ValidatorInterface[] $validators
 	 */
 	public function setValidators($validators){
 		$this->validators = $validators;
