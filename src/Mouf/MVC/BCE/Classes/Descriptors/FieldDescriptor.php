@@ -51,7 +51,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	/**
 	 * The label of the field as displayed in the form
 	 * @Property
-	 * @var string
+	 * @var string|ValueInterface
 	 */
 	public $label;
 	
@@ -81,7 +81,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @Property
 	 * @var array<ValidatorInterface>
 	 */
-	private $validators = array();
+	public $validators = array();
 	
 	/**
 	 * The Condition to respect in order to be allowed to edit the field
@@ -195,7 +195,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * Returns the label of the field
 	 */
 	public function getFieldLabel(){
-		return $this->label;
+		return ValueUtils::val($this->label);
 	}
 	
 	/**
