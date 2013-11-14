@@ -2,6 +2,7 @@
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
 use Mouf\Database\DAOInterface;
+use Mouf\MVC\BCE\Classes\BCEException;
 
 /**
  * This field descriptor can be used in order to handle foreing key relations of the Form's main bean.
@@ -80,6 +81,9 @@ class ForeignKeyFieldDescriptor extends BaseFieldDescriptor {
 	 * @return mixed (usualy an int)
 	 */
 	public function getRelatedBeanId($bean){
+		if (!$this->linkedLabelGetter) {
+			throw new BCEException("There is an error in your configuration of the foreign key '$this->fieldName': You must set the 'linkedIdGetter' parameter.");
+		}
 		return call_user_func(array($bean, $this->linkedIdGetter));
 	}
 	
@@ -90,6 +94,9 @@ class ForeignKeyFieldDescriptor extends BaseFieldDescriptor {
 	 * @return string
 	 */
 	public function getRelatedBeanLabel($bean){
+		if (!$this->linkedLabelGetter) {
+			throw new BCEException("There is an error in your configuration of the foreign key '$this->fieldName': You must set the 'linkedLabelGetter' parameter.");
+		}
 		return call_user_func(array($bean, $this->linkedLabelGetter));
 	}
 	
