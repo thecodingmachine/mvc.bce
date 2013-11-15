@@ -148,7 +148,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 			if (count($validators)){
 				foreach ($validators as $validator) {
 					/* @var $validator ValidatorInterface */
-					if (!$validator->validate($value)){//TODO if return array (false, error), the tests passes ???
+					if ($validator->validate($value) !== true){
 						$form->addError($this->fieldName, $validator->getErrorMessage());
 					}
 				}
@@ -156,6 +156,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 		}
 		
 		//Set value context before saving
+		
 		$this->setValue($bean, $value);
 	}
 	
