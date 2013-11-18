@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\Database\DAOInterface;
+
 /**
  * This field descriptor can be used in order to handle many to may urelations of the Form's main bean.
  * For example, a user has a set of hobbies, that are stored in a hobby table, and linked to the user by a user_hobby table
