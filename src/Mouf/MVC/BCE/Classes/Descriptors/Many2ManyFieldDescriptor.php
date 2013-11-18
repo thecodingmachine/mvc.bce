@@ -173,7 +173,7 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 		
 		$beforVals = $this->getBeanValues();
 		//Persist them into a keyset of "secondary bean IDs" 
-		//E.G the ids of all hobbies that has the user
+		//E.G the ids of all hobbies that the usr has 
 		//Delete only the linked element
 		$beforeValues = array();
 		foreach ($beforVals as $bean) {

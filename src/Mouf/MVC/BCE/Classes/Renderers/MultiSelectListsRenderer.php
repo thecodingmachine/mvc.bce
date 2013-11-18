@@ -1,5 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
+use Mouf\Html\Widgets\Form\MultiSelectField;
+
+use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
+
 use Mouf\Html\Widgets\Form\SelectField;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
@@ -14,21 +18,6 @@ use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
  * @Component
  */
 class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRendererInterface, ViewFieldRendererInterface {
-	
-	/**
-	 * Tells if the field should display 
-	 * <ul>
-	 * 	<li>a set of checkboxes,</li> 
-	 *  <li>a multiselect list,</li>
-	 *  <li>a multiselect widjet (TODO),</li>
-	 *  <li>maybe a sortable dnd list (TODO)</li>
-	 *  </ul>
-	 * @OneOf("chbx", "multiselect")
-	 * @OneOfText("Checkboxes", "Multiselect List")
-	 * @Property
-	 * @var string
-	 */
-	public $mode = 'checkbox';
 	
 	/**
 	 * 
@@ -54,25 +43,22 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 				$selectIds[] = $id;
 			}
 		}
+		$valuesSelectBoxes = array();
+		$isFirst = true;
 		
-		foreach ($values as $value){
-			$selectBox = new SelectField();
-			foreach ($data as $bean) {
-				$beanId = $descriptor->getRelatedBeanId($bean);
-				$beanLabel = $descriptor->getRelatedBeanLabel($bean);
-					
-				$option = new Option();
-				$option->setValue($beanId);
-				$option->addText($beanLabel);
-				if (array_search($beanId, $selectIds)) {
-					$option->setSelected('selected');
-				}
-				$options[] = $option;
-			}
-			$selectBox->setOptions($options);
+		foreach ($data as $bean) {
+			$beanId = $descriptor->getRelatedBeanId($bean);
+			$beanLabel = $descriptor->getRelatedBeanLabel($bean);
+				
+			$option = new Option();
+			$option->setValue($beanId);
+			$option->addText($beanLabel);
+			$options[] = $option;
 		}
+		$selectBoxes = new MultiSelectField($descriptor->getFieldLabel(), $fieldName, $selectIds, $options);
+		
 		ob_start();
-		$selectMultipleField->toHtml();
+		$selectBoxes->toHtml();
 		return ob_get_clean();
 	}
 	
@@ -108,8 +94,8 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 	}
 	
 	/**
-	 *
-	 *
+	 * @param bool $tradMode
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\MultiFieldRendererInterface::seti18nUtilisation()
 	 */
 	public function seti18nUtilisation($tradMode){
 		$this->defaultTradMode = $tradMode;
