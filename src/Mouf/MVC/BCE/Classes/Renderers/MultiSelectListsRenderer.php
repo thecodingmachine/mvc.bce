@@ -55,7 +55,15 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 			$option->addText($beanLabel);
 			$options[] = $option;
 		}
+
+		$required = false;
+		foreach ($descriptorInstance->fieldDescriptor->getValidators() as $validator){
+			if ($validator instanceof RequiredValidator) {
+				$required = true;
+			}
+		}
 		$selectBoxes = new MultiSelectField($descriptor->getFieldLabel(), $fieldName, $selectIds, $options);
+		$selectBoxes->setRequired($required);
 		
 		ob_start();
 		$selectBoxes->toHtml();
