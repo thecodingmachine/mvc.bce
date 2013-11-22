@@ -13,6 +13,7 @@ use Mouf\Html\Widgets\Form\CheckboxField;
 use Mouf\Html\Widgets\Form\SelectMultipleField;
 use Mouf\Html\Tags\Option;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
  * @Component
@@ -57,9 +58,11 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 		}
 
 		$required = false;
-		foreach ($descriptorInstance->fieldDescriptor->getValidators() as $validator){
-			if ($validator instanceof RequiredValidator) {
-				$required = true;
+		if($descriptorInstance->fieldDescriptor instanceof FieldDescriptor && $descriptorInstance->fieldDescriptor->getValidators()) {
+			foreach ($descriptorInstance->fieldDescriptor->getValidators() as $validator){
+				if ($validator instanceof RequiredValidator) {
+					$required = true;
+				}
 			}
 		}
 		$selectBoxes = new MultiSelectField($descriptor->getFieldLabel(), $fieldName, $selectIds, $options);
