@@ -46,6 +46,7 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 		}
 		$valuesSelectBoxes = array();
 		$isFirst = true;
+		$options = array();
 		
 		foreach ($data as $bean) {
 			$beanId = $descriptor->getRelatedBeanId($bean);
