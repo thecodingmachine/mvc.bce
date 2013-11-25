@@ -109,6 +109,13 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	private $defaultValue;
 	
 	/**
+	 * Use only for select field, add a default option to select.
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $placeHolder;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addJS()
 	 */
@@ -282,5 +289,21 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 */
 	public function setDefaultValue($value){
 		$this->defaultValue  = $value;
+	}
+
+	/**
+	 * Returns the placeHolder of the field
+	 */
+	public function getPlaceHolder(){
+		return ValueUtils::val($this->placeHolder);
+	}
+	
+	/**
+	 * Set the placeHolder of the descriptor.
+	 * 
+	 * @param ValueInterface|string $placeHolder
+	 */
+	public function setPlaceHolder($placeHolder){
+		$this->placeHolder = $placeHolder;
 	}
 }

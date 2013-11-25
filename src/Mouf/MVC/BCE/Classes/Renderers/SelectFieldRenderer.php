@@ -7,6 +7,7 @@ use Mouf\Html\Tags\Option;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 use Mouf\Html\Widgets\Form\RadiosField;
 use Mouf\Html\Widgets\Form\RadioField;
+use Mouf\Utils\Value\ValueUtils;
 
 
 /**
@@ -47,6 +48,12 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 			$selectField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptor->getValidators()));
 			
 			$options = array();
+			if($descriptor->getPlaceHolder()) {
+				$option = new Option();
+				$option->setValue('');
+				$option->addText($descriptor->getPlaceHolder());
+				$options[] = $option;
+			}
 			$data = $descriptor->getData();
 			foreach ($data as $linkedBean) {
 				$beanId = $descriptor->getRelatedBeanId($linkedBean);
