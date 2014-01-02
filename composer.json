@@ -48,7 +48,18 @@
 			"require-admin": [
     			"src/BCEAdmin.php"
     		],
-		"logo": "icons/logo.png"
+		"logo": "icons/logo.png",
+		"doc" : [{
+					"title" : "File upload",
+					"url" : "doc/fileupload/multiple_file_upload.md"
+				}, {
+					"title" : "About DAOs",
+					"url" : "doc/generating_daos.md"
+				}, {
+					"title" : "Advanced filtering",
+					"url" : "doc/advanced.md"
+				}
+			]
 		}
     }
 }

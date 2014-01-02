@@ -8,26 +8,32 @@ use Mouf\Html\Widgets\FileUploaderWidget\SimpleFileUploaderWidget;
 use Mouf\MVC\BCE\BCEForm;
 
 /**
- * This class is the simpliest FieldDescriptor:
- * it handles a field that has no "connections" to other objects (
- * as user name or login for example)
- * @Component
+ * This class is used to manage the upload of multiple files in a bean.
  */
 class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 
 	/**
-	 * @Property
+	 * The DAO pointing to the table that contains the list of files associated with the main bean.
+	 * 
 	 * @var DAOInterface
 	 */
 	public $fileDao;
 
 	/**
-	 * Name of the method that returns the beans of the mapping table that are already linked to the main bean
-	 * @Property
+	 * Name of the method of fileDao that returns the beans of the mapping table that are already linked to the main bean.
+	 * The method signature is:
+	 * 	<pre>function filePathMethod($beanId)</pre>
+	 * where $beanId is the id of the main bean.
+	 * 
 	 * @var string
 	 */
 	public $filePathMethod;
 
+	/**
+	 * Name of the method of the file bean used to retrieve the file name. 
+	 * 
+	 * @var string
+	 */
 	public $filePathGetter;
 	public $filePathSetter;
 
@@ -40,7 +46,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 	public $values;
 
 	/**
-	 * Folder where the file will be saved. "resources" by default
+	 * Folder where the file will be saved. "resources" by default. Relative to ROOT_PATH.
 	 * @var string
 	 */
 	public $folder = 'resources';
