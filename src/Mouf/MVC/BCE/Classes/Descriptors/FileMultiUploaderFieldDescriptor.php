@@ -30,13 +30,29 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 	public $filePathMethod;
 
 	/**
-	 * Name of the method of the file bean used to retrieve the file name. 
+	 * Name of the getter of the file bean used to retrieve the file name.
+	 * The path returned by this getter must be relative to ROOT_PATH.
+	 * The path must not start with a /.
 	 * 
 	 * @var string
 	 */
 	public $filePathGetter;
+	
+	/**
+	 * Name of the setter of the file bean used to set the file name.
+	 * The parameter passed to this setter must be relative to ROOT_PATH.
+	 * The path must not start with a /.
+	 *
+	 * @var string
+	 */
 	public $filePathSetter;
 
+	/**
+	 * The name of the setter of the file bean that will set the ID of the main bean.
+	 * The parameter passed to this setter is the ID of the main bean.
+	 * 
+	 * @var string
+	 */
 	public $fkSetter;
 	
 	/**
