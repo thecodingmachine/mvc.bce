@@ -189,6 +189,9 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	public function toHTML($descriptorInstance, $formMode){
 		ob_start();
 		$index = "odd";
+		echo "<div class='form-group sub-form-items ".$this->getFieldName()."'>";
+		echo '<label class="col-lg-4 control-label">'.$this->fieldLabel.'</label>';
+		echo '<div class="col-lg-8">';
 		foreach ($this->formInstances as $formInstance){
 			$this->itemWrapperRenderer->toHtml($this, $formInstance, $index);
 			$index = $index == "odd" ? "even" : "odd";
@@ -196,6 +199,11 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		echo "<textarea style='display: none' id='" . $this->getFieldName() . "_template'>";
 		$this->itemWrapperRenderer->toHtml($this, $this->emptyFormInstance);
 		echo "</textarea>";
+		echo '<div class="form-actions">
+				<button class="btn" onclick="'.$descriptorInstance->fieldDescriptor->getAddItemFonction().';return false;"><i class="icon icon-plus-sign"></i>&nbsp;Add an Item</button>
+			</div>';
+    	echo '</div>';
+		echo "</div>";
 		$html = ob_get_contents();
 		ob_end_clean();
 		return $html;
