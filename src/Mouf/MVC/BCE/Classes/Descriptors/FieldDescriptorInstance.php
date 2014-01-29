@@ -95,63 +95,12 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 	public function getValidator() {
 		return $this->validators;
 	}
-/*	
-	private function mergeAttributes($attributes){
-		foreach ($attributes as $attrName => $attrValues){
-			switch ($attrName) {
-				case "id":
-				case "name":
-					continue;
-				break;
-				case "class":
-				case "style":
-					if (!is_array($attrValues)){
-						throw new Exception("Attribute values for '$attrName' should be an array");
-					}
-					foreach ($attrValues as $value){
-						if (!isset($this->attributes[$attrName])){
-							$this->attributes[$attrName] = array();
-						}
-						array_push($this->attributes[$attrName], $value);
-					}
-				break;
-				default:
-					$this->attributes[$attrName] = $attrValues;
-				break;
-			}
-		}
-	}
-	
-	public function printAttributes(){
-		$strAttr = "";
-		foreach ($this->attributes as $attrName => $attrValues){
-			switch ($attrName) {
-				case "id":
-				case "name":
-					continue;
-				break;
-				case "class":
-				case "style":
-					$strAttr .= " $attrName='".implode(" ", $attrValues)."'";
-				break;
-				default:
-					$strAttr .= " $attrName='$attrValues'";
-				break;
-			}
-		}
-		return $strAttr;
-	}
-	*/
+
 	public function toHtml($formMode){
 		if (!$this->fieldDescriptor->canView() && $formMode == 'view'){
 			return "";
 		}
-		
 		echo $this->fieldDescriptor->toHTML($this, $formMode);
-	
-// 		$fieldHtml = $this->fieldDescriptor->toHTML($this, $formMode);
-//		$fieldHtml = "";
-		//echo $fieldHtml !== false ? $this->fieldDescriptor->getFieldWrapperRenderer()->render($this, $fieldHtml, $formMode) : "";
 	}
 	
 }
