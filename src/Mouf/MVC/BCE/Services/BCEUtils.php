@@ -59,7 +59,6 @@ class BCEUtils{
 	 */
 	private $validators = array();
 	private $renderers = array();
-	private $wrapperRenderers = array();
 	private $formatters = array();
 	private $daos = array();
 
@@ -78,7 +77,6 @@ class BCEUtils{
 		//Simply initialize collections (used for drop downs)
 		$this->initValidators();
 		$this->initRenderers();
-		$this->initWrapperRenderers();
 		$this->initFormatters();
 		$this->initDaos();
 	}
@@ -139,10 +137,6 @@ class BCEUtils{
 
 	private function initFormatters(){
 		$this->formatters = $this->initHandler('Mouf\\Utils\\Common\\Formatters\\FormatterInterface');
-	}
-
-	private function initWrapperRenderers(){
-		$this->wrapperRenderers = $this->initHandler('Mouf\\MVC\\BCE\\FormRenderers\\FieldWrapperRendererInterface');
 	}
 
 	/**
@@ -347,7 +341,6 @@ class BCEUtils{
 
 		/* Find the best matching instances to apply... */
 		$convertBean->renderer = $this->_match($beanField, $this->renderers);
-		$convertBean->wrapperRenderer = $this->_match($beanField, $this->wrapperRenderers);
 		$convertBean->formatter = $this->_match($beanField, $this->formatters);
 		$convertBean->validators = $this->_match($beanField, $this->validators, true);
 
@@ -640,9 +633,6 @@ class BCEUtils{
 		if ($instance->getProperty('renderer')->getValue()){
 			$bean->renderer = $instance->getProperty('renderer')->getValue()->getIdentifierName();
 		}
-		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
-			$bean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getIdentifierName();
-		}
 		if ($instance->getProperty('editCondition')->getValue()){
 			$bean->editCondition = $instance->getProperty('editCondition')->getValue()->getIdentifierName();
 		}
@@ -724,9 +714,6 @@ class BCEUtils{
 		/* @var $subFormDescBean SubFormFieldDescriptorBean */
 		$subFormDescBean->name = $descriptor->getIdentifierName();
 
-		if ($instance->getProperty('fieldWrapperRenderer')->getValue()){
-			$subFormDescBean->wrapperRenderer = $instance->getProperty('fieldWrapperRenderer')->getValue()->getIdentifierName();
-		}
 		if ($instance->getProperty('itemWrapperRenderer')->getValue()){
 			$subFormDescBean->itemWrapperRenderer = $instance->getProperty('itemWrapperRenderer')->getValue()->getIdentifierName();
 		}

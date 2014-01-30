@@ -100,7 +100,6 @@ class FieldDescriptorInstance implements FieldDescriptorInstanceInterface {
 		if (!$this->fieldDescriptor->canView() && $formMode == 'view'){
 			return "";
 		}
-		
 		echo $this->fieldDescriptor->toHTML($this, $formMode);
 	}
 	

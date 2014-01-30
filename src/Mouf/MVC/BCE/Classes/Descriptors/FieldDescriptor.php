@@ -70,13 +70,6 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	public $renderer;
 	
 	/**
-	 * The renderer that will display the whole DOM associated to the field (label included)
-	 * @Property
-	 * @var FieldWrapperRendererInterface
-	 */
-	public $fieldWrapperRenderer;
-
-	/**
 	 * The validator of the field. Returns true/false
 	 * @Property
 	 * @var array<ValidatorInterface>
@@ -237,13 +230,6 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 		return $this->renderer->render($descriptorInstance, $formMode);
 	}
 	
-	/**
-	 * Returns the WrapperRenderer for that bean
-	 * @return FieldWrapperRendererInterface
-	 */
-	public function getFieldWrapperRenderer(){
-		return $this->fieldWrapperRenderer;
-	}
 
 	/**
 	 * Returns the list of Validators of this field

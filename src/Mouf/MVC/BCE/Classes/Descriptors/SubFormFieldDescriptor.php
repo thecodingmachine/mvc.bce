@@ -209,10 +209,6 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		return $html;
 	}
 	
-	public function getFieldWrapperRenderer(){
-		return $this->fieldWrapperRenderer;
-	}
-	
 	public function preSave($post, BCEForm &$form, $bean){
 		//TODO if needed
 	}

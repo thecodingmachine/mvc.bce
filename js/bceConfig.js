@@ -536,7 +536,6 @@ function _fieldHtml(field, addClass, fieldType, editName){
 function _getSubFormHtml(field, fieldType) {
 	var name = _getSimpleValueWrapper("Field Name", "fieldname", field.name, field.fieldName, fieldType); 
 	var label =_getSimpleValueWrapper("Label", "label", field.name, field.label, fieldType);
-	var wrapperRenderer =_getListValueWrapper("Wrapper Renderer", "wrapper_renderer", field.name, field.wrapperRenderer, subformWrapperRenderers, null, fieldType);
 	
 	var br = jQuery("<div/>").append(jQuery("<br/>").css('clear', 'both'));
 	var br2 = br.clone();
@@ -560,7 +559,7 @@ function _getSubFormHtml(field, fieldType) {
 	var fkGetter = _getListValueWrapper("Parent id FK Getter", "fk_getter", field.name, field.fkGetter, fieldGetters, fieldType);
 	var fkSetter = _getListValueWrapper("Parent id FK Setter", "fk_setter", field.name, field.fkSetter, fieldSetters, fieldType);
 
-	return _html([name, label, wrapperRenderer, br, description, formWrapper, br2, beansGetter, fkGetter, fkSetter, typeElemWrap, isNewElemWrap, instanceNameWrap, itemWrapper]);
+	return _html([name, label, br, description, formWrapper, br2, beansGetter, fkGetter, fkSetter, typeElemWrap, isNewElemWrap, instanceNameWrap, itemWrapper]);
 }
 
 /* 
@@ -591,7 +590,6 @@ function _getFieldElements(field, fieldType){
 	var name = _getSimpleValueWrapper("Field Name", "fieldname", field.name, field.fieldName, fieldType); 
 	var label =_getSimpleValueWrapper("Label", "label", field.name, field.label, fieldType);
 	var renderer =_getListValueWrapper("Renderer", "renderer", field.name, field.renderer, field.type == 'm2m' ? multiRenderers : singleRenderers, null, fieldType);
-	var wrapperRenderer =_getListValueWrapper("Wrapper Renderer", "wrapper_renderer", field.name, field.wrapperRenderer, wrapperRenderers, null, fieldType);
 	var formatter =_getListValueWrapper("Formatter", "formatter", field.name, field.formatter, formatters, null, fieldType);
 	var validatorsElem =_getMultiListValueWrapper("Validators", "validators", field.name, field.validators, validators, fieldType);
 	
@@ -604,10 +602,10 @@ function _getFieldElements(field, fieldType){
 	var isNewElemWrap = _getHiddenElemWrapper(fieldType, "new", field.name, field.is_new);
 	var instanceNameWrap = _getHiddenElemWrapper(fieldType, "instanceName", field.name, field.name); 
 	
-	var editRightWrap = _getRightElement("Edit Right", "edit_condition", field.name, field.editCondition, conditions, null, fieldType);
-	var viewRightWrap = _getRightElement("View Right", "view_condition", field.name, field.viewCondition, conditions, null, fieldType);
+	var editRightWrap = _getRightElement("Edit Condition", "edit_condition", field.name, field.editCondition, conditions, null, fieldType);
+	var viewRightWrap = _getRightElement("View Condition", "view_condition", field.name, field.viewCondition, conditions, null, fieldType);
 	
-	return [name, label, renderer, wrapperRenderer, formatter, br, validatorsElem, description, editRightWrap, viewRightWrap, br2, typeElemWrap, isNewElemWrap, instanceNameWrap];
+	return [name, label, renderer, formatter, validatorsElem, description, editRightWrap, viewRightWrap, br2, typeElemWrap, isNewElemWrap, instanceNameWrap];
 }
 
 /**

@@ -154,6 +154,7 @@ div#ajaxload{
 .field-value-bloc.multi{
 	width: 100%;
 	float: left;
+	margin-top: 10px;
 }
 .desc-titles li.active a{
 	font-weight: bold;
