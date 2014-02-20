@@ -15,6 +15,7 @@ $moufManager = MoufManager::getMoufManager();
 $classes = array(
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\HiddenRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\MultipleSelectFieldRenderer{\"mode\":\"chbx\"}",
+		"Mouf\\MVC\\BCE\\Classes\\Renderers\\MultipleSelectFieldRenderer{\"mode\":\"radio\"}",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\DatePickerRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\ColorPickerRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer",

@@ -7,6 +7,8 @@ use Mouf\Html\Widgets\Form\CheckboxField;
 use Mouf\Html\Widgets\Form\SelectMultipleField;
 use Mouf\Html\Tags\Option;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
+use Mouf\Html\Widgets\Form\RadiosField;
+use Mouf\Html\Widgets\Form\RadioField;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
  * @Component
@@ -20,8 +22,10 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 *  <li>a multiselect list,</li>
 	 *  <li>a multiselect widjet (TODO),</li>
 	 *  <li>maybe a sortable dnd list (TODO)</li>
+	 *  <li>radio</li>
 	 *  </ul>
 	 * @OneOf("chbx", "multiselect")
+	 * @OneOf("radio", "radioselect")
 	 * @OneOfText("Checkboxes", "Multiselect List")
 	 * @Property
 	 * @var string
@@ -133,6 +137,46 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 				$checkboxesField->toHtml();
 				return ob_get_clean();
 			break;
+
+			case 'radio':
+				$radiosField = new RadiosField($descriptor->getFieldLabel(), $fieldName);
+				if($descriptorInstance->getValidator()) {
+					$checkboxesField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
+				}
+				$radios = array();
+				foreach ($data as $bean) {
+					$beanId = $descriptor->getRelatedBeanId($bean);
+					$beanLabel = $descriptor->getRelatedBeanLabel($bean);
+					if($this->defaultTradMode == true){
+						$beanLabel = iMsg($beanLabel);
+					}
+						
+					$radioField = new RadioField($beanLabel, null, $beanId);
+					$radioField->getInput()->setId($fieldName.'-'.$beanId);
+					$radioField->setChecked((array_search($beanId, $selectIds)!==false));
+					if($descriptorInstance->getValidator()) {
+						$radioField->setInputClasses($descriptorInstance->getValidator());
+					}
+					if(isset($descriptorInstance->attributes['styles'])) {
+						$radioField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+					}
+						
+					$radios[] = $radioField;
+					/*
+					 $checked = (array_search($beanId, $selectIds)!==false) ? "checked='checked'" : "";
+					$html .= "
+					<label class='checkbox inline' for='$fieldName"."-"."$beanId'>
+					<input type='checkbox' $checked value='$beanId' id='$fieldName"."-"."$beanId' name='".$fieldName."[]' ".$descriptorInstance->printAttributes().">
+					$beanLabel
+					</label>";
+					*/
+				}
+				$radiosField->setRadios($radios);
+			
+				ob_start();
+				$radiosField->toHtml();
+				return ob_get_clean();
+				break;
 		}
 		return $html;
 	}
