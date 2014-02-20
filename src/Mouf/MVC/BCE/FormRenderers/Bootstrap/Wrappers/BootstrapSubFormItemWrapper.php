@@ -19,8 +19,8 @@ class BootstrapSubFormItemWrapper implements SubFormItemWrapperInterface {
 			$formInstance->toHtml();
 		?>
 			<div class='remove-item'>
-				<i class='do-remove icon icon-remove' data-id='<?php echo $formInstance->beanId ?>'></i>
-				<i class='undo-remove icon icon-white icon-remove-sign' data-id='<?php echo $formInstance->beanId ?>'></i>
+				<i class='do-remove glyphicon glyphicon-remove' data-id='<?php echo $formInstance->beanId ?>'></i>
+				<i style="display: none" class='undo-remove glyphicon glyphicon-remove-sign' data-id='<?php echo $formInstance->beanId ?>'></i>
 				<input type='hidden' value='0' class="delete-persist" name='<?php echo $desc->getFieldName() ?>[<?php echo $formInstance->beanId ?>][__bce__delete]'/>
 			</div>
 			<div class="bce-fade"></div>

@@ -14,21 +14,6 @@ var validators = ['<?php echo implode("', '", $this->validators); ?>'];
 var conditions = ['<?php echo implode("', '", $this->conditions); ?>'];
 var itemWrapperRenderers = ['<?php echo implode("', '", $this->itemWrapperRenderers); ?>'];
 var forms = ['<?php echo implode("', '", $this->forms); ?>'];
-<?php 
-if (count($this->wrapperRenderers)){
-?>
-var wrapperRenderers = ['<?php echo implode("', '", $this->wrapperRenderers); ?>'];
-<?php
-}else echo "var wrapperRenderers = []";
-?>
-<?php 
-if (count($this->subformWrapperRenderers)){
-?>
-var subformWrapperRenderers = ['<?php echo implode("', '", $this->subformWrapperRenderers); ?>'];
-<?php
-}else echo "var subformWrapperRenderers = []";
-?>
-
 var formRenderers = ['<?php echo implode("', '", $this->formRenderers); ?>'];
 var validationHandlers = ['<?php echo implode("', '", $this->validationHandlers); ?>'];
 

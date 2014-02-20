@@ -122,7 +122,6 @@ class BceConfigController extends AbstractMoufInstanceController {
 		$this->multiRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\Classes\\Renderers\\MultiFieldRendererInterface", false);
 		$this->formatters = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Formatters\\FormatterInterface", false);
 		$this->validators = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\Validators\\ValidatorInterface", false);
-		$this->wrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\FieldWrapperRendererInterface", false);
 		$this->subformWrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\FormRenderers\\SubFormFieldWrapperRendererInterface", false);
 		$this->conditions = MoufReflectionProxy::getInstances("Mouf\\Utils\\Common\\ConditionInterface\\ConditionInterface", false);
 		$this->itemWrapperRenderers = MoufReflectionProxy::getInstances("Mouf\\MVC\\BCE\\FormRenderers\\SubFormItemWrapperInterface", false);
@@ -327,7 +326,6 @@ class BceConfigController extends AbstractMoufInstanceController {
 
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['formatter'], 'formatter');
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['renderer'], 'renderer');
-		$this->setSimpleProperty($fieldDescriptor, $fieldData['wrapper_renderer'], 'fieldWrapperRenderer');
 		if (isset($fieldData['edit_condition'])) {
 			$this->setSimpleProperty($fieldDescriptor, $fieldData['edit_condition'], 'editCondition');
 		} else {
@@ -422,7 +420,6 @@ class BceConfigController extends AbstractMoufInstanceController {
 		
 		
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['item_wrapper'], 'itemWrapperRenderer');
-		$this->setSimpleProperty($fieldDescriptor, $fieldData['wrapper_renderer'], 'fieldWrapperRenderer');
 		$this->setSimpleProperty($fieldDescriptor, $fieldData['sub_form'], 'form');
 	}
 	

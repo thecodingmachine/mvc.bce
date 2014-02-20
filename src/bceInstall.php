@@ -28,14 +28,10 @@ $classes = array(
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\SelectFieldRenderer{\"radioMode\":true}",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\RichTextFieldRenderer",
 
-		"Mouf\\MVC\\BCE\\FormRenderers\\NoWrapFieldWrapperRenderer",
-		
 		"Mouf\\MVC\\BCE\\Classes\\ScriptManagers\\ScriptManager",
 		
 		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\DescriptionRenderer\\BlockDescriptionRenderer",
 		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\BootstrapSubFormItemWrapper",
-		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\DefaultFieldWrapperRenderer",
-		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\Wrappers\\SubFormFieldWrapperRenderer",
 		"Mouf\\MVC\\BCE\\FormRenderers\\Bootstrap\\BootstrapFormRenderer"
 );
 InstallUtils::massCreate($classes, $moufManager);

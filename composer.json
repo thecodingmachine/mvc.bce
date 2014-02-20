@@ -26,6 +26,7 @@
 		"mouf/utils.value.value-interface": "~1.0",
 		"mouf/html.utils.ckeditor": "~1.0",
 		"mouf/html.widgets.fileuploaderwidget": "~2.0",
+		"mouf/utils.common.conditioninterface": "2.*",
 		"mouf/html.widgets.form-elements": "~1.0"
     },
     "suggest": {
@@ -50,14 +51,26 @@
     		],
 		"logo": "icons/logo.png",
 		"doc" : [{
+					"title" : "README",
+					"url" : "doc/readme.md"
+				},{
+					"title" : "Quickstart Guide",
+					"url" : "doc/quickstart.md"
+				},{
+					"title" : "Configuring a BCE Form",
+					"url" : "doc/configure-bce-form.md"
+				},{
+					"title" : "Advanced fields",
+					"url" : "doc/advanced-fields.md"
+				},{
 					"title" : "File upload",
 					"url" : "doc/fileupload/multiple_file_upload.md"
-				}, {
-					"title" : "About DAOs",
-					"url" : "doc/generating_daos.md"
-				}, {
-					"title" : "Advanced filtering",
-					"url" : "doc/advanced.md"
+				},{
+					"title" : "Create your own Field",
+					"url" : "doc/custom-field.md"
+				},{
+					"title" : "Detailed Architecture",
+					"url" : "doc/detailed-architecture.md"
 				}
 			]
 		}
