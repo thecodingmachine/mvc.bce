@@ -67,6 +67,12 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 	 */
 	public $folder = 'resources';
 
+    /**
+     * Whether we should set in the bean the relative path to $folder or the relative path to ROOT_PATH
+     * @var bool
+     */
+    public $saveAbsolutePath = true;
+
 	/**
 	 * 
 	 * 
@@ -157,7 +163,11 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 
 			foreach ($fileList as $file) {
 				$bean = $this->fileDao->create();
-				call_user_func(array($bean, $this->filePathSetter),  $folder.DIRECTORY_SEPARATOR.$file);
+                if($this->saveAbsolutePath){
+                    call_user_func(array($bean, $this->filePathSetter), $folder.DIRECTORY_SEPARATOR.$file);
+                }else{
+                    call_user_func(array($bean, $this->filePathSetter), $file);
+                }
 				call_user_func(array($bean, $this->fkSetter), $beanId);
 				$this->fileDao->save($bean);
 				
