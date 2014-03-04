@@ -119,7 +119,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 	 *  - settings the linked ids to associate in mapping table (Many2ManyFieldDEscriptors)
 	 * @see BCEFieldDescriptorInterface::preSave()
 	 */
-	public function preSave($post, BCEForm &$form, $bean) {
+	public function preSave($post, BCEForm &$form, $bean, $isNew) {
 	}
 	
 	

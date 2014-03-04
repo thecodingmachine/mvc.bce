@@ -49,7 +49,7 @@ interface BCEFieldDescriptorInterface {
 	 * @param array $post The $_POST
 	 * @param BCEForm $form the form instance
 	 */
-	public function preSave($post, BCEForm &$form, $bean);
+	public function preSave($post, BCEForm &$form, $bean, $isNew);
 	
 	/**
 	 * Does some operations after the main bean has been saved.

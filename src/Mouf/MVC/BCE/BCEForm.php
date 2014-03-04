@@ -256,7 +256,7 @@ class BCEForm {
 		$bean = $bean ? $bean : (empty($id) ? $this->mainDAO->create() : $this->mainDAO->getById($id));
 	
 		foreach ($this->fieldDescriptors as $descriptor) {
-			$descriptor->preSave($postValues, $this, $bean);
+			$descriptor->preSave($postValues, $this, $bean, empty($id));
 		}
 		if (!count($this->errorMessages)){
 			//save the main bean

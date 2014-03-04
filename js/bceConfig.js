@@ -551,7 +551,7 @@ function _getSubFormHtml(field, fieldType) {
 	var formWrapper = _getListValueWrapper("Sub Form", "sub_form", field.name, field.form, forms, "refreshSubFormSettings", fieldType);
 
 	var daoMethods = _getDaoMethods(field.daoData);
-	var beansGetter = _getListValueWrapper("Sub Form", "beans_getter", field.name, field.beansGetter, daoMethods, null, fieldType);
+	var beansGetter = _getListValueWrapper("Beans getter", "beans_getter", field.name, field.beansGetter, daoMethods, null, fieldType);
 	
 	var filterdMethods = _getFilteredMethods(field.daoData);
 	fieldGetters = filterdMethods['getters'];

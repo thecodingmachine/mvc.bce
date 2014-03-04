@@ -127,10 +127,10 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 *  - settings the linked ids to associate in mapping table (Many2ManyFieldDEscriptors)
 	 * @see BCEFieldDescriptorInterface::preSave()
 	 */
-	public function preSave($post = null, BCEForm &$form, $bean){
-		if (!$this->canEdit()){
+	public function preSave($post = null, BCEForm &$form, $bean, $isNew){
+		if (!$this->canEdit() && $isNew){
 			$value = $this->getDefaultValue();
-		}else{
+		}else if($this->canEdit()){
 			if($post != null) {
 				$value = isset($post[$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
 			} else {
@@ -156,8 +156,9 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 		}
 		
 		//Set value context before saving
-		
-		$this->setValue($bean, $value);
+		if ($value !== null){
+			$this->setValue($bean, $value);
+		}
 	}
 	
 	/**

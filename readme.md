@@ -48,6 +48,6 @@ $this->userFormInstance->toHtml();
 ```
 
 ### Result
-![Renderer edit form](images/edit-form.png)
+![Renderer edit form](doc/images/edit-form.png)
 
-> Ready to dive in? [Let's get started!](quickstart.md)
+> Ready to dive in? [Let's get started!](doc/quickstart.md)

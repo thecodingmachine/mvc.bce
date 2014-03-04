@@ -23,7 +23,7 @@ Here is an example of a foreingKeyFieldDescriptor (used for one to many relation
 
 ##Rendering
 
-On thing you should now, is BCE >= 3.1 is using the mouf/html.renderer package for generating the fields' DOM, which means the displayed HTML will depend on the rendering context you set up in your project. By default, the bootstrap rendering is used, if you don't know about the html.renderer package, you should take a look, it's quite powerfull : [mouf/html.renderer documentation](../../html.renderer/README.md).
+On thing you should now, is BCE >= 3.1 is using the mouf/html.renderer package for generating the fields' DOM, which means the displayed HTML will depend on the rendering context you set up in your project. By default, the bootstrap rendering is used, if you don't know about the html.renderer package, you should take a look, it's quite powerfull : [mouf/html.renderer documentation](http://mouf-php.com/packages/mouf/html.renderer/README.md).
 
 In order to improve our userForm, we will :
 
@@ -35,7 +35,7 @@ In order to improve our userForm, we will :
 
 ##Validation
 
-As explained in the [quickstart guide](quickstart.md), BCE provides built-in validation on both client AND server side. As for rendering, validation is mainly handled using the mouf/utils.common.validators package (see [documentation here](../../utils.common.validators/README.md)). More than X validators are aleardy implemented (required, numeric, email, url, ...) but you are free to code any other one (simply implement both the ValidatorInterface and the JsValidatorInterface). For the example, we will add a "requiredValidator" to the name field, aswell as an "emailValidator" to the email field : 
+As explained in the [quickstart guide](quickstart.md), BCE provides built-in validation on both client AND server side. As for rendering, validation is mainly handled using the mouf/utils.common.validators package (see [documentation here](http://mouf-php.com/packages/mouf/utils.common.validators/)). More than X validators are aleardy implemented (required, numeric, email, url, ...) but you are free to code any other one (simply implement both the ValidatorInterface and the JsValidatorInterface). For the example, we will add a "requiredValidator" to the name field, aswell as an "emailValidator" to the email field : 
 
 | set the name as required | | force email format |
 |---|---|---|
@@ -43,7 +43,7 @@ As explained in the [quickstart guide](quickstart.md), BCE provides built-in val
 
 ##Access Rights
 
-Access rights allow you to restrict edition and display of some fields, based on conditions (yet another package of mouf : [mouf/utils.common.conditioninterface](../../utils.common.conditioninterface/README.md)), which might be, for example, rightConditions if you are using mouf's rightsService. For the example, we will use a dummy "falseCondition" that always returns false, and apply it to birth_date field edition :
+Access rights allow you to restrict edition and display of some fields, based on conditions (yet another package of mouf : [mouf/utils.common.conditioninterface](http://mouf-php.com/packages/mouf/utils.common.conditioninterface/README.md)), which might be, for example, rightConditions if you are using mouf's rightsService. For the example, we will use a dummy "falseCondition" that always returns false, and apply it to birth_date field edition :
 
 ![add edit condition.png](images/add-edit-condition.png)
 

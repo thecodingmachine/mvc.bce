@@ -1,2 +1,3 @@
-Create your own custom field
-> TODO
+#BCE detailed architecture
+
+> this page in under construction

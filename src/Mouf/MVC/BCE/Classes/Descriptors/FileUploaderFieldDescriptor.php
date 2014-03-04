@@ -73,7 +73,7 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	 *  - settings the linked ids to associate in mapping table (Many2ManyFieldDEscriptors)
 	 * @see BCEFieldDescriptorInterface::preSave()
 	 */
-	public function preSave($post, BCEForm &$form, $bean) {
+	public function preSave($post, BCEForm &$form, $bean, $isNew) {
 		// Retrieve post to check if the user delete a file
 		if($post != null) {
 			$value = isset($post['remove-file-upload-'.$this->getFieldName()]) ? $post[$this->getFieldName()] : null;

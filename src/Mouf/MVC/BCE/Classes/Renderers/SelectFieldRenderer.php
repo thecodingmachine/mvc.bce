@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form\SelectField;
 use Mouf\Html\Tags\Option;
@@ -68,6 +70,11 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 			}
 			$selectField->setOptions($options);
 
+			if (!$descriptorInstance->form->isMain){
+				$selectField->setLayout(new LayoutStyle(LayoutStyle::LAYOUT_INLINE));
+			}
+			
+			
 			ob_start();
 			$selectField->toHtml();
 			return ob_get_clean();

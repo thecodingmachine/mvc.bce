@@ -159,7 +159,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				}
 				template.before( html );
 				
-				$('.subform-wrapper.' + fieldId + ' .subform-item').each(function(index){
+				$('.sub-form-items.' + fieldId + ' .subform-item').each(function(index){
 					$(this).addClass(index % 2 == 0 ? 'odd' : 'even');
 				});
 				
@@ -167,11 +167,24 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				
 				return false;
 			}
+						
+			$(document).on('click', '.subform-item .do-remove', function(){
+				$(this).parents('.remove-item').find('input').val(1);
+				$(this).parents('.subform-item').find('.undo-remove').css('display', 'block');
+				$(this).hide();
+		
+				$(this).parents('.subform-item').find(':not(.delete-persist)').attr('disabled', true);
+			});
+		
+			$(document).on('click', '.subform-item .undo-remove', function(){
+				$(this).parents('.remove-item').find('input').val(0);
+				$(this).parents('.subform-item').find('.do-remove').css('display', 'block');
+				$(this).hide();
+		
+				$(this).parents('.subform-item').find('input, select').attr('disabled', false);
+			});
 		";
 		$form->scriptManager->addScript(ScriptManager::SCOPE_WINDOW, $script);
-		
-		list($scope, $script) = $this->itemWrapperRenderer->getRemoveItemJS();
-		$form->scriptManager->addScript($scope, $script);
 	}
 	
 	public function getAddItemFonction(){
@@ -190,8 +203,8 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		ob_start();
 		$index = "odd";
 		echo "<div class='form-group sub-form-items ".$this->getFieldName()."'>";
-		echo '<label class="col-lg-4 control-label">'.$this->fieldLabel.'</label>';
-		echo '<div class="col-lg-8">';
+		echo '<label class="control-label">'.$this->fieldLabel.'</label>';
+		echo '<div class="controls">';
 		foreach ($this->formInstances as $formInstance){
 			$this->itemWrapperRenderer->toHtml($this, $formInstance, $index);
 			$index = $index == "odd" ? "even" : "odd";
@@ -199,8 +212,15 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		echo "<textarea style='display: none' id='" . $this->getFieldName() . "_template'>";
 		$this->itemWrapperRenderer->toHtml($this, $this->emptyFormInstance);
 		echo "</textarea>";
-		echo '<div class="form-actions">
-				<button class="btn" onclick="'.$descriptorInstance->fieldDescriptor->getAddItemFonction().';return false;"><i class="icon icon-plus-sign"></i>&nbsp;Add an Item</button>
+		echo '<div class="subform-item-add form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-2">
+						</div>
+						<div class="col-sm-10">
+							<button class="btn" onclick="'.$descriptorInstance->fieldDescriptor->getAddItemFonction().';return false;"><i class="icon icon-plus-sign"></i>&nbsp;Add an Item</button>
+						</div>
+					</div>
+				</div>
 			</div>';
     	echo '</div>';
 		echo "</div>";
@@ -209,7 +229,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		return $html;
 	}
 	
-	public function preSave($post, BCEForm &$form, $bean){
+	public function preSave($post, BCEForm &$form, $bean, $isNew){
 		//TODO if needed
 	}
 	
@@ -222,6 +242,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				$this->setParentFK($bean, $parentBeanId); 
 				$this->form->save($values, $bean);
 			}else if (!$isAdd){
+				$bean = $this->form->mainDAO->getById($key);
 				$this->form->mainDAO->delete($bean);
 			}
 		}

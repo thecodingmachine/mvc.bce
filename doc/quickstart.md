@@ -4,11 +4,11 @@ In this quick start guide, we will see how you can use BCE to build a user form
 
 Our playground data model
 --
-The first thing you have to know, is that BCE directy relies on your application's ORM system. For now, Mouf's ORM system is TDBM, but when others will be available, we will do our best to provide multi-ORM support. You will find a detailed description of BCE's architecture in the dedicated chapter [Detailed Architecture](detailed-architecture.html)
+The first thing you have to know, is that BCE directy relies on your application's ORM system. For now, Mouf's ORM system is TDBM ((see documentatiopn here)[http://mouf-php.com/packages/mouf/database.tdbm/index.md]), but when others will be available, we will do our best to provide multi-ORM support. You will find a detailed description of BCE's architecture in the dedicated chapter [Detailed Architecture](detailed-architecture.html)
 
 ![Data Model](images/data-model.png "playground data model")
 
-**Requirement** : BCE needs a specific TDBM setting. You must turn the defaultAutoSaveMode to false in the "tdbmService" instance*
+**Requirement** : BCE needs a specific TDBM setting. You must turn the defaultAutoSaveMode to false in the "tdbmService" instance (see [TDBM's DAOs section](http://mouf-php.com/packages/mouf/database.tdbm/doc/generating_daos.md))
 
 ##Create and configure the form instance
 First thing you have to do is creating a BCEForm instance. The BCEForm class represents a form. This is done, as usual, by hiting the "create a new instance" item of the ribbon menu. For example, we create a userForm instance :
@@ -99,5 +99,6 @@ Using very few lines of code, and less than 5 minutes in mouf's configuration in
 But this was just the begining : the generated form is missing some fields (only the ones directly related to the `user` table are displayed)...
 
 > Next Steps : 
+
 > * In order to get a better understanding of the BCE library, you should read the ["Detailed Architecture"](detailed-architecture.md) chapter.
 > * Or you might rather like to continue the overview of BCE capabilities, next chapter is ["Configuring BCE Forms"](configure-bce-forms.md) chapter.

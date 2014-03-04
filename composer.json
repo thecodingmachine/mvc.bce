@@ -51,14 +51,11 @@
     		],
 		"logo": "icons/logo.png",
 		"doc" : [{
-					"title" : "README",
-					"url" : "doc/readme.md"
-				},{
 					"title" : "Quickstart Guide",
 					"url" : "doc/quickstart.md"
 				},{
 					"title" : "Configuring a BCE Form",
-					"url" : "doc/configure-bce-form.md"
+					"url" : "doc/configure-bce-forms.md"
 				},{
 					"title" : "Advanced fields",
 					"url" : "doc/advanced-fields.md"

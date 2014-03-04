@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
+use Mouf\Html\Tags\Style;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form;
 use Mouf\Html\Widgets\Form\TextField;
@@ -41,6 +45,10 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 		$textField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
 		
 		$textField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
+		
+		if (!$descriptorInstance->form->isMain){
+			$textField->setLayout(new LayoutStyle(LayoutStyle::LAYOUT_INLINE));
+		}
 		
 		ob_start();
 		$textField->toHtml();
