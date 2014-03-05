@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\Classes\ValidationHandlers\JsValidationHandlerInterface;
 use Mouf\MVC\BCE\FormRenderers\BCERendererInterface;
 
@@ -160,12 +162,22 @@ class BCEForm {
 	 */
 	public $isMain = true;
 	
+	/**
+	 * The default layout for the form (can be inline or cleared for instance)
+	 * @var LayoutStyle
+	 */
+	private $defaultLayout;
+	
 	
 	/**
 	 * Load the main bean of the Form, and then the linked descriptors to display bean values
 	 * @param mixed $id: The id of the bean (may be null for new objects)
 	 */
 	public function load($bean, $id = null){
+		if ($this->defaultLayout == null){
+			$this->defaultLayout = new LayoutStyle(LayoutStyle::LAYOUT_CLEAR);
+		}
+		
 		$descriptorInstances = array();
 
 		//Load bean values into related field Descriptors
@@ -275,6 +287,20 @@ class BCEForm {
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * @param LayoutStyle $defaultLayout
+	 */
+	public function setDefaultLayout(LayoutStyle $defaultLayout){
+		$this->defaultLayout = $defaultLayout;
+	}
+	
+	/**
+	 * @return LayoutStyle
+	 */
+	public function getDefaultLayout(){
+		return $this->defaultLayout;
 	}
 
 }

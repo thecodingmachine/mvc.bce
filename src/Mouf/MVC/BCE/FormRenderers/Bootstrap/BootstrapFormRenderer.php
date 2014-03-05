@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\FormRenderers\Bootstrap;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\BCEFormInstance;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
@@ -35,6 +37,10 @@ class BootstrapFormRenderer implements BCERendererInterface {
 				$form->attributes['class'] = $form->attributes['class'];
 			} else {
 				$form->attributes['class'] = "";
+			}
+			
+			if ($form->getDefaultLayout()->getLayoutType() == LayoutStyle::LAYOUT_INLINE){
+				$form->attributes['class'] .= " form-horizontal";
 			}
 	?>
 		<form class="<?php echo $form->attributes["class"] ?>" action="<?php echo ROOT_URL.$form->action; ?>" method="<?php echo $form->method?>" <?php foreach ($form->attributes as $attrName => $value){ echo "$attrName='$value' "; }?> role="form">

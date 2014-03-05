@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Descriptors;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\FormRenderers\SubFormFieldWrapperRendererInterface;
 
 use Mouf\MVC\BCE\FormRenderers\SubFormItemWrapperInterface;
@@ -106,6 +108,10 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		$this->form->scriptManager = $form->scriptManager;
 		$this->form->isMain = false;
 		$this->form->mode = $form->mode;
+		$layout = new LayoutStyle(LayoutStyle::LAYOUT_INLINE);
+		$layout->setLayoutRatio(6);
+		$this->form->setDefaultLayout($layout);
+		
 		foreach ($this->beans as $bean){
 			$formInstance = new BCEFormInstance();
 			$formInstance->form = $this->form;

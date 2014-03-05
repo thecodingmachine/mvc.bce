@@ -1,11 +1,18 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\MVC\BCE\Classes\BCEException;
 
 abstract class BaseFieldRenderer implements FieldRendererInterface {
+	
+	/**
+	 * @var LayoutStyle
+	 */
+	private $layout;
 	
 	/**
 	 * (non-PHPdoc)
@@ -51,5 +58,20 @@ abstract class BaseFieldRenderer implements FieldRendererInterface {
 		}else{
 			throw new BCEException("Form mode '$formMode' is not valid");
 		}
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface::getLayout()
+	 */
+	public function getLayout(){
+		return $this->layout;
+	}
+	
+	/** 
+	 * Sets the layout for a given renderer
+	 */
+	public function setLayout(LayoutStyle $layout){
+		$this->layout = $layout;
 	}
 }	

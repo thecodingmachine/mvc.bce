@@ -35,6 +35,10 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		
 		$textareaField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
 		
+		if ($textareaField->getLayout() == null){
+			$textareaField->setLayout($descriptorInstance->form->getDefaultLayout());
+		}
+		
 		ob_start();
 		$textareaField->toHtml();
 		return ob_get_clean();

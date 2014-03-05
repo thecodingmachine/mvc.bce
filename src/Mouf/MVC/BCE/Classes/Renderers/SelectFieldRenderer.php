@@ -70,10 +70,9 @@ class SelectFieldRenderer extends DefaultViewFieldRenderer implements SingleFiel
 			}
 			$selectField->setOptions($options);
 
-			if (!$descriptorInstance->form->isMain){
-				$selectField->setLayout(new LayoutStyle(LayoutStyle::LAYOUT_INLINE));
+			if ($this->getLayout() == null){
+				$selectField->setLayout($descriptorInstance->form->getDefaultLayout());
 			}
-			
 			
 			ob_start();
 			$selectField->toHtml();

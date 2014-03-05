@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+
 use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
 /**
  * This interface is implemented by any field renderer
@@ -22,5 +24,11 @@ interface FieldRendererInterface {
 	 * @return array<string>
 	 */
 	public function getJS($descriptor, $formMode, $bean, $id);
+	
+	
+	/**
+	 * @return LayoutStyle
+	 */
+	public function getLayout();
 	
 }

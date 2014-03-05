@@ -128,6 +128,10 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					*/
 				}
 				$checkboxesField->setCheckboxes($checkboxes);
+				
+				if ($this->getLayout() == null){
+					$checkboxesField->setLayout($descriptorInstance->form->getDefaultLayout());
+				}
 
 				ob_start();
 				$checkboxesField->toHtml();

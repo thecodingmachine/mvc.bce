@@ -46,8 +46,8 @@ class TextFieldRenderer extends DefaultViewFieldRenderer implements SingleFieldR
 		
 		$textField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
 		
-		if (!$descriptorInstance->form->isMain){
-			$textField->setLayout(new LayoutStyle(LayoutStyle::LAYOUT_INLINE));
+		if ($this->getLayout() == null){
+			$textField->setLayout($descriptorInstance->form->getDefaultLayout());
 		}
 		
 		ob_start();
