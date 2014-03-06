@@ -166,6 +166,7 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 		//First remember which "secondary beans" the main bean was linked to
 		$this->loadValues($beanId);
 
+		
 		//Retrieve data of linked table to delete only those element
 		$this->loadData();
 		$dataLinked = array();
@@ -188,11 +189,14 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 		//Save values have been set by the preSave handler 
 		//(defined in the FieldDescriptor class), that calls in fact the own "setValue" method
 		$finalValues = $this->getSaveValues();
-		
+		if(!is_array($finalValues)) {
+			$finalValues = array($finalValues);
+		}
+
 		//Make 2 inverse diffs to idenItify which mappings have changed (added and removed) 
 		$toDelete = array_diff($beforeValues, $finalValues);
 		$toSave = array_diff($finalValues, $beforeValues);
-		
+
 		foreach ($toDelete as $linkedBeanId) {
 			$this->mappingDao->delete($beforVals[$linkedBeanId]);
 		}
