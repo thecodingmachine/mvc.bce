@@ -8,7 +8,7 @@ BCE is a form builder for the Mouf framework. Its main goal is making your life 
 
 When to use BCE ?
 --
-BCE should be used in order to create forms that reflect your business objects, ie BEC is very powerfull for generating the forms for your CRUDs.
+BCE should be used in order to create forms that reflect your business objects, ie BCE is very powerfull for generating the forms for your CRUDs.
 
 Design choices
 --

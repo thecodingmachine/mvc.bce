@@ -15,7 +15,13 @@ First thing you have to do is creating a BCEForm instance. The BCEForm class rep
 
 ![Create User Form](images/create-user.png)
 
-Once you've done this, you reach usual instance interface of Mouf. As explained the the readme, a dedicated interface assists you in creating and configuring your form : press the "configure form" button just under the title of the instance page. You will reach the configuration screen.
+Once you've done this, you reach the usual instance interface of Mouf. As explained in the readme, a dedicated interface 
+assists you in creating and configuring your form : press the "configure form" button just under the title of the 
+instance page.
+
+![Configuration button](images/configureFormButton.png)
+
+You will reach the configuration screen.
 Now, as explained above, BCE relies on the ORM system. You will first have to choose the DAO that handles the main entity the form should manage, in our case, we will choose the UserDAO :
 
 ![Choose Dao](images/choose-dao.png)
@@ -33,9 +39,16 @@ Simply configure the form's action to submit to the *saveUser* URL. To do so, cl
 _**Note :** If the data model changes, and you add a column, it will be automatically detected and suggested. If you remove a column, you will have to remove the field descriptor manually_
 
 ##Write a simple controller & view
-We will assume, you already now about splash and its MVC implementation. If not, please refer to [Splash documentation](http://mouf-php.com/packages/mouf/mvc.splash/index.md) to understand what comes next.
 
-Create a controller class (let's say the UserController), that has 2 actions: editUser and saveUser. Add a userFormInstance property of the BCEFormInstance class.
+We will assume, you already now about Splash and its MVC implementation. If not, please refer to [Splash documentation](http://mouf-php.com/packages/mouf/mvc.splash/index.md) to understand what comes next.
+
+Create a controller class (let's say the UserController), that has 2 actions: editUser and saveUser. Add a `userFormInstance` property of the `BCEFormInstance` class.
+
+Note: the `BCEFormInstance` class represents a specific instance (with all the values) of a form, that is itself repsented by the `BCEForm` class.
+Each `BCEFormInstance` instance refers to a particular `BCEForm`.
+
+![Set save URL](images/bind.png)
+
 
 ```php
     /**

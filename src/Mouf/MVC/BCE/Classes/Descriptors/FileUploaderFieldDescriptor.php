@@ -41,6 +41,12 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	 */
 	public $folder = 'resources';
 
+    /**
+     * Whether we should set in the bean the relative path to $folder or the relative path to ROOT_PATH
+     * @var bool
+     */
+    public $saveAbsolutePath = true;
+
 	/**
 	 * 
 	 * 
@@ -94,8 +100,12 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	public function postSave($bean, $beanId, $postValues) {
 		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName())) {
 			//TODO recupere le nom du bean !!
-			$folder = $this->folder.'/'.$beanId;
-			
+            if(substr($this->folder, -1) == "/"){
+                $folder = $this->folder.$beanId;
+            }else{
+                $folder = $this->folder.'/'.$beanId;
+            }
+
 			if(is_dir(ROOT_PATH.$folder)) {
 				if ($dh = opendir(ROOT_PATH.$folder)) {
 					while ($file = readdir($dh)) {
@@ -111,8 +121,12 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 			$value = array_shift($fileList);
 		
 			//Set value context before saving
-			$this->setValue($bean, $folder.'/'.$value);
-			
+            if($this->saveAbsolutePath){
+                $this->setValue($bean, $folder.'/'.$value);
+            }else{
+                $this->setValue($bean, $value);
+            }
+
 			$bean->save();
 		}
 		return;
