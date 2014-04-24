@@ -30,9 +30,11 @@ class ScriptManager {
 		foreach ($this->scripts as $scope => $values){
 			if ($scope != self::SCOPE_WINDOW){
 				$rendererScripts[] = "
+				(function($) {
 				$(document).$scope(function(){
 					" . implode("\n", $values) . "
-				});";
+				});
+				})(jQuery);";
 			}else{
 				$rendererScripts[] = "
 					" . implode("\n", $values);
