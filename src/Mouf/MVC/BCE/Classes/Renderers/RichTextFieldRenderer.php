@@ -8,8 +8,7 @@ use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 use Mouf\Html\Widgets\Form\TextAreaField;
 
 /**
- * Base class for rendering simple text fields
- * @Component
+ * Base class for rendering rich text fields using CKEditor
  */
 class RichTextFieldRenderer extends TextAreaFieldRenderer implements SingleFieldRendererInterface {
 	
@@ -17,7 +16,19 @@ class RichTextFieldRenderer extends TextAreaFieldRenderer implements SingleField
 	 * Custom configuration file, relative to the ROOT_URL
 	 * @var string
 	 */
-	public $custom_configFile = "vendor/mouf/cms.cms-controller/src/js/ck_full_config.js";
+	protected $customConfigFile;
+	
+	protected $allowedContent;
+	
+	/**
+	 * Custom configuration file, relative to the ROOT_URL
+	 * @param string $customConfigFile
+	 */
+	public function setCustomConfigfile($customConfigFile) {
+		$this->customConfigFile = $customConfigFile;
+		return $this;
+	}
+	
 	
 	/**
 	 * (non-PHPdoc)
@@ -26,8 +37,18 @@ class RichTextFieldRenderer extends TextAreaFieldRenderer implements SingleField
 	public function getJSEdit($descriptor, $bean, $id){
 		/* @var $descriptor BCEFieldDescriptorInterface */
 		$fieldName = $descriptor->getFieldName();
-				
-		return array(ScriptManager::SCOPE_READY => "CKEDITOR.replace( '$fieldName', {allowedContent: true, language: 'en', customConfig: '".ROOT_URL.$this->custom_configFile."'} );");
+		
+		$config = [
+			"allowedContent" => true,
+			"language" => "en"
+		];
+		if ($this->customConfigFile) {
+			$config['customConfig'] = ROOT_URL.$this->customConfigFile;
+		}
+		
+		return array(ScriptManager::SCOPE_READY => "CKEDITOR.replace( '$fieldName', ".json_encode($config)." );");
 	}
+	
+	
 	
 }

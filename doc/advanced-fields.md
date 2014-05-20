@@ -51,7 +51,7 @@ This is done in 3 steps :
 2. Create a SubForm Field Descriptor that will contain the project form,
 3. Link and configure this subform in the user form.
 
-When you create your project form, just do not activate the user_id field as it will be handled by BCE internaly :
+> **Important:** When you create your project form, just do not activate the user_id field as it will be handled by BCE internaly :
 ![Create a project form](images/projectForm.png)
 
 Then, create a new SubFormFieldDescriptor in the user form (you have to use the default mouf instance view for now), edit this instance (rename it) by setting the form property to the previously generated projectForm.

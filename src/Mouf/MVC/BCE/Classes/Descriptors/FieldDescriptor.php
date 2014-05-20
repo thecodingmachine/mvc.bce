@@ -24,6 +24,7 @@ use Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface;
 use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 use Mouf\MVC\BCE\BCEForm;
 use Mouf\Utils\Common\Formatters\FormatterInterface;
+use Mouf\MVC\BCE\Classes\BCEException;
 /**
  * This class is the simpliest FieldDescriptor:
  * it handles a field that has no "connections" to other objects (
@@ -113,6 +114,10 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @see \Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface::addJS()
 	 */
 	public function addJS(BCEForm & $form, $bean, $id){
+		if (!$this->renderer) {
+			throw new BCEException("There is a configuration problem in BCE form. There is no renderer configured for field '".$this->fieldName."'");
+		}
+		
 		foreach ($this->renderer->getJS($this, $form->mode, $bean, $id) as $scope => $script){
 			$form->scriptManager->addScript($scope, $script);
 		}
