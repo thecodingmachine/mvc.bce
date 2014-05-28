@@ -69,7 +69,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					$option = new Option();
 					$option->setValue($beanId);
 					$option->addText($beanLabel);
-					if (array_search($beanId, $selectIds)) {
+					if (array_search($beanId, $selectIds) !== false) {
 						$option->setSelected('selected');
 					}
 					$options[] = $option;
