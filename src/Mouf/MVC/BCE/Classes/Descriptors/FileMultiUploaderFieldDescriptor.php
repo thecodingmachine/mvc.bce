@@ -156,7 +156,7 @@ class FileMultiUploaderFieldDescriptor extends FieldDescriptor {
 		
 		$uniqueId = get('document');
 
-		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName()) && !$this->fileUploaderWidget->noTemporaryFile) {
+		if($this->fileUploaderWidget->hasFileToMove($this->getFieldName()) && !$this->fileUploaderWidget->noTemporarySave) {
 			$folder = $this->folder.DIRECTORY_SEPARATOR.$beanId;
 			
 			$fileList = $this->fileUploaderWidget->moveFile($this->getFieldName(), ROOT_PATH.$folder);
