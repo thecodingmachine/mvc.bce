@@ -139,7 +139,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 			if($post != null) {
 				$value = isset($post[$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
 			} else {
-				$value = get($this->getFieldName());
+				$value = get($this->getFieldName(), "unknown_type", false, null);
 			}
 			
 			//unformat values
