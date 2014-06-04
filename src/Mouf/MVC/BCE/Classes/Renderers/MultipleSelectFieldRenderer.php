@@ -11,23 +11,18 @@ use Mouf\Html\Widgets\Form\RadiosField;
 use Mouf\Html\Widgets\Form\RadioField;
 /**
  * A renderer class that ouputs multiple values field like checkboxes , multiselect list, ... fits for many to many relations
- * @Component
  */
 class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFieldRendererInterface, ViewFieldRendererInterface {
 	
 	/**
 	 * Tells if the field should display 
 	 * <ul>
-	 * 	<li>a set of checkboxes,</li> 
-	 *  <li>a multiselect list,</li>
-	 *  <li>a multiselect widjet (TODO),</li>
+	 * 	<li>a set of checkboxes ("chbx"),</li> 
+	 *  <li>a multiselect list ("multiselect"),</li>
+	 *  <li>a multiselect widget (TODO),</li>
 	 *  <li>maybe a sortable dnd list (TODO)</li>
-	 *  <li>radio</li>
+	 *  <li>radio ("radio")</li>
 	 *  </ul>
-	 * @OneOf("chbx", "multiselect")
-	 * @OneOf("radio", "radioselect")
-	 * @OneOfText("Checkboxes", "Multiselect List")
-	 * @Property
 	 * @var string
 	 */
 	public $mode = 'checkbox';
@@ -74,7 +69,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					$option = new Option();
 					$option->setValue($beanId);
 					$option->addText($beanLabel);
-					if (array_search($beanId, $selectIds)) {
+					if (array_search($beanId, $selectIds) !== false) {
 						$option->setSelected('selected');
 					}
 					$options[] = $option;
