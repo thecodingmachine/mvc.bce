@@ -32,14 +32,8 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		}
 
 		if($values) {
-			// set has value or not
+			// set has value or not...
 		}
-		
-		/*
-		if($descriptorInstance->getValidator()) {
-			$textField->setInputClasses($descriptorInstance->getValidator());
-		}
-		 */
 		
 		$fileUploader = $descriptor->getFileUploaderWidget();
 		$fileUploader->directory = $descriptor->folder;
@@ -53,6 +47,9 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		}
 		
 		$fileUploader->inputName = $fieldName;
+		if($descriptorInstance->getValidator()) {
+			$fileUploader->setInputClasses($descriptorInstance->getValidator());
+		}
 
 		$fileUploaderField = new FileUploaderField($descriptor->getFieldLabel(), $fileUploader, $values);
 		$fileUploaderField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
