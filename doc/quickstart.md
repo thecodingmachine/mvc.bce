@@ -106,6 +106,11 @@ Refresh the cache for registering the new URLs, and goto the /editUser page (or 
 
 ![Renderer edit form](images/edit-form.png)
 
+## TROUBLESHOOTING
+BCE is using Mouf's TDBM ORM. You will get a fatal error (PDO Exception) when trying to load a new object form because TDBM will try to save the bean by default.
+
+To fix this, you will have to set the dbConnection instance's "defaultAutoSave" to false.
+
 ##Continue
 Using very few lines of code, and less than 5 minutes in mouf's configuration interface we manaaged creating a simple form, that contains every field of the `user` table (note that the role field is a dropdown list of items of the `role` table, and the birth date field is already a datepiker without any further configuration).
 
