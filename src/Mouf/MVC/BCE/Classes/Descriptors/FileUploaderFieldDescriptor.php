@@ -80,15 +80,24 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	 * @see BCEFieldDescriptorInterface::preSave()
 	 */
 	public function preSave($post, BCEForm &$form, $bean, $isNew) {
-		// Retrieve post to check if the user delete a file
-		if($post != null) {
-			$value = isset($post['remove-file-upload-'.$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
-		} else {
-			$value = get('remove-file-upload-'.$this->getFieldName());
-		}
-		if($value && $this->getValue($bean) == $value) {
-			unlink(ROOT_PATH.$value);
+		// If the first time, force the value to empty because not nullable field will cause an error
+		if($isNew) {
+			// TODO optimization, detect if the field is nullable
 			$this->setValue($bean, '');
+		}
+		// Retrieve post to check if the user delete a file
+		// Not the first time because no file to remove
+		else {
+			if($post != null) {
+				$value = isset($post['remove-file-upload-'.$this->getFieldName()]) ? $post[$this->getFieldName()] : null;
+			} else {
+				$value = get('remove-file-upload-'.$this->getFieldName());
+			}
+			if($value && $this->getValue($bean) == $value) {
+				unlink(ROOT_PATH.$value);
+				// TODO optimization, detect if the field is nullable
+				$this->setValue($bean, '');
+			}
 		}
 	}
 	
