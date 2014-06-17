@@ -145,7 +145,12 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 			//unformat values
 			$formatter = $this->getFormatter();
 			if ($formatter && $formatter instanceof BijectiveFormatterInterface) {
-				$value = $formatter->unformat($value);
+				if (is_array($value)) {
+					// Let's apply the unformatter recursively on each element of the array.
+					$value = array_map(array($formatter, 'unformat'), $value);
+				} else {
+					$value = $formatter->unformat($value);
+				}
 			}
 			
 			//validate fields
