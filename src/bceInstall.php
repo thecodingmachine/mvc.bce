@@ -13,6 +13,7 @@ $moufManager = MoufManager::getMoufManager();
 
 //Let's automatically create validators for the components that are not parametized (eg : don't create a MinMaxRangeValidator)...
 $classes = array(
+		"Mouf\\MVC\\BCE\\Classes\\Formatters\\HtmlPurifierFormatter",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\HiddenRenderer",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\MultipleSelectFieldRenderer{\"mode\":\"chbx\"}",
 		"Mouf\\MVC\\BCE\\Classes\\Renderers\\MultipleSelectFieldRenderer{\"mode\":\"radio\"}",

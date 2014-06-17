@@ -2,7 +2,7 @@
     "name": "mouf/mvc.bce",
     "description": "BCE is made to make your live easy. It will help you in building forms very quickly, handles form rendering, both client and server-side validation, and persistance.",
     "keywords": ["form", "crud", "form builder", "bean"],
-    "homepage": "https://github.com/thecodingmachine/mvc.bce",
+    "homepage": "http://mouf-php.com/packages/mouf/mvc.bce/",
     "type": "mouf-library",
     "license": "MIT",
     "authors": [
@@ -64,6 +64,10 @@
 					"title" : "File upload",
 					"url" : "doc/fileupload/multiple_file_upload.md"
 				},{
+					"title" : "Renderers and formatters",
+					"url" : "renderers-and-formatters.md"
+				},
+				{
 					"title" : "Create your own Field",
 					"url" : "doc/custom-field.md"
 				},{

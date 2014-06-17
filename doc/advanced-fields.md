@@ -1,4 +1,4 @@
-Advances Fields
+Advanced Fields
 ==
 
 In the previous chapter (configuring bce forms) we have set up our form to a more convienient display. BCE basically auomatically parses the data model in order to generate base fields (user name, email, etc...) and foreign key fields (user's role) which are, in fact the columns of the user `table`.
@@ -55,8 +55,9 @@ This is done in 3 steps :
 ![Create a project form](images/projectForm.png)
 
 Then, create a new SubFormFieldDescriptor in the user form (you have to use the default mouf instance view for now), edit this instance (rename it) by setting the form property to the previously generated projectForm.
+
 ![Add Subform Field](images/add-subform-field.png)
----
+
 ![Configure Subform Field 1](images/configure-subform-desc-1.png)
 
 The only code you have to write here, is a method that returns the list of Project Beans for a given user :
