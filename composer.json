@@ -27,7 +27,8 @@
 		"mouf/html.utils.ckeditor": "~1.0",
 		"mouf/html.widgets.fileuploaderwidget": "~2.0",
 		"mouf/utils.common.conditioninterface": "2.*",
-		"mouf/html.widgets.form-elements": "~1.0"
+		"mouf/html.widgets.form-elements": "~1.0",
+        "ezyang/htmlpurifier": "~4.6"
     },
     "suggest": {
         "mouf/html.utils.bootstrap": "Use bootstrap to make a graat rendering"
