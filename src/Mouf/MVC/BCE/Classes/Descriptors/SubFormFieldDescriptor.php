@@ -129,7 +129,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		$this->emptyFormInstance = new BCEFormInstance();
 		$this->emptyFormInstance->form = $this->form;
 		$this->emptyFormInstance->baseBean = $this->getEmptyBean();
-		$this->emptyFormInstance->beanId = 'a';
+//		$this->emptyFormInstance->beanId = 'a';
 		$this->emptyFormInstance->loadBean();
 		$this->emptyFormInstance->idDescriptorInstance->setContainerName($this->getFieldName());
 		foreach ($this->emptyFormInstance->descriptorInstances as $descInstance){
@@ -158,15 +158,15 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 			
 			function ".$this->getAddItemFonction()."{
 				var  fieldId = '".$this->fieldName."';
-				var template = $('#' + fieldId + '_template');
+				var template = jQuery('#' + fieldId + '_template');
 				var html = template.text(); 
 				while(html.indexOf('\\[a\\]') != -1){
 					html = html.replace('\\[a\\]','[__bce__add_' + new".$this->fieldName."_index + ']');
 				}
 				template.before( html );
 				
-				$('.sub-form-items.' + fieldId + ' .subform-item').each(function(index){
-					$(this).addClass(index % 2 == 0 ? 'odd' : 'even');
+				jQuery('.sub-form-items.' + fieldId + ' .subform-item').each(function(index){
+					jQuery(this).addClass(index % 2 == 0 ? 'odd' : 'even');
 				});
 				
 				new".$this->fieldName."_index ++;
@@ -174,20 +174,20 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				return false;
 			}
 						
-			$(document).on('click', '.subform-item .do-remove', function(){
-				$(this).parents('.remove-item').find('input').val(1);
-				$(this).parents('.subform-item').find('.undo-remove').css('display', 'block');
-				$(this).hide();
+			jQuery(document).on('click', '.subform-item .do-remove', function(){
+				jQuery(this).parents('.remove-item').find('input').val(1);
+				jQuery(this).parents('.subform-item').find('.undo-remove').css('display', 'block');
+				jQuery(this).hide();
 		
-				$(this).parents('.subform-item').find(':not(.delete-persist)').attr('disabled', true);
+				jQuery(this).parents('.subform-item').find(':not(.delete-persist)').attr('disabled', true);
 			});
 		
-			$(document).on('click', '.subform-item .undo-remove', function(){
-				$(this).parents('.remove-item').find('input').val(0);
-				$(this).parents('.subform-item').find('.do-remove').css('display', 'block');
-				$(this).hide();
+			jQuery(document).on('click', '.subform-item .undo-remove', function(){
+				jQuery(this).parents('.remove-item').find('input').val(0);
+				jQuery(this).parents('.subform-item').find('.do-remove').css('display', 'block');
+				jQuery(this).hide();
 		
-				$(this).parents('.subform-item').find('input, select').attr('disabled', false);
+				jQuery(this).parents('.subform-item').find('input, select').attr('disabled', false);
 			});
 		";
 		$form->scriptManager->addScript(ScriptManager::SCOPE_WINDOW, $script);
@@ -226,8 +226,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 							<button class="btn" onclick="'.$descriptorInstance->fieldDescriptor->getAddItemFonction().';return false;"><i class="icon icon-plus-sign"></i>&nbsp;Add an Item</button>
 						</div>
 					</div>
-				</div>
-			</div>';
+				</div>';
     	echo '</div>';
 		echo "</div>";
 		$html = ob_get_contents();
