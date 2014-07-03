@@ -179,7 +179,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				jQuery(this).parents('.subform-item').find('.undo-remove').css('display', 'block');
 				jQuery(this).hide();
 		
-				jQuery(this).parents('.subform-item').find(':not(.delete-persist)').attr('disabled', true);
+				jQuery(this).parents('.subform-item').find('button:not(.delete-persist), textarea:not(.delete-persist), input:not(.delete-persist), select:not(.delete-persist)').attr('disabled', true);
 			});
 		
 			jQuery(document).on('click', '.subform-item .undo-remove', function(){
@@ -187,7 +187,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 				jQuery(this).parents('.subform-item').find('.do-remove').css('display', 'block');
 				jQuery(this).hide();
 		
-				jQuery(this).parents('.subform-item').find('input, select').attr('disabled', false);
+				jQuery(this).parents('.subform-item').find('input, select, button, textarea').attr('disabled', false);
 			});
 		";
 		$form->scriptManager->addScript(ScriptManager::SCOPE_WINDOW, $script);
@@ -208,7 +208,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	public function toHTML($descriptorInstance, $formMode){
 		ob_start();
 		$index = "odd";
-		echo "<div class='form-group sub-form-items ".$this->getFieldName()."'>";
+		echo "<div class='control-group form-group sub-form-items ".$this->getFieldName()."'>";
 		echo '<label class="control-label">'.$this->fieldLabel.'</label>';
 		echo '<div class="controls">';
 		foreach ($this->formInstances as $formInstance){
