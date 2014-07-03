@@ -14,27 +14,31 @@ class HtmlElementFieldDescriptor implements BCEFieldDescriptorInterface {
 	 * @var HtmlElementInterface|string
 	 */
 	private $html;
+	
+	private static $cnt = 0;
+	
+	private $fieldName;
 
 	/**
 	 * The Condition to respect in order to be allowed to edit the field
-	 * @Property
 	 * @var ConditionInterface
 	 */
 	public $editCondition;
 
 	/**
 	 * The Condition to respect in order to be allowed to view the field
-	 * @Property
 	 * @var ConditionInterface
 	 */
 	public $viewCondition;
 	
 	/**
-	 * 
+	 * @Important
 	 * @param HtmlElementInterface|string $html
 	 */
 	public function __construct($html) {
 		$this->html = $html;
+		$this->fieldName = "HtmlElementFieldDescriptor_".self::$cnt;
+		self::$cnt++;
 	}
 
 	/**
@@ -93,7 +97,7 @@ class HtmlElementFieldDescriptor implements BCEFieldDescriptorInterface {
 	 * Get's the field's name (unique Id of the field inside a form (or name attribute)
 	 */
 	public function getFieldName(){
-		return '';
+		return $this->fieldName;
 	}
 	
 	/**
