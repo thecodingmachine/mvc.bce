@@ -69,10 +69,10 @@ class SelectAutoCompleteRenderer extends DefaultViewFieldRenderer implements Sin
 		/* @var $descriptor ForeignKeyFieldDescriptor */
 		$values = $descriptor->getData();
 		$items = [];
-		foreach ($values as $value) {
-			$beanId = $descriptor->getRelatedBeanId($value);
-			$beanLabel = $descriptor->getRelatedBeanLabel($value);
-			$displayVal = null;
+        $displayVal = null;
+        foreach ($values as $value) {
+            $beanId = $descriptor->getRelatedBeanId($value);
+            $beanLabel = $descriptor->getRelatedBeanLabel($value);
 			if ($descriptor->getValue($bean) == $beanId){
 				$displayVal = $beanLabel;
 			}
