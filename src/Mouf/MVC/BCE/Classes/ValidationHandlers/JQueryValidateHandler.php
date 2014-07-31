@@ -34,6 +34,31 @@ class JQueryValidateHandler implements JsValidationHandlerInterface {
 	 * @var WebLibrary
 	 */
 	public $jsLib;
+
+    private $errorClass = 'help-inline';
+    private $errorElement = 'span';
+
+    /**
+     * Setter for errorClass property
+     * errorClass is the css class applied to error messages
+     * Default to 'help-inline'
+     *
+     * @param string $errorClass
+     */
+    public function setErrorClass($errorClass){
+        $this->errorClass = $errorClass;
+    }
+
+    /**
+     * Setter for errorElement property
+     * errorElement is the html tag for the error messages
+     * Default to 'span'
+     *
+     * @param string $errorElement
+     */
+    public function setErrorElement($errorElement){
+        $this->errorElement = $errorElement;
+    }
 	
 	
 	public function addJs(BCEForm $form){
@@ -52,15 +77,28 @@ class JQueryValidateHandler implements JsValidationHandlerInterface {
 			{
 				ignore: [],
 				errorPlacement: function(error, element) {
-					if (element[0].type == 'checkbox'){
-						var fieldName = $(element[0]).attr('name');
-						error.insertAfter( $('[name=\"'+fieldName+'\"]:last').parent() );
-					}else{
-						error.insertAfter( element );
-					};
+                    var form= element.closest('form');
+                    var elementsWithSameName = form.find('[name=\"'+element.attr('name')+'\"]');
+                    if(elementsWithSameName.size() == 1){
+                        error.insertAfter( element );
+                    }else{
+                        var findCommonAncestor = function(a, b){
+                            if (jQuery.contains(a[0], b[0])){
+                                return a;
+                            } else if (jQuery.contains(b[0], a[0])){
+                                return b;
+                            }
+                            return a.parents().has(b).first();
+                        }
+                        var commonAncestor = elementsWithSameName[0];
+                        for(var i=1;i<elementsWithSameName.length;i++){
+                            commonAncestor = findCommonAncestor(jQuery(commonAncestor), jQuery(elementsWithSameName[i]));
+                        }
+                        error.appendTo( commonAncestor );
+                    }
 				},
-				errorClass: 'help-inline',
-				errorElement: 'span'
+				errorClass: '".$this->errorClass."',
+				errorElement: '".$this->errorElement."'
 			}
 		";
 		
