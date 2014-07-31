@@ -179,13 +179,15 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 		//E.G the ids of all hobbies that the usr has 
 		//Delete only the linked element
 		$beforeValues = array();
-		foreach ($beforVals as $bean) {
-			$value = $this->getMappingRightKey($bean);
-			if(isset($dataLinked[$value])) {
-				$beforeValues[] = $value;
-			}
-		}
-		
+        if(!empty($beforVals)){
+            foreach ($beforVals as $bean) {
+                $value = $this->getMappingRightKey($bean);
+                if(isset($dataLinked[$value])) {
+                    $beforeValues[] = $value;
+                }
+            }
+        }
+
 		//Save values have been set by the preSave handler 
 		//(defined in the FieldDescriptor class), that calls in fact the own "setValue" method
 		$finalValues = $this->getSaveValues();
