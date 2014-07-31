@@ -129,7 +129,7 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 		$this->emptyFormInstance = new BCEFormInstance();
 		$this->emptyFormInstance->form = $this->form;
 		$this->emptyFormInstance->baseBean = $this->getEmptyBean();
-//		$this->emptyFormInstance->beanId = 'a';
+		$this->emptyFormInstance->beanId = 'a';
 		$this->emptyFormInstance->loadBean();
 		$this->emptyFormInstance->idDescriptorInstance->setContainerName($this->getFieldName());
 		foreach ($this->emptyFormInstance->descriptorInstances as $descInstance){
