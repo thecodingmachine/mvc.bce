@@ -115,6 +115,8 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 					if(isset($descriptorInstance->attributes['styles'])) {
 						$checkboxField->getInput()->setStyles($descriptorInstance->attributes['styles']);
 					}
+
+                    $checkboxField->getInput()->setDisabled((!$descriptor->canEdit()) ? "disabled" : null);
 					
 					$checkboxes[] = $checkboxField;
 					/*

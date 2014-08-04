@@ -33,10 +33,12 @@ class StaticSelectFieldRenderer  extends DefaultViewFieldRenderer implements Sin
      * @see FieldRendererInterface::render()
      */
     public function renderEdit($descriptorInstance){
+        /* @var $descriptorInstance FieldDescriptorInstance */
+        $descriptor = $descriptorInstance->fieldDescriptor;
 
         $selectField = new Form\SelectField($descriptorInstance->fieldDescriptor->getFieldLabel(), $descriptorInstance->getFieldName(), $descriptorInstance->getFieldValue(), $this->options);
         $selectField->setRequired(BCEValidationUtils::hasRequiredValidator($descriptorInstance->fieldDescriptor->getValidators()));
-
+        $selectField->getSelect()->setDisabled((!$descriptor->canEdit()) ? "disabled" : null);
         ob_start();
         $selectField->toHtml();
         return ob_get_clean();
