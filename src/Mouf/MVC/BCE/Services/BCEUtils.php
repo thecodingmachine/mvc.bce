@@ -23,6 +23,8 @@ use Mouf\MVC\BCE\Admin\DaoDescriptorBean;
 use Mouf\MVC\BCE\Admin\BCEFormInstanceBean;
 use Mouf\MVC\BCE\Admin\SubFormFieldDescriptorBean;
 use Mouf;
+use Mouf\MoufException;
+use Mouf\Annotations\varAnnotation;
 
 /**
  * ----------------------------------------------------------------
@@ -174,9 +176,44 @@ class BCEUtils{
 
 		$class = new MoufReflectionClass($daoClass);
 		$method = $class->getMethod("getById");
-		$returnClass = $method->getAnnotations('return');
+        $declaringClass = $method->getDeclaringClass();
+		$returnClasses = $method->getAnnotations('return');
 
-		list($fields, $table) = $this->getBeanMethods($returnClass[0], $goDeeper);
+        if (count($returnClasses)==0) {
+            throw new MoufException("Error for DAO ".$daoClass."::getById. Missing @return annotation.");
+        }
+        if (count($returnClasses)>1) {
+            throw new MoufException("Error for DAO ".$daoClass."::getById. More than one @return annotation was found.");
+        }
+
+        $returnClassAnnot = $returnClasses[0];
+        /* @var $returnClassAnnot varAnnotation */
+        $unresolvedTypes = Mouf\Reflection\TypesDescriptor::parseTypeString($returnClassAnnot);
+
+        $useNamespaces = $declaringClass->getUseNamespaces();
+        //var_dump($declaringClass->getName());
+        // Let's resolve the class name...
+        $className = (string)$declaringClass->getName();
+
+        $pos = strrpos($className, "\\");
+
+        $namespace = null;
+        // There is no namespace, let's do nothing!
+        if ($pos !== false) {
+            // The namespace without the final \
+            $namespace = substr($className, 0, $pos);
+        }
+
+        $types = $unresolvedTypes->resolveType($useNamespaces, $namespace);
+
+        $typesList = $types->getTypes();
+        if (count($typesList) == 0) {
+            throw new MoufException("Error for DAO ".$daoClass."::getById. @return statement empty.");
+        }
+
+        $beanClassName = $typesList[0]->getType();
+
+		list($fields, $table) = $this->getBeanMethods($beanClassName, $goDeeper);
 		$daoDescripror->beanClassFields = $fields;
 		$daoDescripror->beanTableName = $table;
 		$daoDescripror->daoMethods = $this->getDaoMethods($daoClass);
