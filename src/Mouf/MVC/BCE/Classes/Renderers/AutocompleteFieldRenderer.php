@@ -52,6 +52,7 @@ class AutocompleteFieldRenderer extends DefaultViewFieldRenderer implements Sing
 		$value = $descriptorInstance->getFieldValue();
 		
 		$textField = new TextField($descriptor->getFieldLabel(), $descriptorInstance->getFieldName()."_container", $descriptor->linkedBeanLabel);
+		$textField->getInput()->setAutocomplete("off");
 		$hiddenField = new Input();
 		$hiddenField->setType("hidden");
 		$hiddenField->setName($descriptorInstance->getFieldName());

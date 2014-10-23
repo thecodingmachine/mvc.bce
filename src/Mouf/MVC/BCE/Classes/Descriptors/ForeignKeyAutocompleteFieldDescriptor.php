@@ -42,7 +42,12 @@ class ForeignKeyAutocompleteFieldDescriptor extends BaseFieldDescriptor {
 	public function load($mainBean, $id = null, &$form = null){
 		$descriptorInstance = parent::load($mainBean, $id, $form);
 		if ($id){
-			$linkedBean = $this->dao->getById($this->getValue($mainBean));
+			$linkedBeanId = $this->getValue($mainBean);
+			if ($linkedBeanId){
+				$linkedBean = $this->dao->getById($this->getValue($mainBean));
+			}else{
+				$linkedBean = null;
+			}
 			$this->linkedBeanLabel = $linkedBean ? $this->getRelatedBeanLabel($linkedBean) : "";
 		}
 		return $descriptorInstance;
