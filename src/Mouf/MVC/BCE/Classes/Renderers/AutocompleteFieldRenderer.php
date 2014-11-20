@@ -37,8 +37,25 @@ class AutocompleteFieldRenderer extends DefaultViewFieldRenderer implements Sing
 	 */
 	private $hiddenFieldName;
 	
+	/**
+	 * The name of the key containing the ID of the returned item
+	 * 
+	 * @var string
+	 */
 	public $ajaxItemIdField = "id";
+	
+	/**
+	 * The name of the key containing the label of the returned item
+	 *
+	 * @var string
+	 */
 	public $ajaxItemLabelField = "label";
+	
+	/**
+	 * The GET parameter that will contain the query.
+	 * 
+	 * @var string
+	 */
 	public $queryField = "q";
 	
 	/**
