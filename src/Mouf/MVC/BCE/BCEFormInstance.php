@@ -4,6 +4,7 @@ namespace Mouf\MVC\BCE;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
 use Mouf\Html\HtmlElement\HtmlElementInterface;
+use Mouf\MVC\BCE\Classes\BCEException;
 
 class BCEFormInstance implements HtmlElementInterface{
 		
@@ -47,7 +48,11 @@ class BCEFormInstance implements HtmlElementInterface{
 	}
 	
 	public function toHtml(){
-		$this->form->renderer->render($this->form, $this->descriptorInstances, $this->idDescriptorInstance);
+		if($this->idDescriptorInstance == null){
+			throw new BCEException("BCEFormInstance::load() method must be called before calling BCEFormInstance::toHtml()");
+		}else{
+			$this->form->renderer->render($this->form, $this->descriptorInstances, $this->idDescriptorInstance);
+		}
 	}
 	
 	/**
