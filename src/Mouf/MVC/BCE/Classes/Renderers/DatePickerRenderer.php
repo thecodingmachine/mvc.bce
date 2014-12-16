@@ -30,10 +30,10 @@ class DatePickerRenderer extends TextFieldRenderer implements SingleFieldRendere
 	 * @see FieldRendererInterface::getJS()
 	 */
 	public function getJSEdit($descriptor, $bean, $id){
-		/* @var $descriptorInstance FieldDescriptorInstance */
+		/* @var $descriptor FieldDescriptorInstance */
 		/* @var $libManager WebLibraryManager */
 		$jQueryUI = MoufManager::getMoufManager()->getInstance('jQueryUiLibrary');
-		Mouf::getDefaultWebLibraryManager()->addLibrary($jQueryUI);
+		$descriptor->form->getWeblibraryManager()->addLibrary($jQueryUI);
 		
 		$fieldName = $descriptor->getFieldName();
 		
