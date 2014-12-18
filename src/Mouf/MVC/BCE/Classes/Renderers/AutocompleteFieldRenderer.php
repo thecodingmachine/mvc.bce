@@ -26,7 +26,8 @@ class AutocompleteFieldRenderer extends DefaultViewFieldRenderer implements Sing
 	
 	
 	/**
-	 * The URL where to get the results
+	 * The URL where to get the results from, relative to the ROOT_URL.
+	 * 
 	 * @var string
 	 */
 	public $ajaxQueryUrl;

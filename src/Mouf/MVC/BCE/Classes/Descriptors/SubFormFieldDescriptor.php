@@ -240,15 +240,17 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	
 	public function postSave($parentBean, $parentBeanId, $postValues = null){
 		$data = get($this->getFieldName());
-		foreach ($data as $key => $values){
-			$isAdd = substr($key, 0, 11) == "__bce__add_";
-			if ($values['__bce__delete'] == 0){
-				$bean = $isAdd ? $this->form->mainDAO->create() : $this->form->mainDAO->getById($key);
-				$this->setParentFK($bean, $parentBeanId); 
-				$this->form->save($values, $bean);
-			}else if (!$isAdd){
-				$bean = $this->form->mainDAO->getById($key);
-				$this->form->mainDAO->delete($bean);
+		if (is_array($data)) {
+			foreach ($data as $key => $values){
+				$isAdd = substr($key, 0, 11) == "__bce__add_";
+				if ($values['__bce__delete'] == 0){
+					$bean = $isAdd ? $this->form->mainDAO->create() : $this->form->mainDAO->getById($key);
+					$this->setParentFK($bean, $parentBeanId); 
+					$this->form->save($values, $bean);
+				}else if (!$isAdd){
+					$bean = $this->form->mainDAO->getById($key);
+					$this->form->mainDAO->delete($bean);
+				}
 			}
 		}
 	}
