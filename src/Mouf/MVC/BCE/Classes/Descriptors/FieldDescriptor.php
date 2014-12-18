@@ -25,6 +25,7 @@ use Mouf\MVC\BCE\FormRenderers\FieldWrapperRendererInterface;
 use Mouf\MVC\BCE\BCEForm;
 use Mouf\Utils\Common\Formatters\FormatterInterface;
 use Mouf\MVC\BCE\Classes\BCEException;
+use Mouf\MVC\BCE\Classes\Renderers\BooleanFieldRenderer;
 /**
  * This class is the simpliest FieldDescriptor:
  * it handles a field that has no "connections" to other objects (
@@ -164,10 +165,20 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 				}
 			}
 		}
-		
-		//Set value context before saving
-		if ($value !== null){
-			$this->setValue($bean, $value);
+
+		if($this->renderer instanceof BooleanFieldRenderer) {
+			if($value === null) {
+				$this->setValue($bean, 0);
+			}
+			else {
+				$this->setValue($bean, $value);
+			}
+		}
+		else {
+			//Set value context before saving
+			if ($value !== null){
+				$this->setValue($bean, $value);
+			}
 		}
 	}
 	

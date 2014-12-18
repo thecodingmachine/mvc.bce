@@ -15,6 +15,7 @@ use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\Database\DAOInterface;
 use Mouf;
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 /**
  * 
  * Root Object of the BCE package.<br/>
@@ -168,6 +169,11 @@ class BCEForm {
 	 */
 	private $defaultLayout;
 	
+	/**
+	 * @var WebLibraryManager
+	 */
+	public $webLiraryManager = null;
+	
 	
 	/**
 	 * Load the main bean of the Form, and then the linked descriptors to display bean values
@@ -219,9 +225,14 @@ class BCEForm {
 		//Load required libraries
 		$lib = new InlineWebLibrary();
 		$lib->setJSFromText($this->scriptManager->renderScripts());
-		Mouf::getDefaultWebLibraryManager()->addLibrary($lib);
-		Mouf::getDefaultWebLibraryManager()->addLibrary($this->renderer->getSkin());
-		Mouf::getDefaultWebLibraryManager()->addLibrary($this->validationHandler->getJsLibrary());
+		
+		$this->getWeblibraryManager()->addLibrary($lib);
+		if ($this->renderer->getSkin()){
+			$this->getWeblibraryManager()->addLibrary($this->renderer->getSkin());
+		}
+		if ($this->validationHandler->getJsLibrary()){
+			$this->getWeblibraryManager()->addLibrary($this->validationHandler->getJsLibrary());
+		}
 	}
 	
 	public function setAttribute($attributeName, $value){
@@ -301,6 +312,13 @@ class BCEForm {
 	 */
 	public function getDefaultLayout(){
 		return $this->defaultLayout;
+	}
+	
+	public function getWeblibraryManager(){
+		if ($this->webLiraryManager == null){
+			$this->webLiraryManager = Mouf::getDefaultWebLibraryManager(); 
+		}
+		return $this->webLiraryManager;
 	}
 
 }
