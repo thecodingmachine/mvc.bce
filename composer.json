@@ -28,7 +28,8 @@
 		"mouf/html.widgets.fileuploaderwidget": "~2.0",
 		"mouf/utils.common.conditioninterface": "2.*",
 		"mouf/html.widgets.form-elements": "~1.0",
-        "ezyang/htmlpurifier": "~4.6"
+        "ezyang/htmlpurifier": "~4.6",
+        "mouf/html.utils.bootstrap": ">=3.2"
     },
     "suggest": {
         "mouf/html.utils.bootstrap": "Use bootstrap to make a graat rendering"
