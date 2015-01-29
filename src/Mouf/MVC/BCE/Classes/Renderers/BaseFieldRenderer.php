@@ -1,8 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\MVC\BCE\Classes\BCEException;
@@ -42,16 +44,16 @@ abstract class BaseFieldRenderer implements FieldRendererInterface {
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\FieldRendererInterface::getJS()
 	 */
-	public function getJS($descriptor, $formMode, $bean, $id){
+	public function getJS(BCEFieldDescriptorInterface $descriptor, $formMode, $bean, $id, WebLibraryManager $webLibraryManager){
 		if ($formMode == 'edit'){
 			if ($this instanceof EditFieldRendererInterface){
-				return $this->getJSEdit($descriptor, $bean, $id);
+				return $this->getJSEdit($descriptor, $bean, $id, $webLibraryManager);
 			}else{
 				throw new BCEException("Renderer '".__CLASS__."' does not implement the 'edit' rendering mode.");
 			}
 		}else if ($formMode == 'view'){
 			if ($this instanceof ViewFieldRendererInterface){
-				return $this->getJSView($descriptor, $bean, $id);
+				return $this->getJSView($descriptor, $bean, $id, $webLibraryManager);
 			}else{
 				throw new BCEException("Renderer ".__CLASS__." does not implement the 'view' rendering mode.");
 			}

@@ -1,8 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
 /**
  * This interface is implemented by any field renderer
@@ -23,7 +25,7 @@ interface FieldRendererInterface {
 	 * @param BCEFieldDescriptorInterface $descriptor
 	 * @return array<string>
 	 */
-	public function getJS($descriptor, $formMode, $bean, $id);
+	public function getJS(BCEFieldDescriptorInterface $descriptor, $formMode, $bean, $id, WebLibraryManager $webLibraryManager);
 	
 	
 	/**

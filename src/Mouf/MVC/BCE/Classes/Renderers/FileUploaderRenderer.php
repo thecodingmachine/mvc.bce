@@ -1,8 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\MoufManager;
 use Mouf\Html\Widgets\Form\FileUploaderField;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
@@ -108,7 +110,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * The datepicker depends on jQueryUI's datepicker widget, therefore load the library into the WebLibrary manager, and call the datepicker initialization on dom ready
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptor FieldDescriptorInstance */
 		$fieldName = $descriptor->getFieldName();
 		$fileUploader = new \stdClass();
@@ -116,7 +118,7 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 		/* @var $libManager WebLibraryManager */
 		$moufManager = MoufManager::getMoufManager();
 		$fileUploaderLibrary = $moufManager->getInstance('fileUploaderLibrary');
-		$descriptor->form->getWeblibraryManager()->addLibrary($fileUploaderLibrary);
+		$webLibraryManager->addLibrary($fileUploaderLibrary);
 		
 		$fieldName = $descriptor->getFieldName();
 

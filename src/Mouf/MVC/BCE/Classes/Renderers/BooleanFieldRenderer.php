@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form\CheckboxField;
 
@@ -53,7 +55,7 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	
@@ -61,7 +63,7 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptor, $bean, $id){
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	

@@ -29,11 +29,11 @@ class DatePickerRenderer extends TextFieldRenderer implements SingleFieldRendere
 	 * The datepicker depends on jQueryUI's datepicker widget, therefore load the library into the WebLibrary manager, and call the datepicker initialization on dom ready
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface $descriptor, $bean, $id, Mouf\Html\Utils\WebLibraryManager\WebLibraryManager $webLibraryManager){
 		/* @var $descriptor FieldDescriptorInstance */
 		/* @var $libManager WebLibraryManager */
 		$jQueryUI = MoufManager::getMoufManager()->getInstance('jQueryUiLibrary');
-		$descriptor->form->getWeblibraryManager()->addLibrary($jQueryUI);
+		$webLibraryManager->addLibrary($jQueryUI);
 		
 		$fieldName = $descriptor->getFieldName();
 		

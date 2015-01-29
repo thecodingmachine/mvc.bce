@@ -1,7 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Html\Widgets\Form\MultiSelectField;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 
 use Mouf\Html\Widgets\Form\SelectField;
@@ -79,7 +81,7 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	
@@ -101,7 +103,7 @@ class MultiSelectListsRenderer extends BaseFieldRenderer implements MultiFieldRe
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\DefaultViewFieldRenderer::getJSView()
 	 */
-	public function getJSView($descriptor, $bean, $id){
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	
