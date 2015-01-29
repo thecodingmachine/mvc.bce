@@ -73,7 +73,7 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptor, $bean, $id){
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
