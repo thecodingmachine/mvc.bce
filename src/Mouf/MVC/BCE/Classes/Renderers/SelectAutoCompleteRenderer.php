@@ -1,7 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\ForeignKeyFieldDescriptor;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form\SelectField;
@@ -65,7 +67,7 @@ class SelectAutoCompleteRenderer extends DefaultViewFieldRenderer implements Sin
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptor ForeignKeyFieldDescriptor */
 		$values = $descriptor->getData();
 		$items = [];

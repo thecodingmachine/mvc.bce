@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\ScriptManagers\ScriptManager;
 
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
@@ -34,7 +36,7 @@ class RichTextFieldRenderer extends TextAreaFieldRenderer implements SingleField
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptor BCEFieldDescriptorInterface */
 		$fieldName = $descriptor->getFieldName();
 		

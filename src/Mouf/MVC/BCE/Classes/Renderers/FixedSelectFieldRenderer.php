@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\ForeignKeyFieldDescriptor;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
@@ -48,7 +50,7 @@ class FixedSelectFieldRenderer extends DefaultViewFieldRenderer implements Singl
      * (non-PHPdoc)
      * @see FieldRendererInterface::getJS()
      */
-    public function getJSEdit($descriptor, $bean, $id) {
+    public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager) {
         /* @var $descriptorInstance FieldDescriptorInstance */
         return array();
     }

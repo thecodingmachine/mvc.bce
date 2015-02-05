@@ -1,5 +1,7 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Descriptors\Many2ManyFieldDescriptor;
 use Mouf\Html\Widgets\Form\CheckboxesField;
@@ -187,7 +189,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\EditFieldRendererInterface::getJSEdit()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager = null){
 		return array();
 	}
 	
@@ -209,7 +211,7 @@ class MultipleSelectFieldRenderer extends BaseFieldRenderer implements MultiFiel
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\DefaultViewFieldRenderer::getJSView()
 	 */
-	public function getJSView($descriptor, $bean, $id){
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	

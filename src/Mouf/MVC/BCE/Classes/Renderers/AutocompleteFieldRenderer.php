@@ -1,8 +1,10 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 use Mouf\Html\Widgets\Form\Styles\LayoutStyle;
 
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form\SelectField;
 use Mouf\Html\Tags\Option;
@@ -95,7 +97,7 @@ class AutocompleteFieldRenderer extends DefaultViewFieldRenderer implements Sing
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		$fieldName = $descriptor->getFieldName();
 		return array(
 				ScriptManager::SCOPE_READY => "

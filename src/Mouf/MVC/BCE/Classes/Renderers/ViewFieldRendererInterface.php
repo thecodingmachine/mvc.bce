@@ -1,8 +1,9 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
-use Mouf\MVC\BCE\Descriptors\FieldDescriptorInstance;
-use Mouf\MVC\BCE\Descriptors\BCEFieldDescriptorInterface;
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 
 interface ViewFieldRendererInterface {
 	
@@ -18,6 +19,6 @@ interface ViewFieldRendererInterface {
 	 * @param BCEFieldDescriptorInterface $descriptor
 	 * @return array<string>
 	 */
-	public function getJSView($descriptor, $bean, $id);
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager);
 	
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 
 use Mouf\MVC\BCE\Classes\Descriptors\BaseFieldDescriptor;
@@ -27,11 +29,11 @@ class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInt
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::getJS()
 	 */
-	public function getJSEdit($descriptor, $bean, $id){
+	public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::renderView()
@@ -40,14 +42,14 @@ class HiddenRenderer extends BaseFieldRenderer implements SingleFieldRendererInt
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return $this->renderEdit($descriptorInstance);
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	public function getJSView($descriptor, $bean, $id){
+	public function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		/* @var $descriptorInstance FieldDescriptorInstance */
-		return $this->getJSEdit($descriptor, $bean, $id);
+		return $this->getJSEdit($descriptor, $bean, $id, $webLibraryManager);
 	}
-	
+
 }
