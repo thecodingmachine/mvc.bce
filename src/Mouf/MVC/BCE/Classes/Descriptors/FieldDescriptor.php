@@ -119,7 +119,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 			throw new BCEException("There is a configuration problem in BCE form. There is no renderer configured for field '".$this->fieldName."'");
 		}
 		
-		foreach ($this->renderer->getJS($this, $form->mode, $bean, $id) as $scope => $script){
+		foreach ($this->renderer->getJS($this, $form->mode, $bean, $id, $form->getWeblibraryManager()) as $scope => $script){
 			$form->scriptManager->addScript($scope, $script);
 		}
 	}

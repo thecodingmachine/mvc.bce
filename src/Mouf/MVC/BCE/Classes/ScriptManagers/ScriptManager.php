@@ -24,30 +24,23 @@ class ScriptManager {
 	}
 	
 	public function renderScripts(){
-		$jsPrefix = $jsSuffix = $js = "";
 		$rendererScripts = array();
 		
 		foreach ($this->scripts as $scope => $values){
 			if ($scope != self::SCOPE_WINDOW){
 				$rendererScripts[] = "
 				(function($) {
-				$(document).$scope(function(){
-					" . implode("\n", $values) . "
-				});
+					$(document).$scope(function(){
+						" . implode("\n", $values) . "
+					});
 				})(jQuery);";
 			}else{
 				$rendererScripts[] = "
 					" . implode("\n", $values);
-				
 			}
 		}
 		
-		return '
-		<script type="text/javascript">
-		<!--
-			'.implode("\n", $rendererScripts).'
-		//-->
-		</script>';
+		return implode("\n", $rendererScripts);
 	}
 	
 }

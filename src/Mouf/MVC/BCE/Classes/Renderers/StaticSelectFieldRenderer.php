@@ -2,6 +2,8 @@
 
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\Html\Widgets\Form;
 use Mouf\Html\Widgets\Form\TextField;
@@ -48,7 +50,7 @@ class StaticSelectFieldRenderer  extends DefaultViewFieldRenderer implements Sin
      * (non-PHPdoc)
      * @see FieldRendererInterface::getJS()
      */
-    public function getJSEdit($descriptor, $bean, $id){
+    public function getJSEdit(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
         /* @var $descriptorInstance FieldDescriptorInstance */
         return array();
     }

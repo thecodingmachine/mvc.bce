@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\MVC\BCE\Classes\Renderers;
 
+use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
+use Mouf\MVC\BCE\Classes\Descriptors\BCEFieldDescriptorInterface;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
 use Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface;
 
@@ -20,7 +22,7 @@ abstract class DefaultViewFieldRenderer extends BaseFieldRenderer implements Vie
 	 * (non-PHPdoc)
 	 * @see \Mouf\MVC\BCE\Classes\Renderers\ViewFieldRendererInterface::getJSView()
 	 */
-	function getJSView($descriptor, $bean, $id){
+	function getJSView(BCEFieldDescriptorInterface $descriptor, $bean, $id, WebLibraryManager $webLibraryManager){
 		return array();
 	}
 	
