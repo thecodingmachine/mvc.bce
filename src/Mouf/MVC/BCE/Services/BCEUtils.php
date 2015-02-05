@@ -93,10 +93,22 @@ class BCEUtils{
 		foreach ($daos as $className) {
 			$descriptor = new MoufReflectionClass($className);
 			$table = $descriptor->getAnnotations("dbTable");
+            if(count($table) == 0){
+                continue;
+            }
+            if(count($table) > 1){
+                throw new MoufException("Error for DAO ".$className.": More than one @dbTable annotations are found.");
+            }
 			$table = $table[0];
 			$daoForClass = MoufManager::getMoufManager()->findInstances($className);
-			$daoForClass = $daoForClass[0];
-			$this->daos[$table] = $daoForClass;
+            if(count($daoForClass) > 1){
+                throw new MoufException("Error for DAO ".$className.": More than one instances are found.");
+            }else if(count($daoForClass) == 0) {
+                continue;
+            } else {
+                $daoForClass = $daoForClass[0];
+                $this->daos[$table] = $daoForClass;
+            }
 		}
 	}
 
