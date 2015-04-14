@@ -41,7 +41,7 @@ class PasswordFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 			$textField->getInput()->setStyles($descriptorInstance->attributes['styles']);
 		}
 
-		$textField->getInput()->setAutocomplete($this->autocomplete ? "autocomplete='on'" : "autocomplete='off'");
+		$textField->getInput()->setAutocomplete($this->autocomplete ? 'on' : 'off');
 		
 		$textField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
 		

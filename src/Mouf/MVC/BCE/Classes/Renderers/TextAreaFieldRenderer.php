@@ -12,7 +12,12 @@ use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
  * @Component
  */
 class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRendererInterface, ViewFieldRendererInterface {
-	
+
+    /**
+     * @var int $rows
+     */
+    private $rows;
+
 	/**
 	 * (non-PHPdoc)
 	 * @see FieldRendererInterface::render()
@@ -32,6 +37,8 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		if(isset($descriptorInstance->attributes['styles'])) {
 			$textareaField->getTextarea()->setStyles($descriptorInstance->attributes['styles']);
 		}
+
+        $textareaField->getTextarea()->setRows($this->rows);
 		
 		$textareaField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
 		
@@ -66,7 +73,7 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 	public function renderView($descriptorInstance){
 				/* @var $descriptorInstance FieldDescriptorInstance */
 		$fieldName = $descriptorInstance->getFieldName();
-		return "<div id='".$fieldName."' name='".$fieldName."'>". $descriptor->getFieldValue() ."</div>";
+		return "<div id='".$fieldName."' name='".$fieldName."'>". $descriptorInstance->getFieldValue() ."</div>";
 	}
 	
 	/**
@@ -77,5 +84,11 @@ class TextAreaFieldRenderer extends BaseFieldRenderer implements SingleFieldRend
 		/* @var $descriptorInstance FieldDescriptorInstance */
 		return array();
 	}
-	
+
+    /**
+     * @param int $rows
+     */
+    public function setRows($rows){
+        $this->rows = $rows;
+    }
 }
