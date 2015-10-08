@@ -35,6 +35,16 @@ class BooleanFieldRenderer extends BaseFieldRenderer implements SingleFieldRende
 		$fieldName = $descriptorInstance->getFieldName();
 		
 		$checkboxField = new CheckboxField($descriptorInstance->fieldDescriptor->getFieldLabel(), $fieldName, '1', $descriptorInstance->getFieldValue());
+		$checkboxField->setHelpText($descriptorInstance->fieldDescriptor->getDescription());
+
+		if(isset($descriptorInstance->attributes['styles'])) {
+			$checkboxField->getInput()->setStyles($descriptorInstance->attributes['styles']);
+		}
+
+		if ($this->getLayout() == null){
+			$checkboxField->setLayout($descriptorInstance->form->getDefaultLayout());
+		}
+
 		ob_start();
 		$checkboxField->toHtml();
 		return ob_get_clean();
