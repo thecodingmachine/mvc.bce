@@ -5,6 +5,7 @@ use Mouf\MoufManager;
 use Mouf\Html\Widgets\Form\FileUploaderField;
 use Mouf\MVC\BCE\Classes\ValidationHandlers\BCEValidationUtils;
 use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptorInstance;
+use Mouf\MVC\BCE\Classes\Descriptors\FieldDescriptor;
 
 /**
  * This renderer handles date / timestamp input fields with the jQuery DatePicker
@@ -109,14 +110,10 @@ class FileUploaderRenderer extends DefaultViewFieldRenderer implements SingleFie
 	 * @see FieldRendererInterface::getJS()
 	 */
 	public function getJSEdit($descriptor, $bean, $id){
-		/* @var $descriptor FieldDescriptorInstance */
+		/* @var $descriptor FieldDescriptor */
 		$fieldName = $descriptor->getFieldName();
 		$fileUploader = new \stdClass();
 		$fileUploader->inputName = $fieldName;
-		/* @var $libManager WebLibraryManager */
-		$moufManager = MoufManager::getMoufManager();
-		$fileUploaderLibrary = $moufManager->getInstance('fileUploaderLibrary');
-		$descriptor->form->getWeblibraryManager()->addLibrary($fileUploaderLibrary);
 		
 		$fieldName = $descriptor->getFieldName();
 

@@ -4,6 +4,7 @@ namespace Mouf\MVC\BCE\Classes\Descriptors;
 use Mouf\Html\Widgets\FileUploaderWidget\SimpleFileUploaderWidget;
 
 use Mouf\MVC\BCE\BCEForm;
+use Mouf\MoufManager;
 
 /**
  * This class is the simpliest FieldDescriptor:
@@ -65,6 +66,11 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 		$fieldValue = $this->getValue($mainBean);
 		$descriptorInstance = new FieldDescriptorInstance($this, $form, $id);
 
+		/* @var $fileUploaderLibrary WebLibraryManager */
+		$moufManager = MoufManager::getMoufManager();
+		$fileUploaderLibrary = $moufManager->getInstance('fileUploaderLibrary');
+		$form->getWeblibraryManager()->addLibrary($fileUploaderLibrary);
+		
 		$descriptorInstance->value = $fieldValue;
 		return $descriptorInstance;
 	}
