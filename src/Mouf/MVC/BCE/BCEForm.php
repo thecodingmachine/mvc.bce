@@ -187,6 +187,10 @@ class BCEForm {
 		$descriptorInstances = array();
 
 		//Load bean values into related field Descriptors
+                if ($this->idFieldDescriptor === null) {
+                    throw new Classes\BCEException("Bad configuration of a BCEForm. BCEForm for DAO ".get_class($this->mainDAO)." does not have an idFieldDescriptor configured.");
+                }
+
 		$idDescriptorInstance = $this->idFieldDescriptor->load($bean, $id, $this, true);
 		if (!$id){
 			$id = $this->idFieldDescriptor->getValue($bean);
