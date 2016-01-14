@@ -11,18 +11,17 @@ use Mouf\Database\DAOInterface;
  * 		- a mapping DAO that handles the relation beans ('userhobby' bean)
  * 		- a linked DAO that handles the linked beans ('hobby' bean)
  * 
- * 
- *    Main DAO					Mapping DAO 					     Linked DAO 
- *    						   (bean values)                      (available data)
- *   |--------|		  |-------------------------------|      
- *   |  user  |       |       user hobby              |	 	   |--------------------|
- *   |--------|		  |-------------------------------|	       |        hobby       |
- * 	 |   id   | <---- |       id (mappingId)          |	       |--------------------|
- *	 |________|		  |  user_id (mappingLeftKey)     | -----> |    id (linkedId)   |
- *					  | hobby_id (mappingRightKey)    |   	   | label (linkedLabel)|
+ * <pre>
+ *    Main DAO	                Mapping DAO                          Linked DAO
+ *    	                       (bean values)                      (available data)
+ *   |--------|	      |-------------------------------|
+ *   |  user  |       |       user hobby              |	       |--------------------|
+ *   |--------|	      |-------------------------------|	       |        hobby       |
+ *   |   id   | <---- |       id (mappingId)          |	       |--------------------|
+ *   |________|	      |  user_id (mappingLeftKey)     | -----> |    id (linkedId)   |
+ *                    | hobby_id (mappingRightKey)    |        | label (linkedLabel)|
  *                    |_______________________________|        |____________________|
- * 
- * @Component
+ * </pre>
  */
 class Many2ManyFieldDescriptor extends FieldDescriptor {
 	
@@ -136,6 +135,7 @@ class Many2ManyFieldDescriptor extends FieldDescriptor {
 		if ($mainBeanId == null){
 			$this->beanValues = $this->getDefaultValue();
 		}else{
+                        $this->beanValues = array();
 			$tmpArray = call_user_func(array($this->mappingDao, $this->beanValuesMethod), $mainBeanId);
 			foreach ($tmpArray as $bean){
 				$this->beanValues[$this->getMappingRightKey($bean)] = $bean;

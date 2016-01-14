@@ -52,16 +52,27 @@ class SubFormFieldDescriptor implements BCEFieldDescriptorInterface {
 	private $emptyFormInstance = array();
 
 	/**
+         * The name of the method of the DAO that returns the list of sub-from beans
+         * filtered by the main bean.
+         *
+         * The method signature must accept a main bean as first and only argument:
+         *
+         * i.e. method signature is:  function(MyBean $bean)
+         *
 	 * @var string
 	 */
 	public $beansGetter;
 	
 	/**
+         * The name of the getter method in the subform bean that returns the main bean.
+         *
 	 * @var string
 	 */
 	public $fkGetter;
 	
 	/**
+         * The name of the setter method in the subform bean that sets the main bean.
+         *
 	 * @var string
 	 */
 	public $fkSetter;
