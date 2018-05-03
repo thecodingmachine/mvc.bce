@@ -39,7 +39,7 @@ class ForeignKeyAutocompleteFieldDescriptor extends BaseFieldDescriptor {
 	 * E.g. load user's role_id (FK on main bean), AND the list of RoleBeans
 	 * @see BaseFieldDescriptor::load()
 	 */
-	public function load($mainBean, $id = null, &$form = null){
+	public function load($mainBean, $id = null, &$form = null, $isIdFieldDescriptor = false){
 		$descriptorInstance = parent::load($mainBean, $id, $form);
 		if ($id){
 			$linkedBeanId = $this->getValue($mainBean);
