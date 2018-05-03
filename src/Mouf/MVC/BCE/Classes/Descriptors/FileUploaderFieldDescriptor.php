@@ -61,7 +61,7 @@ class FileUploaderFieldDescriptor extends FieldDescriptor {
 	 * Eventually formats the value before displaying it 	
 	 * @param mixed $mainBean
 	 */
-	public function load($mainBean, $id = null, &$form = null) {
+	public function load($mainBean, $id = null, &$form = null, $isIdFieldDescriptor = false) {
 		$fieldValue = $this->getValue($mainBean);
 		$descriptorInstance = new FieldDescriptorInstance($this, $form, $id);
 
