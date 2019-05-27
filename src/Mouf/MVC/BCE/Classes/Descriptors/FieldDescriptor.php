@@ -176,7 +176,7 @@ abstract class FieldDescriptor implements BCEFieldDescriptorInterface {
 		}
 		else {
 			//Set value context before saving
-			if ($value !== null){
+			if (isset($value) && $value !== null){
 				$this->setValue($bean, $value);
 			}
 		}
