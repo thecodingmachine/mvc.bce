@@ -132,7 +132,7 @@ class BCEForm {
 	 * The errors returned by the fields' validators
 	 * @var array<string>
 	 */
-	public $errorMessages;
+	public $errorMessages = [];
 	
 	/**
 	 * The js scripts added by the renderers
