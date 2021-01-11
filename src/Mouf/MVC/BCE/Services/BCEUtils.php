@@ -93,10 +93,10 @@ class BCEUtils{
 		foreach ($daos as $className) {
 			$descriptor = new MoufReflectionClass($className);
 			$table = $descriptor->getAnnotations("dbTable");
-            if(count($table) == 0){
+            if($table == null || count($table) == 0){
                 continue;
             }
-            if(count($table) > 1){
+            if($table && count($table) > 1){
                 throw new MoufException("Error for DAO ".$className.": More than one @dbTable annotations are found.");
             }
 			$table = $table[0];
@@ -128,7 +128,7 @@ class BCEUtils{
 			$className = MoufManager::getMoufManager()->getInstanceType($instance);
 			$classDesc = new MoufReflectionClass($className);
 			$types = $classDesc->getAnnotations('ApplyTo');
-			if (count($types)){
+			if ($types && count($types)){
 				$types = $types[0];
 				$types = json_decode($types);
 				foreach ($types as $criteria => $values) {
@@ -284,12 +284,11 @@ class BCEUtils{
 				//Will help to suggest appropriate validators, formatters and rederers
 				$returnAnnotation = $method->getAnnotations('dbType');
 				$columnName = $method->getAnnotations('dbColumn');//Get column name to suggest descriptor name
-				$columnName = $columnName[0];
-
-				//If there is no column name, the method is not a getter or a setter, and therefore cannot be mapped to a decriptor
-				if (!$columnName){
-					continue;
-				}
+				if ($columnName && is_array($columnName)){
+                    $columnName = $columnName[0];
+                } else{
+				    continue;
+                }
 
 				$fieldIndex = self::toCamelCase($columnName, true)."Desc";
 
@@ -327,7 +326,7 @@ class BCEUtils{
 				}
 
 				/* Set the type declared by the getter (db type is transleted into php type) */
-				if (count($returnAnnotation)){
+				if ($returnAnnotation && count($returnAnnotation)){
 					$returnType = $returnAnnotation[0];
 					$returnType = explode(" ", $returnType);
 					$returnType = $returnType[0];
