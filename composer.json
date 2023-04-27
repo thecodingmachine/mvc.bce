@@ -18,18 +18,19 @@
     	"mouf/utils.common.getvars": "~2.0",
 		"mouf/utils.common.formatters": "~3.0",
 		"mouf/database.dao-interface": "~2.0",
-		"mouf/html.utils.weblibrarymanager": ">=2.0, <4.0",
+		"mouf/html.utils.weblibrarymanager": "^4",
 		"mouf/database.tdbm": "~3.2",
-		"mouf/javascript.jquery.jquery": "~1.7",
-		"mouf/javascript.jquery.jquery-ui": "~1.8",
-		"mouf/javascript.jquery.jquery-validate": "~1.10",
+		"mouf/javascript.jquery.jquery": "^2",
+		"mouf/javascript.jquery.jquery-ui": "^2",
+		"mouf/javascript.jquery.jquery-validate": "^1",
 		"mouf/utils.value.value-interface": "~1.0",
 		"mouf/html.utils.ckeditor": "~4.4",
 		"mouf/html.widgets.fileuploaderwidget": "~2.0",
 		"mouf/utils.common.conditioninterface": "2.*",
 		"mouf/html.widgets.form-elements": "~1.0",
         "ezyang/htmlpurifier": "~4.6",
-        "mouf/html.utils.bootstrap": ">=3.2"
+        "mouf/html.utils.bootstrap": "^3",
+        "mouf/javascript.fileuploader": "^2"
     },
     "suggest": {
         "mouf/html.utils.bootstrap": "Use bootstrap to make a graat rendering"
@@ -40,6 +41,7 @@
         }
     },
     "minimum-stability": "dev",
+	"prefer-stable": true,
     "extra": {
 	     "mouf": {
 			"install": [
